@@ -1,0 +1,103 @@
+/* Glassmorphism Header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 50px;
+    background: rgba(255, 255, 255, 0.1); /* semi-transparent */
+    backdrop-filter: blur(10px); /* Glass effect */
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    z-index: 1000;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+}
+
+.nav ul {
+    display: flex;
+    list-style: none;
+}
+
+.nav li {
+    margin: 0 15px;
+}
+
+.nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+/* Active link styling */
+.nav li.active a {
+    color: #FFD700; /* Active color */
+    font-weight: bold;
+}
+
+/* Hover effect */
+.nav a:hover {
+    color: #FFD700;
+}
+
+/* Right Section (Phone, Search, Buttons) */
+.right-section {
+    display: flex;
+    align-items: center;
+}
+
+.phone-number,
+.search-container input {
+    color: white;
+    margin-right: 15px;
+    font-size: 16px;
+}
+
+.search-input {
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+
+.search-input::placeholder {
+    color: white;
+}
+
+.travel-agent-btn,
+.login-btn {
+    padding: 8px 15px;
+    background-color: #003366;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.travel-agent-btn:hover,
+.login-btn:hover {
+    background-color: #FFD700;
+}
+
+/* Hover effects */
+.nav a:hover,
+.travel-agent-btn:hover,
+.login-btn:hover {
+    transform: translateY(-2px);
+}
