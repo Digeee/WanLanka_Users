@@ -1,0 +1,131 @@
+.footer {
+    background-color: #1a1a1a; /* Faded black background */
+    color: #ccc; /* Lighter text for contrast */
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+}
+
+.logo-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-logo {
+    height: 80px;
+    margin-bottom: 15px;
+}
+
+.logo-section p {
+    font-size: 14px;
+    color: #999; /* Adjusted for faded black background */
+    margin-bottom: 15px;
+}
+
+.social-icons a {
+    color: #f4a261;
+    font-size: 20px;
+    margin-right: 10px;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: #e76f51;
+}
+
+.social-icons .fab {
+    margin-right: 10px;
+}
+
+.copyright {
+    font-size: 12px;
+    color: #999; /* Adjusted for faded black background */
+    margin-top: 20px;
+}
+
+.footer-section h3 {
+    font-size: 18px;
+    color: #ddd; /* Lighter heading for contrast */
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #bbb; /* Adjusted for faded black background */
+}
+
+.footer-section ul li a {
+    color: #bbb;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #f4a261;
+}
+
+.contact ul li {
+    display: flex;
+    align-items: center;
+}
+
+.contact ul li i {
+    color: #f4a261;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .logo-section {
+        align-items: center;
+    }
+    .social-icons {
+        margin-top: 15px;
+    }
+    .footer-section {
+        margin-bottom: 20px;
+    }
+    .footer-section ul li {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-logo {
+        height: 60px;
+    }
+    .footer-section h3 {
+        font-size: 16px;
+    }
+    .footer-section ul li {
+        font-size: 13px;
+    }
+    .social-icons a {
+        font-size: 18px;
+    }
+}
