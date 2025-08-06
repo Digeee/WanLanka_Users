@@ -30,8 +30,9 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('
 
 // Dashboard (after login)
 Route::get('/dashboard', function () {
-    return view('layouts.app'); // loads resources/views/app.blade.php
+    return view('layouts.app');
 })->middleware('auth');
+
 
 
 // Logout
