@@ -1,0 +1,119 @@
+/* Contact Section Styles */
+.contact-section {
+    background-color: #f8f9fa;
+    padding: 60px 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.contact-title {
+    font-size: 32px;
+    font-weight: 600;
+    color: #003366;
+    margin-bottom: 15px;
+}
+
+.contact-subtitle {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 30px;
+    font-weight: 400;
+}
+
+.contact-phone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.phone-icon {
+    width: 24px;
+    height: 24px;
+    color: #0066cc;
+}
+
+.phone-number {
+    font-size: 28px;
+    font-weight: 600;
+    color: #0066cc;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.phone-number:hover {
+    color: #004080;
+    transform: translateY(-2px);
+}
+
+.contact-button {
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+}
+
+.contact-button:hover {
+    background-color: #004080;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4);
+}
+
+.button-icon {
+    transition: transform 0.3s ease;
+}
+
+.contact-button:hover .button-icon {
+    transform: translateX(5px);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .contact-title {
+        font-size: 28px;
+    }
+
+    .contact-subtitle {
+        font-size: 16px;
+    }
+
+    .phone-number {
+        font-size: 24px;
+    }
+
+    .contact-button {
+        padding: 12px 25px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-title {
+        font-size: 24px;
+    }
+
+    .phone-number {
+        font-size: 20px;
+    }
+
+    .contact-phone {
+        flex-direction: column;
+        gap: 5px;
+    }
+}

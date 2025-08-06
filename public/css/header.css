@@ -1,0 +1,266 @@
+/* Modern Glassmorphism Header Styles */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #0066cc;
+    --secondary-color: #ffcc00;
+    --dark-blue: #003366;
+    --light-blue: #e6f2ff;
+    --text-color: #333;
+    --white: #ffffff;
+    --glass-bg: rgba(255, 255, 255, 0.2);
+    --glass-border: rgba(255, 255, 255, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 5%;
+    background: rgba(0, 51, 102, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-bottom: 1px solid var(--glass-border);
+    transition: all 0.3s ease;
+}
+
+.header:hover {
+    background: rgba(0, 51, 102, 0.95);
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1600px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.logo-img {
+    height: 90px;
+    width: auto;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+}
+
+/* Navigation Styles */
+.nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    position: relative;
+    padding: 10px 0;
+    transition: all 0.3s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+}
+
+.nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(90deg, var(--secondary-color), #ff9900);
+    transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-radius: 3px;
+}
+
+.nav a:hover::after,
+.nav li.active a::after {
+    width: 100%;
+}
+
+.nav a:hover,
+.nav li.active a {
+    color: var(--secondary-color);
+    text-shadow: 0 0 10px rgba(255, 204, 0, 0.4);
+}
+
+/* Right Section Styles */
+.right-section {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.phone-number {
+    color: var(--white);
+    font-size: 15px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.phone-number svg {
+    color: var(--secondary-color);
+}
+
+.phone-number:hover {
+    color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+/* Search Container */
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+}
+
+.search-input {
+    padding: 10px 15px 10px 42px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    color: var(--white);
+    font-size: 14px;
+    width: 200px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    font-weight: 400;
+}
+
+.search-input:focus {
+    width: 250px;
+    background: rgba(255, 255, 255, 0.3);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.3);
+}
+
+.search-input:focus + .search-icon {
+    color: var(--secondary-color);
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 300;
+}
+
+/* Button Styles */
+.travel-agent-btn,
+.login-btn {
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+}
+
+.travel-agent-btn {
+    background: linear-gradient(135deg, var(--secondary-color), #ff9900);
+    color: var(--dark-blue);
+    box-shadow: 0 4px 15px rgba(255, 204, 0, 0.3);
+}
+
+.login-btn {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--white);
+    backdrop-filter: blur(5px);
+    border: 1px solid var(--glass-border);
+}
+
+.travel-agent-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 204, 0, 0.4);
+}
+
+.login-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
+}
+
+/* Mobile Menu Button (Hidden by Default) */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--white);
+    cursor: pointer;
+    font-size: 24px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .nav ul {
+        gap: 20px;
+    }
+
+    .right-section {
+        gap: 20px;
+    }
+
+    .search-input {
+        width: 180px;
+    }
+
+    .search-input:focus {
+        width: 220px;
+    }
+}
+
+@media (max-width: 992px) {
+    /* Tablet styles */
+    .nav ul {
+        gap: 15px;
+    }
+
+    .logo-img {
+        height: 60px;
+    }
+
+    .right-section {
+        gap: 15px;
+    }
+
+    .phone-number {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile styles will go here */
+}
