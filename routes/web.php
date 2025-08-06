@@ -1,18 +1,37 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
+// Redirect root to login
 Route::get('/', function () {
-    return view('layouts.app'); // Change this to load the app.blade.php layout
+    return redirect('/login');
 });
+
+// Login
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+// Registration
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+
+// Forgot Password - Step 1: Request OTP
+Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('/forgot-password', [AuthController::class, 'sendOtpForReset'])->name('password.email');
+
+// Step 2: OTP Verification
+Route::get('/verify-reset-otp', [AuthController::class, 'showVerifyResetOtpForm'])->name('password.otp');
+Route::post('/verify-reset-otp', [AuthController::class, 'verifyResetOtp'])->name('password.otp.verify');
+
+// Step 3: Reset password
+Route::get('/reset-password', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+
+// Dashboard (after login)
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware('auth');
+
+// Logout
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
