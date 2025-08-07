@@ -25,6 +25,8 @@
         </div>
         <button class="btn btn-success">Login</button>
         <a href="{{ route('register') }}" class="btn btn-outline-secondary">Create Account</a>
+        <a href="{{ route('password.request') }}" class="btn btn-link">Forgot Password?</a>
+
     </form>
 </div>
 </body>
