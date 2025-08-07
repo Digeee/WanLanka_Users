@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendOtp;
+use App\Mail\PasswordChangedMail; 
+use App\Mail\SendOtpMail;
+
 
 class AuthController extends Controller
 {
@@ -86,7 +89,8 @@ Mail::to($user->email)->send(new SendOtp());
 
         session(['reset_user_id' => $user->id]);
 
-        Mail::to($user->email)->send(new SendOtp($otp));
+        Mail::to($user->email)->send(new SendOtpMail($otp)); 
+
 
         return redirect()->route('password.otp')->with('message', 'OTP sent to your email.');
     }
@@ -116,25 +120,30 @@ Mail::to($user->email)->send(new SendOtp());
     }
 
     public function resetPassword(Request $request)
-    {
-        $request->validate([
-            'password' => 'required|string|confirmed|min:6',
-        ]);
+{
+    $request->validate([
+        'password' => 'required|string|confirmed|min:6',
+    ]);
 
-        $user = User::find(session('verified_user_id'));
+    $user = User::find(session('verified_user_id'));
 
-        if (!$user) {
-            return redirect('/forgot-password')->with('error', 'Session expired.');
-        }
-
-        $user->update([
-            'password' => Hash::make($request->password),
-            'otp' => null
-        ]);
-
-        session()->forget(['reset_user_id', 'verified_user_id']);
-
-        return redirect('/login')->with('success', 'Password reset successfully.');
+    if (!$user) {
+        return redirect('/forgot-password')->with('error', 'Session expired.');
     }
+
+    $user->update([
+        'password' => Hash::make($request->password),
+        'otp' => null
+    ]);
+
+    // Send confirmation email
+    Mail::to($user->email)->send(new PasswordChangedMail());
+
+    session()->forget(['reset_user_id', 'verified_user_id']);
+
+    return redirect('/login')->with('success', 'Password reset successfully.');
+}
+
+    
 }
 
