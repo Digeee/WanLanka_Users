@@ -98,6 +98,5 @@
         <button type="submit" class="btn btn-custom mt-3">Verify</button>
     </form>
 </div>
-
 </body>
 </html>
