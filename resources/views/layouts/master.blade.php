@@ -10,9 +10,7 @@
     <link href="{{ asset('css/footer.css') }}" rel="stylesheet">
     <link href="{{ asset('css/home-slider.css') }}" rel="stylesheet">
     <link href="{{ asset('css/home-contact.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/home-provinces.css') }}" rel="stylesheet">
-    
-
+     <link href="{{ asset('css/home-province.css') }}" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -25,22 +23,6 @@
 </br>
 </br>
 
-    @include('include.header') <!-- Your header blade component -->
-
-    <!-- Home Slider Component -->
-    @include('components.home-slider')
-
-    <!-- New Provinces Section -->
-    @include('components.home-provinces')
-
-    <!-- Content goes here -->
-    @yield('content')
-    <!-- Home Contact Component -->
-    @include('components.home-contact')
-    <!-- Footer Component -->
-    @include('include.footer')
-
-    <script src="{{ asset('js/home-provinces.js') }}"></script>
-
+    
 </body>
 </html>
