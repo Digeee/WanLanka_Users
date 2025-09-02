@@ -1,9 +1,8 @@
 @extends('layouts.master')
 
-<section class="provinces-section">
+@section('content')
+<section class="provinces-section"> <!-- This class is important for the smooth scroll -->
     <div class="container">
-        
-        <!-- Title + Subtitle on top -->
         <div class="provinces-header">
             <h2 class="section-title">Explore Sri Lanka Provinces</h2>
             <p class="section-subtitle">
@@ -11,7 +10,6 @@
             </p>
         </div>
 
-        <!-- Province Cards below -->
         <div class="provinces-grid">
             @php
                 $provinces = [
@@ -38,3 +36,4 @@
         </div>
     </div>
 </section>
+@endsection
