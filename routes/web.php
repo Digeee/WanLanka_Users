@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProvinceController;
 
 // Redirect root to login
 Route::get('/', function () {
@@ -42,9 +43,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/contact', [ContactController::class, 'showForm'])->name('contact.show');
 Route::post('/contact', [ContactController::class, 'submitForm'])->name('contact.submit');
 
-// Add this route to your existing web.php file
-Route::get('/provinces', function () {
-    return view('provinces'); // This should point to your provinces blade file
-})->name('provinces');
+Route::get('/provinces', [ProvinceController::class, 'index'])->name('provinces');
+
 
 

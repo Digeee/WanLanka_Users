@@ -7,11 +7,17 @@
                 Sri Lanka's beautiful provinces. From pristine beaches to ancient cultural sites, 
                 lush tea plantations to wildlife adventures.
             </p>
-            <button class="cta-button" onclick="redirectToProvinces()">
-                Explore Provinces
-                <i class="fas fa-arrow-right"></i>
-            </button>
+
+           <a href="{{ route('provinces') }}" class="cta-button">
+    Explore Provinces
+    <i class="fas fa-arrow-right"></i>
+</a>
+
+
+
+
         </div>
+
         <div class="cta-image">
             <img src="{{ asset('images/branch5.jpg') }}" alt="Sri Lanka Landscape">
         </div>
