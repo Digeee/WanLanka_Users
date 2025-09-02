@@ -10,7 +10,7 @@
     <link href="{{ asset('css/footer.css') }}" rel="stylesheet">
     <link href="{{ asset('css/home-slider.css') }}" rel="stylesheet">
     <link href="{{ asset('css/home-contact.css') }}" rel="stylesheet">
-     <link href="{{ asset('css/home-province.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/provinces.css') }}" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 

@@ -1,15 +1,27 @@
 @extends('layouts.master')
 
-@section('content')
-<section class="provinces-section"> <!-- This class is important for the smooth scroll -->
-    <div class="container">
-        <div class="provinces-header">
-            <h2 class="section-title">Explore Sri Lanka Provinces</h2>
-            <p class="section-subtitle">
-                Discover the best tours and attractions in each province.
-            </p>
-        </div>
+@include('include.header')
 
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+{{-- ✅ Title Section (Full Width) --}}
+<section class="provinces-header-section">
+    <div class="container text-center">
+        <h2 class="section-title">Explore Sri Lanka Provinces</h2>
+        <p class="section-subtitle">
+            Discover the best tours and attractions in each province.
+        </p>
+    </div>
+</section>
+
+{{-- ✅ Provinces Grid Section --}}
+<section class="provinces-section">
+    <div class="container">
         <div class="provinces-grid">
             @php
                 $provinces = [
@@ -36,4 +48,5 @@
         </div>
     </div>
 </section>
-@endsection
+
+@include('include.footer')

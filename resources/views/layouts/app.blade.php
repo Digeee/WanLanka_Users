@@ -33,7 +33,6 @@
     <!-- Footer Component -->
     @include('include.footer')
 
-    <script src="{{ asset('js/home-provinces.js') }}"></script>
-    <script src="{{ asset('js/home-cta.js') }}"></script> <!-- New JS file for our section -->
+   
 </body>
 </html>
