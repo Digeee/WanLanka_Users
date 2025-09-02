@@ -1,5 +1,3 @@
-<!-- resources/views/layouts/app.blade.php -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,28 +8,32 @@
     <link href="{{ asset('css/footer.css') }}" rel="stylesheet">
     <link href="{{ asset('css/home-slider.css') }}" rel="stylesheet">
     <link href="{{ asset('css/home-contact.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/home-provinces.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/home-cta.css') }}" rel="stylesheet"> <!-- New CSS file for our section -->
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
 
     <script src="{{ asset('js/home-slider.js') }}"></script>
 </head>
 <body>
-</br>
-</br>
-</br>
-</br>
-
-    @include('include.header') <!-- Your header blade component -->
+    @include('include.header')
 
     <!-- Home Slider Component -->
     @include('components.home-slider')
 
+    <!-- New Call-to-Action Section -->
+    @include('components.home-cta')
+
     <!-- Content goes here -->
     @yield('content')
+    
     <!-- Home Contact Component -->
     @include('components.home-contact')
+    
     <!-- Footer Component -->
     @include('include.footer')
+
+    <script src="{{ asset('js/home-provinces.js') }}"></script>
+    <script src="{{ asset('js/home-cta.js') }}"></script> <!-- New JS file for our section -->
 </body>
 </html>
