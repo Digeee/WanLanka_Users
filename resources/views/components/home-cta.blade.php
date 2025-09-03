@@ -19,7 +19,7 @@
         </div>
 
         <div class="cta-image">
-            <img src="{{ asset('images/branch5.jpg') }}" alt="Sri Lanka Landscape">
+            <img src="{{ asset('images/home2.webp') }}" alt="Sri Lanka Landscape">
         </div>
     </div>
 </section>

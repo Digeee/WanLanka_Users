@@ -10,6 +10,8 @@
     <link href="{{ asset('css/home-contact.css') }}" rel="stylesheet">
     <link href="{{ asset('css/home-provinces.css') }}" rel="stylesheet">
     <link href="{{ asset('css/home-cta.css') }}" rel="stylesheet"> <!-- New CSS file for our section -->
+    <link href="{{ asset('css/home-about.css') }}" rel="stylesheet"> {{-- About Section CSS --}}
+   
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -24,6 +26,12 @@
     <!-- New Call-to-Action Section -->
     @include('components.home-cta')
 
+    <!-- New Call-to-Action Section -->
+    @include('components.home-about')
+
+    <!-- Special Packages Section -->
+    @include('components.home-package')
+
     <!-- Content goes here -->
     @yield('content')
     
@@ -33,6 +41,6 @@
     <!-- Footer Component -->
     @include('include.footer')
 
-   
+   `
 </body>
 </html>

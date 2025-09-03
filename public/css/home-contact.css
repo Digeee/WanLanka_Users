@@ -15,7 +15,7 @@
 .contact-title {
     font-size: 32px;
     font-weight: 600;
-    color: #003366;
+    color: #079d20;
     margin-bottom: 15px;
 }
 
@@ -37,24 +37,24 @@
 .phone-icon {
     width: 24px;
     height: 24px;
-    color: #0066cc;
+    color: #010a05;
 }
 
 .phone-number {
     font-size: 28px;
     font-weight: 600;
-    color: #0066cc;
+    color: #1a920d;
     text-decoration: none;
     transition: all 0.3s ease;
 }
 
 .phone-number:hover {
-    color: #004080;
+    color: #0d8913;
     transform: translateY(-2px);
 }
 
 .contact-button {
-    background-color: #0066cc;
+    background-color: #0e9d1d;
     color: white;
     border: none;
     padding: 15px 30px;
@@ -70,7 +70,7 @@
 }
 
 .contact-button:hover {
-    background-color: #004080;
+    background-color: #199812;
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4);
 }
