@@ -1,6 +1,77 @@
-/* provinces.css - Modern Glass Morphism Design */
+/* Enhanced Heading Section */
+.provinces-header-section {
+    background: linear-gradient(135deg, #1a6706 0%, #cdbd30 100%);
+    padding: 60px 40px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
 
-/* Section Styling */
+.provinces-header-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+    background-size: cover;
+}
+
+.provinces-header-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.section-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    letter-spacing: 1px;
+    background: linear-gradient(45deg, #ffffff, #e3f2fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.section-subtitle {
+    font-size: 1.3rem;
+    max-width: 700px;
+    margin: 0 auto;
+    font-weight: 300;
+    line-height: 1.6;
+    opacity: 0.9;
+    animation: fadeInUp 1s ease-out;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments for heading */
+@media (max-width: 768px) {
+    .provinces-header-section {
+        padding: 60px 15px;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1.1rem;
+    }
+}
 .provinces-section {
     padding: 40px 20px;
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -53,7 +124,7 @@
 .province-title {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #0d6efd;
+    color: #0cab0f;
     margin: 20px 20px 10px;
     text-align: center;
 }
@@ -72,7 +143,7 @@
     width: max-content;
     margin: 0 auto 25px;
     padding: 10px 25px;
-    background: linear-gradient(45deg, #0d6efd, #0dcaf0);
+    background: linear-gradient(45deg, #32d95e, #e9af33);
     color: white;
     text-decoration: none;
     border-radius: 50px;
