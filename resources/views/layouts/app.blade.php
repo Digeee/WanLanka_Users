@@ -9,9 +9,10 @@
     <link href="{{ asset('css/home-slider.css') }}" rel="stylesheet">
     <link href="{{ asset('css/home-contact.css') }}" rel="stylesheet">
     <link href="{{ asset('css/home-provinces.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/home-cta.css') }}" rel="stylesheet"> <!-- New CSS file for our section -->
-    <link href="{{ asset('css/home-about.css') }}" rel="stylesheet"> {{-- About Section CSS --}}
-   
+    <link href="{{ asset('css/home-cta.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/home-about.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('css/home-feedback.css') }}" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -34,10 +35,13 @@
 
     <!-- Content goes here -->
     @yield('content')
-    
+
+
+    @include('components.home-feedback')
+
     <!-- Home Contact Component -->
     @include('components.home-contact')
-    
+
     <!-- Footer Component -->
     @include('include.footer')
 
