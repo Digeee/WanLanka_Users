@@ -7,7 +7,7 @@
             <h2 class="section-title">Special Tour Packages</h2>
             <p class="section-subtitle">Discover our exclusive offers with limited-time discounts</p>
         </div>
-        
+
         <div class="offers-carousel">
             <!-- Offer 1 -->
             <div class="offer-card">
@@ -30,7 +30,7 @@
                     <div class="view-tour-btn">Book Now</div>
                 </div>
             </div>
-            
+
             <!-- Offer 2 -->
             <div class="offer-card">
                 <div class="card-front">
@@ -52,7 +52,7 @@
                     <div class="view-tour-btn">Book Now</div>
                 </div>
             </div>
-            
+
             <!-- Offer 3 -->
             <div class="offer-card">
                 <div class="card-front">
@@ -74,7 +74,7 @@
                     <div class="view-tour-btn">Book Now</div>
                 </div>
             </div>
-            
+
             <!-- Offer 4 -->
             <div class="offer-card">
                 <div class="card-front">
@@ -96,7 +96,7 @@
                     <div class="view-tour-btn">Book Now</div>
                 </div>
             </div>
-            
+
             <!-- Offer 5 -->
             <div class="offer-card">
                 <div class="card-front">
@@ -119,7 +119,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="carousel-controls">
             <div class="carousel-btn" id="prev-btn">
                 <i class="fas fa-chevron-left"></i>
@@ -137,20 +137,20 @@
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
         const cards = document.querySelectorAll('.offer-card');
-        
+
         // Set initial scroll position
         carousel.scrollLeft = 0;
-        
+
         // Next button event listener
         nextBtn.addEventListener('click', function() {
             carousel.scrollBy({ left: 350, behavior: 'smooth' });
         });
-        
+
         // Previous button event listener
         prevBtn.addEventListener('click', function() {
             carousel.scrollBy({ left: -350, behavior: 'smooth' });
         });
-        
+
         // Add click event to each card to redirect to package page
         cards.forEach(card => {
             card.addEventListener('click', function(e) {
@@ -160,7 +160,7 @@
                 }
             });
         });
-        
+
         // Keyboard navigation
         document.addEventListener('keydown', function(e) {
             if (e.key === 'ArrowLeft') {

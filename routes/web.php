@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProvinceController;
 
-// Redirect root to login
+
 Route::get('/', function () {
     return redirect('/login');
 });
@@ -47,3 +47,7 @@ Route::get('/provinces', [ProvinceController::class, 'index'])->name('provinces'
 
 
 
+
+Route::get('/', function () {
+     return view('layouts.app');
+});
