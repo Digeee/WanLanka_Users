@@ -1,64 +1,214 @@
 <!-- resources/views/include/header.blade.php -->
-<header class="header">
-    <div class="container">
-        <a href="{{ url('/') }}" class="logo">
-            <img src="{{ asset('images/wanlanka_logo.png') }}" alt="Wanlanka Logo" class="logo-img" />
+<header class="wl-topbar" role="banner">
+    <div class="wl-container">
+        <!-- LEFT: Brand -->
+        <a href="{{ url('/') }}" class="wl-brand" aria-label="WanLanka Home">
+            <img src="{{ asset('images/wanlanka_logo.png') }}" alt="WanLanka Logo" class="wl-logo" />
         </a>
 
-        <nav class="nav">
-            <ul>
-                <li class="{{ request()->is('destinations') ? 'active' : '' }}">
-                    <a href="{{ url('destinations') }}">Destinations</a>
-                </li>
-                <li class="{{ request()->is('offers') ? 'active' : '' }}">
-                    <a href="{{ url('offers') }}">Special Offers</a>
-                </li>
-                <li class="{{ request()->is('info') ? 'active' : '' }}">
-                    <a href="{{ url('info') }}">Travel Info</a>
-                </li>
-                <li class="{{ request()->is('custom-tours') ? 'active' : '' }}">
-                    <a href="{{ url('custom-tours') }}">Custom Tours</a>
-                </li>
-                <li class="{{ request()->is('contact') ? 'active' : '' }}">
-                    <a href="{{ url('contact') }}">Contact Us</a>
-                </li>
-            </ul>
-        </nav>
-
-        <div class="right-section">
-            <a href="tel:+94773457489" class="phone-number">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.75 1.75 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
-                </svg>
-                +94 77 345 7489
-            </a>
-
-            <div class="search-container">
-                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                </svg>
-                <input type="text" placeholder="Search destinations..." class="search-input" />
-            </div>
-
-            <button class="travel-agent-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+        <!-- RIGHT: Action buttons -->
+        <div class="wl-actions">
+            <button class="wl-btn wl-btn-neutral" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true" viewBox="0 0 16 16">
                     <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"/>
                 </svg>
                 Travel Agent
             </button>
 
-            <button class="login-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+            <a href="{{ url('login') }}" class="wl-btn wl-btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true" viewBox="0 0 16 16">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4"/>
                 </svg>
                 Login
+            </a>
+
+            <button class="wl-mobile-toggle" type="button" aria-label="Toggle navigation" aria-controls="wl-secondary-nav" aria-expanded="false" data-toggle-secondary>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" aria-hidden="true" viewBox="0 0 16 16">
+                    <path d="M2 12.5h12M2 8h12M2 3.5h12" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                </svg>
             </button>
         </div>
-
-        <button class="mobile-menu-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
-            </svg>
-        </button>
     </div>
 </header>
+
+<!-- Sticky secondary navbar -->
+<header class="wl-sticky" role="navigation" aria-label="Primary">
+    <div class="wl-container">
+        <nav class="wl-nav" id="wl-secondary-nav" data-secondary-nav>
+            <ul class="wl-menu" role="menubar">
+                <li role="none" class="{{ request()->is('destinations') ? 'active' : '' }}">
+                    <a role="menuitem" href="{{ url('destinations') }}">Destinations</a>
+                </li>
+                <li role="none" class="{{ request()->is('offers') ? 'active' : '' }}">
+                    <a role="menuitem" href="{{ url('offers') }}">Special Offers</a>
+                </li>
+                <li role="none" class="{{ request()->is('info') ? 'active' : '' }}">
+                    <a role="menuitem" href="{{ url('info') }}">Travel Info</a>
+                </li>
+                <li role="none" class="{{ request()->is('contact') ? 'active' : '' }}">
+                    <a role="menuitem" href="{{ url('contact') }}">Contact Us</a>
+                </li>
+                <li role="none" class="{{ request()->is('about') ? 'active' : '' }}">
+                    <a role="menuitem" href="{{ url('about') }}">About Us</a>
+                </li>
+            </ul>
+
+            <form class="wl-search" role="search" aria-label="Site">
+                <svg class="wl-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                </svg>
+                <label class="sr-only" for="wl-search-input">Search destinations</label>
+                <input id="wl-search-input" type="text" placeholder="Search destinations..." class="wl-search-input" />
+            </form>
+        </nav>
+    </div>
+</header>
+
+<style>
+/* ========= Top bar (full-bleed) ========= */
+.wl-topbar{
+    background: rgba(0,0,0,.65);
+    width:100%;
+    padding:10px 0;
+}
+/* Make ONLY the top bar container full-width so logo hits the left edge and buttons the right */
+.wl-topbar .wl-container{
+    max-width:none;         /* remove 1200px cap */
+    width:100%;             /* stretch across viewport */
+    padding:0 24px;         /* page gutters */
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+}
+
+/* ========= Secondary bar (centered) ========= */
+.wl-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.2); /* light tint */
+    backdrop-filter: blur(10px);          /* frosted glass effect */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* subtle line */
+}
+
+.wl-sticky .wl-container{
+    max-width:1200px;       /* keep this centered */
+    margin:0 auto;
+    padding:0 16px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+}
+
+/* ========= Brand ========= */
+.wl-brand{display:flex; align-items:center; gap:12px; text-decoration:none; min-height:72px;}
+.wl-logo{height:120px; width:auto; object-fit:contain;}
+
+/* ========= Actions / Buttons ========= */
+.wl-actions{display:flex; align-items:center; gap:12px;}
+.wl-btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 14px; border-radius:999px; border:1px solid transparent;
+    font-weight:700; cursor:pointer; text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease, filter .15s ease;
+    line-height:1; white-space:nowrap;
+}
+.wl-btn:active{ transform: translateY(1px); }
+/* ===== Modern Primary Button ===== */
+.wl-btn-primary {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 600;
+
+    border: none;
+    border-radius: 999px;
+
+    background: linear-gradient(135deg, #3b82f6, #2563eb); /* smooth blue gradient */
+    color: #fff;
+    cursor: pointer;
+
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35),
+                inset 0 1px 0 rgba(255,255,255,0.25);
+
+    transition: all 0.25s ease;
+    overflow: hidden;
+}
+
+/* Subtle glossy shine animation */
+.wl-btn-primary::before {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 200%; height: 100%;
+    background: linear-gradient(120deg,
+        rgba(255,255,255,0) 30%,
+        rgba(255,255,255,0.3) 50%,
+        rgba(255,255,255,0) 70%);
+    transition: all 0.4s ease;
+}
+
+.wl-btn-primary:hover::before {
+    left: 100%;
+}
+
+.wl-btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.45);
+}
+
+.wl-btn-primary:active {
+    transform: scale(0.98);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.wl-btn-primary:hover{ filter:brightness(1.05); }
+.wl-btn-neutral{ background:#f8fafc; color:#0f172a; border:1px solid #e2e8f0; box-shadow:0 4px 10px rgba(2,6,23,.06); }
+.wl-mobile-toggle{ display:none; background:transparent; border:none; padding:8px; border-radius:10px; }
+
+/* ========= Secondary nav ========= */
+.wl-nav{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:10px 0; width:100%;}
+.wl-menu{display:flex; gap:8px; list-style:none; margin:0; padding:0;}
+.wl-menu a{ padding:10px 14px; border-radius:999px; font-weight:700; text-decoration:none; color:#0f172a; }
+.wl-menu li.active a{ background:linear-gradient(135deg,#4f46e5,#06b6d4); color:#fff; }
+.wl-search{ display:flex; align-items:center; gap:8px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:999px; padding:8px 12px; }
+.wl-search-input{ border:none; outline:none; background:transparent; width:220px; }
+.wl-search-icon{ opacity:.7; }
+.sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+
+/* ========= Responsive ========= */
+@media (max-width: 980px){
+    .wl-logo{ height:56px; }
+    .wl-search-input{ width:160px; }
+}
+@media (max-width: 820px){
+    .wl-actions{ gap:8px; }
+    .wl-mobile-toggle{ display:inline-flex; }
+    .wl-nav{ flex-wrap: wrap; }
+    .wl-menu{
+        display:none; width:100%; flex-direction:column; gap:6px; padding:8px 0 0;
+    }
+    .wl-menu a{ display:block; padding:10px 14px; }
+    .wl-nav.is-open .wl-menu,
+    [data-secondary-nav].is-open .wl-menu{ display:flex; }
+    .wl-search{ margin-left:auto; }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleBtn = document.querySelector('[data-toggle-secondary]');
+    const nav = document.querySelector('[data-secondary-nav]');
+    if (toggleBtn && nav) {
+        toggleBtn.addEventListener('click', () => {
+            const opened = nav.classList.toggle('is-open');
+            toggleBtn.setAttribute('aria-expanded', opened ? 'true' : 'false');
+        });
+    }
+});
+</script>
