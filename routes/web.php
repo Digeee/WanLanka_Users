@@ -45,5 +45,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/account', [AccountController::class, 'index'])->name('account');
     Route::put('/account', [AccountController::class, 'update'])->name('account.update');
 
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 });

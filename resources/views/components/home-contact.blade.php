@@ -1,4 +1,4 @@
-
+@extends('layouts.master')
 <div class="contact-section">
     <div class="contact-container">
         <h2 class="contact-title">Contact Us</h2>

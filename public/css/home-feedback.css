@@ -1,7 +1,7 @@
 .feedback-container {
     width: 100%;
-    max-width: 600px;
-    margin: 40px auto;
+    max-width: 600px; /* Can be adjusted if required */
+    margin: 40px auto; /* Ensure this does not constrain the component in smaller screens */
     font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
     position: relative;
     border-radius: 20px;
@@ -19,6 +19,7 @@
     display: flex;
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     will-change: transform;
+    flex-wrap: nowrap; /* Keep the items in a row for desktop, stack them for mobile */
 }
 
 .feedback-item {
@@ -32,6 +33,8 @@
     opacity: 0;
     transform: translateX(20px);
     transition: all 0.4s ease;
+    word-wrap: break-word; /* Prevent text overflow */
+    overflow: hidden;
 }
 
 .feedback-item.active {
@@ -171,18 +174,13 @@
 /* Responsive design */
 @media (max-width: 640px) {
     .feedback-container {
+        width: 100%;
         margin: 20px;
-        border-radius: 16px;
+        padding: 10px;
     }
 
-    .feedback-item {
-        padding: 24px;
-    }
-
-    .avatar {
-        width: 60px;
-        height: 60px;
-        font-size: 24px;
+    .feedback-wrapper {
+        flex-direction: column; /* Stack items vertically */
     }
 
     .nav-button {

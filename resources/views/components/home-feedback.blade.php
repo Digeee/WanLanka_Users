@@ -71,54 +71,53 @@
     </div>
 </div>
 
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    const feedbackItems = document.querySelectorAll('.feedback-item');
-    const prevBtn = document.querySelector('.nav-button.prev');
-    const nextBtn = document.querySelector('.nav-button.next');
-    const indicators = document.querySelectorAll('.indicator');
+        const feedbackItems = document.querySelectorAll('.feedback-item');
+        const prevBtn = document.querySelector('.nav-button.prev');
+        const nextBtn = document.querySelector('.nav-button.next');
+        const indicators = document.querySelectorAll('.indicator');
 
-    let currentIndex = 0;
+        let currentIndex = 0;
 
-    function showFeedback(index) {
-        feedbackItems.forEach((item, i) => {
-            item.classList.toggle('active', i === index);
-            indicators[i].classList.toggle('active', i === index);
-            if (i === index) {
-                item.setAttribute('tabindex', '0');
-            } else {
-                item.setAttribute('tabindex', '-1');
-            }
+        function showFeedback(index) {
+            feedbackItems.forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+                indicators[i].classList.toggle('active', i === index);
+                if (i === index) {
+                    item.setAttribute('tabindex', '0');
+                } else {
+                    item.setAttribute('tabindex', '-1');
+                }
+            });
+            currentIndex = index;
+        }
+
+        function showNext() {
+            let nextIndex = (currentIndex + 1) % feedbackItems.length;
+            showFeedback(nextIndex);
+        }
+
+        function showPrev() {
+            let prevIndex = (currentIndex - 1 + feedbackItems.length) % feedbackItems.length;
+            showFeedback(prevIndex);
+        }
+
+        // Navigation buttons
+        nextBtn.addEventListener('click', showNext);
+        prevBtn.addEventListener('click', showPrev);
+
+        // Indicators click
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                showFeedback(index);
+            });
         });
-        currentIndex = index;
-    }
 
-    function showNext() {
-        let nextIndex = (currentIndex + 1) % feedbackItems.length;
-        showFeedback(nextIndex);
-    }
+        // Automatically cycle carousel every 8 seconds
+        setInterval(showNext, 8000);
 
-    function showPrev() {
-        let prevIndex = (currentIndex - 1 + feedbackItems.length) % feedbackItems.length;
-        showFeedback(prevIndex);
-    }
-
-    // Navigation buttons
-    nextBtn.addEventListener('click', showNext);
-    prevBtn.addEventListener('click', showPrev);
-
-    // Indicators click
-    indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', () => {
-            showFeedback(index);
-        });
+        // Initialize first feedback
+        showFeedback(currentIndex);
     });
-
-    // Automatically cycle carousel every 8 seconds
-    setInterval(showNext, 8000);
-
-    // Initialize first feedback
-    showFeedback(currentIndex);
-});
 </script>
