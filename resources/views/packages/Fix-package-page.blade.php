@@ -2,7 +2,8 @@
 @include('include.header')
 
 
-<style>
+
+       <style>
            .package-card {
                margin-bottom: 20px;
                padding: 15px;
@@ -12,7 +13,8 @@
                            -5px -5px 10px #ffffff;
            }
            .package-card img {
-               width: 100%;
+               max-width: 100%;
+               height: auto;
                border-radius: 10px;
            }
            .btn-read-more {
@@ -36,8 +38,12 @@
        @foreach ($packages as $package)
            <div class="package-card">
                <h2>{{ $package['package_name'] }}</h2>
-               <img src="{{ $package['cover_image'] }}" alt="{{ $package['package_name'] }} Image" onerror="this.src='{{ asset('images/placeholder.jpg') }}';">
-               <p>{{ $package['description'] }}</p>
+               @if ($package['cover_image'])
+                   <img src="{{ $package['cover_image'] }}" alt="{{ $package['package_name'] }} Image" onerror="this.src='{{ asset('images/placeholder.jpg') }}';">
+               @else
+                   <img src="{{ asset('images/placeholder.jpg') }}" alt="No Image">
+               @endif
+               <p>{{ $package['description'] ?? 'No description available' }}</p>
                <a href="/packages/{{ $package['id'] }}" class="btn-read-more">Read More</a>
            </div>
        @endforeach
@@ -45,7 +51,6 @@
        @if (empty($packages))
            <p>No packages available.</p>
        @endif
-
 
 
 
