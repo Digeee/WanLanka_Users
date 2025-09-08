@@ -1,35 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WanLanka</title>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>@yield('title','WanLanka')</title>
+  {{-- add your global CSS/JS here --}}
 </head>
 <body>
+  @include('include.header')
+
+  <main>
     @yield('content')
-    @include('include.header')
+  </main>
 
-
-    @include('components.home-slider')
-
-
-    @include('components.home-cta')
-
-
-    @include('components.home-about')
-
-
-    @include('components.home-package')
-
-    @include('components.home-feedback')
-
-
-    @include('components.home-contact')
-
-
-    @include('include.footer')
-
-
+  @include('include.footer')
 </body>
 </html>
