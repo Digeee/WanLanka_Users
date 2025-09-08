@@ -8,6 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <style>
         * {
@@ -52,6 +54,7 @@
             border-radius: 16px;
             box-shadow: 0 4px 20px rgba(0, 128, 128, 0.1);
             overflow: hidden;
+            
         }
 
         .image-container img {
@@ -153,7 +156,7 @@
     </style>
 </head>
 <body>
-
+@includeIf('include.Header')
 <!-- Logo -->
 <div class="logo">
     <img src="/images/dark logo.png" alt="Wan Lanka Logo">
@@ -198,6 +201,6 @@
         </form>
     </div>
 </div>
-
+@includeIf('include.footer')
 </body>
 </html>

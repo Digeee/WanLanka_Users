@@ -4,50 +4,46 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProvinceController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\AccountController;
 
-
-Route::get('/', function () {
-    return redirect('/login');
-});
-
-// Login
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-
-// Registration
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
-
-// Forgot Password - Step 1: Request OTP
-Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
-Route::post('/forgot-password', [AuthController::class, 'sendOtpForReset'])->name('password.email');
-
-// Step 2: OTP Verification
-Route::get('/verify-reset-otp', [AuthController::class, 'showVerifyResetOtpForm'])->name('password.otp');
-Route::post('/verify-reset-otp', [AuthController::class, 'verifyResetOtp'])->name('password.otp.verify');
-
-// Step 3: Reset password
-Route::get('/reset-password', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
-Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
-
-// Dashboard (after login)
-Route::get('/dashboard', function () {
-    return view('layouts.app');
-})->middleware('auth');
-
-
-
-// Logout
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+/* -------------------- Public pages (no login required) -------------------- */
+Route::view('/', 'home')->name('home'); // landing page
+Route::view('/about', 'pages.about')->name('about');
+Route::view('/destinations', 'pages.destinations')->name('destinations');
+Route::view('/offers', 'pages.offers')->name('offers');
+Route::view('/info', 'pages.info')->name('info');
 
 Route::get('/contact', [ContactController::class, 'showForm'])->name('contact.show');
 Route::post('/contact', [ContactController::class, 'submitForm'])->name('contact.submit');
 
 Route::get('/provinces', [ProvinceController::class, 'index'])->name('provinces');
+Route::get('/search', [SearchController::class, 'index'])->name('search');
 
+/* -------------------- Guest-only (must be logged OUT) -------------------- */
+Route::middleware('guest')->group(function () {
+    Route::get('/login',    [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login',   [AuthController::class, 'login']);
 
+    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register',[AuthController::class, 'register']);
 
+    // Forgot/Reset via OTP
+    Route::get('/forgot-password',  [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+    Route::post('/forgot-password', [AuthController::class, 'sendOtpForReset'])->name('password.email');
+    Route::get('/verify-reset-otp', [AuthController::class, 'showVerifyResetOtpForm'])->name('password.otp');
+    Route::post('/verify-reset-otp',[AuthController::class, 'verifyResetOtp'])->name('password.otp.verify');
+    Route::get('/reset-password',   [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
+    Route::post('/reset-password',  [AuthController::class, 'resetPassword'])->name('password.update');
+});
 
-Route::get('/', function () {
-     return view('layouts.app');
+/* -------------------- Auth-only (must be logged IN) -------------------- */
+Route::middleware('auth')->group(function () {
+    // No dashboard view — redirect to home instead
+    Route::get('/dashboard', fn() => redirect()->route('home'))->name('dashboard');
+
+    Route::get('/account', [AccountController::class, 'index'])->name('account');
+    Route::put('/account', [AccountController::class, 'update'])->name('account.update');
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
