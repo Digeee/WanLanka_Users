@@ -47,6 +47,20 @@ Route::get('/provinces', [ProvinceController::class, 'index'])->name('provinces'
 
 
 
+use App\Http\Controllers\PackageController;
+
+Route::get('/packages/fix', [PackageController::class, 'fix'])->name('packages.fix');
+
+
+
+
+
+
+
+
+
+
+
 
 Route::get('/', function () {
      return view('layouts.app');

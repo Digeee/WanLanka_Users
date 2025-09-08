@@ -1,3 +1,4 @@
+@extends('layouts.master')
 <section class="cta-section">
     <div class="cta-container">
         <div class="cta-content">
