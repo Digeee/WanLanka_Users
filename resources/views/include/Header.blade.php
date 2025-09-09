@@ -13,7 +13,7 @@
         <li class="{{ request()->is('about') ? 'active' : '' }}"><a href="{{ url('about') }}">About</a></li>
         <li class="{{ request()->is('destinations') ? 'active' : '' }}"><a href="{{ url('destinations') }}">Destinations</a></li>
         <li class="{{ request()->is('offers') ? 'active' : '' }}"><a href="{{ url('offers') }}">Offers</a></li>
-        <li class="{{ request()->is('info') ? 'active' : '' }}"><a href="{{ url('info') }}">Travel Info</a></li>
+        <li class="{{ request()->is('packages/fix') ? 'active' : '' }}"> <a href="{{ route('packages.fix') }}">Packages</a></li>
         <li class="{{ request()->is('contact') ? 'active' : '' }}"><a href="{{ url('contact') }}">Contact</a></li>
       </ul>
     </nav>
