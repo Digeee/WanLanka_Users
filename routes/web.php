@@ -6,6 +6,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\PackageController;
 
 /* -------------------- Public pages (no login required) -------------------- */
 Route::view('/', 'home')->name('home'); // landing page
@@ -44,6 +45,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/account', [AccountController::class, 'index'])->name('account');
     Route::put('/account', [AccountController::class, 'update'])->name('account.update');
-
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 });
+
+
+
+Route::get('/packages/fix', [PackageController::class, 'fix'])->name('packages.fix'); // Route for fixed packages
+Route::get('/packages/{id}', [PackageController::class, 'show'])->name('packages.show');
