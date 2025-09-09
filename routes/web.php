@@ -3,10 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\User\PlaceController;
+use App\Http\Controllers\User\ProvinceController;
 
 /* -------------------- Public pages (no login required) -------------------- */
 Route::view('/', 'home')->name('home'); // landing page
@@ -53,3 +54,13 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/packages/fix', [PackageController::class, 'fix'])->name('packages.fix'); // Route for fixed packages
 Route::get('/packages/{id}', [PackageController::class, 'show'])->name('packages.show');
+
+// 9 province cards page
+Route::get('/provinces', [ProvinceController::class, 'index'])->name('province.index');
+
+
+// Province details page (places inside province)
+Route::get('/province/{slug}', [ProvinceController::class, 'show'])->name('province.show');
+
+// ✅ Single place details page
+Route::get('/place/{slug}', [PlaceController::class, 'show'])->name('places.show');

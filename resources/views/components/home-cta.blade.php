@@ -9,7 +9,7 @@
                 lush tea plantations to wildlife adventures.
             </p>
 
-           <a href="{{ route('provinces') }}" class="cta-button">
+           <a href="{{ route('province.index') }}" class="cta-button">
     Explore Provinces
     <i class="fas fa-arrow-right"></i>
 </a>
