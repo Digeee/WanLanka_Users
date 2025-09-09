@@ -48,7 +48,8 @@
                     <img src="{{ $province['image'] }}" alt="{{ $province['name'] }}" class="province-image">
                     <h3 class="province-title">{{ $province['name'] }}</h3>
                     <p class="province-description">{{ $province['description'] }}</p>
-                    <a href="{{ url('province/'.$province['slug']) }}" class="read-more-btn">Read More</a>
+                    <a href="{{ route('province.show', $province['slug']) }}" class="read-more-btn">Read More</a>
+
                 </div>
             @endforeach
         </div>
