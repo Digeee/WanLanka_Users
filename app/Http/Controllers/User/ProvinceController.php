@@ -25,9 +25,10 @@ class ProvinceController extends Controller
         return view('user.provinces.index', compact('provinces'));
     }
 
-    // ✅ Show places under one province
+    // ✅ Show places under one province with filtering
     public function show($slug)
     {
+        // Map slugs to proper province names
         $map = [
             'central' => 'Central',
             'eastern' => 'Eastern',
@@ -42,11 +43,29 @@ class ProvinceController extends Controller
 
         $provinceName = $map[$slug] ?? abort(404, 'Province not found');
 
-        $places = Place::where('status', 'active')
-                        ->where('province', $provinceName)
-                        ->orderBy('name')
-                        ->get();
+        // ✅ Build query dynamically
+        $query = Place::where('status', 'active')
+                      ->where('province', $provinceName);
 
-        return view('user.provinces.show', compact('provinceName', 'places'));
+        // ✅ Apply district filter if provided
+        if (request()->filled('district')) {
+            $query->where('district', request()->district);
+        }
+
+        // ✅ Apply rating filter if provided
+        if (request()->filled('rating')) {
+            $query->where('rating', '>=', request()->rating);
+        }
+
+        // ✅ Fetch filtered places
+        $places = $query->orderBy('name')->get();
+
+        // ✅ Fetch distinct districts for dropdown
+        $districts = Place::where('province', $provinceName)
+                        ->whereNotNull('district')
+                        ->distinct()
+                        ->pluck('district');
+
+        return view('user.provinces.show', compact('provinceName', 'places', 'districts'));
     }
 }
