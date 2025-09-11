@@ -64,3 +64,8 @@ Route::get('/province/{slug}', [ProvinceController::class, 'show'])->name('provi
 
 // ✅ Single place details page
 Route::get('/place/{slug}', [PlaceController::class, 'show'])->name('places.show');
+
+//archaga
+Route::get('/about', function () {
+    return view('about');
+});
