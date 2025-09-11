@@ -1,149 +1,253 @@
 @extends('layouts.master')
 @include('include.header')
 
-   <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Poppins:wght@400;600&display=swap');
-        /* Reset & base */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
+    }
+
+    .container {
+        display: flex;
+        margin-top: 40px;
+        max-width: 1400px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0 20px;
+    }
+
+    .row {
+        display: flex;
+        width: 100%;
+        gap: 30px;
+    }
+
+    .col-md-3 {
+        flex: 0 0 280px;
+        max-width: 280px;
+    }
+
+    .col-md-9 {
+        flex: 1;
+        min-width: 0;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #2d3436;
+        margin-bottom: 30px;
+        text-align: left;
+    }
+
+    .packages {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+    }
+
+    .package-card {
+        background: #ffffff;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        border: 1px solid #e9ecef;
+    }
+
+    .package-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    }
+
+    .package-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .package-card:hover img {
+        transform: scale(1.05);
+    }
+
+    .package-card h2 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #2d3436;
+        margin: 20px 20px 10px;
+        line-height: 1.4;
+    }
+
+    .package-card p {
+        color: #636e72;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin: 0 20px 15px;
+    }
+
+    .package-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #667eea;
+        margin: 0 20px 20px;
+    }
+
+    .btn-read-more {
+        display: inline-block;
+        margin: 0 20px 20px;
+        padding: 10px 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-read-more:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+    }
+
+    .no-packages {
+        text-align: center;
+        padding: 60px 20px;
+        color: #6c757d;
+        font-size: 1.1rem;
+    }
+
+    @media (max-width: 1200px) {
+        .packages {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
-            padding: 2rem;
-            color: #fff;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            text-align: center;
-            margin-bottom: 2rem;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
-        /* Container for packages */
-        .packages-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        /* Glassmorphism card */
-        .package-card {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            display: flex;
+    }
+
+    @media (max-width: 768px) {
+        .row {
             flex-direction: column;
-            align-items: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: default;
         }
-        .package-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.6);
-            cursor: pointer;
+
+        .col-md-3 {
+            flex: 0 0 auto;
+            max-width: 100%;
+            margin-bottom: 30px;
         }
-        /* Package title */
-        .package-card h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
+
+        .col-md-9 {
+            padding-left: 0;
+        }
+
+        h1 {
+            font-size: 2rem;
             text-align: center;
-            color: #fff;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
-        /* Package image */
-        .package-card img {
-            width: 100%;
-            max-width: 280px;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-            transition: transform 0.3s ease;
+
+        .packages {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         }
-        .package-card:hover img {
-            transform: scale(1.05);
+    }
+
+    @media (max-width: 480px) {
+        .packages {
+            grid-template-columns: 1fr;
         }
-        /* Description */
-        .package-card p {
-            font-size: 1rem;
-            line-height: 1.5;
-            color: #e0e0e0;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            min-height: 60px;
-        }
-        /* Read More button */
-        .btn-read-more {
-            font-family: 'Poppins', sans-serif;
-            background: rgba(255, 255, 255, 0.25);
-            color: #fff;
-            padding: 0.6rem 1.4rem;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-            user-select: none;
-        }
-        .btn-read-more:hover,
-        .btn-read-more:focus {
-            background: rgba(255, 255, 255, 0.45);
-            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.6);
-            transform: translateY(-3px);
-            outline: none;
-        }
-        /* No packages message */
-        .no-packages {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #f0f0f0;
-            font-style: italic;
-            margin-top: 3rem;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
-        }
-        /* Responsive tweaks */
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2.2rem;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3">
+            @include('include.package-filter-sidebar')
+        </div>
+        <!-- Package List -->
+        <div class="col-md-9">
+            <h1>Fixed Packages</h1>
+            <div id="package-list" class="packages">
+                @foreach ($packages as $package)
+                    <div class="package-card">
+                        @if ($package['cover_image'])
+                            <img src="{{ $package['cover_image'] }}" alt="{{ $package['package_name'] }} Image" onerror="this.src='{{ asset('images/placeholder.jpg') }}';">
+                        @else
+                            <img src="{{ asset('images/placeholder.jpg') }}" alt="No Image">
+                        @endif
+                        <h2>{{ $package['package_name'] }}</h2>
+                        <p>{{ $package['description'] ?? 'No description available' }}</p>
+                        <p class="package-price">${{ $package['price'] ?? 'N/A' }}</p>
+                        <a href="/packages/{{ $package['id'] }}" class="btn-read-more">Read More</a>
+                    </div>
+                @endforeach
+                @if (empty($packages))
+                    <div class="no-packages">
+                        <p>No packages available.</p>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('package-filter-form');
+    const resetButton = document.getElementById('reset-filters');
+    const packageList = document.getElementById('package-list');
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        fetchPackages();
+    });
+
+    resetButton.addEventListener('click', function () {
+        form.reset();
+        fetchPackages();
+    });
+
+    function fetchPackages() {
+        const formData = new FormData(form);
+        const params = new URLSearchParams(formData).toString();
+
+        fetch(`http://127.0.0.1:8000/api/packages?${params}`, {
+            headers: {
+                'Authorization': 'Bearer 1|8OImmqdUzzCwAOzoksoHFeOjpz1iSWSLTbTL3geC43aa48db',
+                'Accept': 'application/json'
             }
-            .package-card img {
-                height: 140px;
+        })
+        .then(response => response.json())
+        .then(data => {
+            packageList.innerHTML = '';
+            if (data.length === 0) {
+                packageList.innerHTML = '<div class="no-packages"><p>No packages available.</p></div>';
+                return;
             }
-        }
-    </style>
-
-<h1>Fixed Packages</h1>
-
-       @foreach ($packages as $package)
-           <div class="package-card">
-               <h2>{{ $package['package_name'] }}</h2>
-               @if ($package['cover_image'])
-                   <img src="{{ $package['cover_image'] }}" alt="{{ $package['package_name'] }} Image" onerror="this.src='{{ asset('images/placeholder.jpg') }}';">
-               @else
-                   <img src="{{ asset('images/placeholder.jpg') }}" alt="No Image">
-               @endif
-               <p>{{ $package['description'] ?? 'No description available' }}</p>
-               <a href="/packages/{{ $package['id'] }}" class="btn-read-more">Read More</a>
-           </div>
-       @endforeach
-
-       @if (empty($packages))
-           <p>No packages available.</p>
-       @endif
-
-
+            data.forEach(package => {
+                const card = document.createElement('div');
+                card.className = 'package-card';
+                card.innerHTML = `
+                    <img src="${package.cover_image || '{{ asset('images/placeholder.jpg') }}'}" alt="${package.package_name} Image" onerror="this.src='{{ asset('images/placeholder.jpg') }}';">
+                    <h2>${package.package_name}</h2>
+                    <p>${package.description || 'No description available'}</p>
+                    <p class="package-price">$${package.price || 'N/A'}</p>
+                    <a href="/packages/${package.id}" class="btn-read-more">Read More</a>
+                `;
+                packageList.appendChild(card);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching packages:', error);
+            packageList.innerHTML = '<div class="no-packages"><p>Error loading packages.</p></div>';
+        });
+    }
+});
+</script>
 
 @include('include.footer')

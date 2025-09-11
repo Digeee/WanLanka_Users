@@ -3,7 +3,7 @@
   <div class="wl-container wl-container-fluid">
     <!-- LEFT: Brand -->
     <a href="{{ url('/') }}" class="wl-brand" aria-label="WanLanka Home">
-      <img src="{{ asset('images/wanlanka_logo.png') }}" alt="WanLanka Logo" class="wl-logo"/>
+      <img src="{{ asset('images/wanlanka_logo1.png') }}" alt="WanLanka Logo" class="wl-logo"/>
     </a>
 
     <!-- CENTER: Primary menu -->
@@ -277,3 +277,5 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
+
+
