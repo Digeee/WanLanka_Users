@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @include('include.header')
 
-<br><br><br><br><br>
+
 
 <section class="provinces-header-section">
     <div class="container text-center">
