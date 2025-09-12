@@ -1,3 +1,9 @@
+
+
+
+    <link href="{{ asset('css/footer.css') }}" rel="stylesheet">
+
+
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-section logo-section">

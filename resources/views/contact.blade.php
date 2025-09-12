@@ -1,17 +1,7 @@
 <!-- resources/views/contact.blade.php -->
-@extends('layouts.master')
+
 @include('include.Header')
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
 <div class="contact-page-container" style="max-width:1200px; margin: 2rem auto; padding: 0 1rem;">
     <h1 style="text-align:center; font-size:2.5rem; margin-bottom:2rem;">Contact Us</h1>

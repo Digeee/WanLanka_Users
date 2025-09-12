@@ -129,17 +129,17 @@
 <body>
 
 <!-- Hero Section with Bootstrap -->
-<section class="hero d-flex align-items-center text-center text-white" 
+<section class="hero d-flex align-items-center text-center text-white"
   style="min-height: 70vh; background: url('{{ asset('images/hero.jpg') }}') no-repeat center center/cover; position: relative;">
 
-  
+
 <!-- Content Box -->
 <div class="container position-relative">
   <div class="bg-dark bg-opacity-75 p-5 rounded shadow-lg d-inline-block text-white">
     <h1 class="display-4 fw-bold mb-3">About Us</h1>
     <p class="lead mb-4">Discover our story and mission to inspire and innovate.</p>
     <a href="#learn-more" class="btn-learn">Start Your Journey</a>
-  
+
   </div>
 </div>
 </section>
@@ -279,7 +279,7 @@
 
 <!-- Features Section -->
 <section class="py-5 bg-white">
-    
+
     <h2 class="why-title">Why Choose Us</h2>
 
 <style>
@@ -425,7 +425,7 @@
 <!-- Team Section -->
 <section class="team-section py-5" aria-labelledby="team-heading">
   <h2 id="team-heading" class="team-heading mb-4 text-center">Team Members</h2>
-  
+
   <div class="team-row d-flex justify-content-center flex-wrap gap-4">  <!-- Team Member 1 -->
         <div class="team-card text-center">
           <h5 class="team-name mb-3">Nimal Perera</h5>
@@ -692,7 +692,7 @@
 
 <!-- 🌟 Testimonials Section -->
 <section class="py-5 bg-light">
-  
+
     <!-- Section Heading -->
     <div class="text-center mb-5">
       <h2 class="fw-bold text-primary">What Our Travelers Say</h2>
