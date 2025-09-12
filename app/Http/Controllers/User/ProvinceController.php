@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\Place;
+use Illuminate\Support\Facades\Http;
 
 class ProvinceController extends Controller
 {
-    // ✅ Show 9 province cards
+    // Show 9 province cards
     public function index()
     {
         $provinces = [
@@ -25,7 +25,7 @@ class ProvinceController extends Controller
         return view('user.provinces.index', compact('provinces'));
     }
 
-    // ✅ Show places under one province
+    // Show places under one province
     public function show($slug)
     {
         $map = [
@@ -42,10 +42,12 @@ class ProvinceController extends Controller
 
         $provinceName = $map[$slug] ?? abort(404, 'Province not found');
 
-        $places = Place::where('status', 'active')
-                        ->where('province', $provinceName)
-                        ->orderBy('name')
-                        ->get();
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer 1|8OImmqdUzzCwAOzoksoHFeOjpz1iSWSLTbTL3geC43aa48db',
+            'Accept' => 'application/json',
+        ])->get("http://127.0.0.1:8000/api/provinces/{$slug}/places");
+
+        $places = $response->successful() ? $response->json() : [];
 
         return view('user.provinces.show', compact('provinceName', 'places'));
     }

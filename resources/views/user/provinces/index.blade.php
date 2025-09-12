@@ -20,9 +20,9 @@
         <div class="provinces-grid">
             @foreach($provinces as $province)
                 <div class="province-card">
-                    <img src="{{ $province['image'] }}" alt="{{ $province['name'] }}" class="province-image">
+                    <img src="{{ $province['image'] ?? asset('images/default-province.jpg') }}" alt="{{ $province['name'] }}" class="province-image">
                     <h3 class="province-title">{{ $province['name'] }}</h3>
-                    <p class="province-description">{{ $province['description'] }}</p>
+                    <p class="province-description">{{ $province['description'] ?? 'Explore ' . $province['name'] }}</p>
                     <a href="{{ route('province.show', $province['slug']) }}" class="read-more-btn">Read More</a>
                 </div>
             @endforeach

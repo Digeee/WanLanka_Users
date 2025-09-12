@@ -20,14 +20,13 @@
         <div class="places-grid">
             @forelse($places as $place)
                 <div class="place-card">
-                    <img src="{{ $place->image ? asset('storage/'.$place->image) : asset('images/default-place.jpg') }}"
-                         alt="{{ $place->name }}" class="place-image">
-                    <h3 class="place-title">{{ $place->name }}</h3>
-                    <p class="place-location">{{ $place->district }}</p>
+                    <img src="{{ $place['image'] ?? asset('images/default-place.jpg') }}" alt="{{ $place['name'] }}" class="place-image">
+                    <h3 class="place-title">{{ $place['name'] }}</h3>
+                    <p class="place-location">{{ $place['district'] ?? 'N/A' }}</p>
                     <p class="place-description">
-                        {{ \Illuminate\Support\Str::limit($place->description, 100, '...') }}
+                        {{ $place['description'] ?? 'N/A' }}
                     </p>
-                    <a href="{{ route('places.show', $place->slug) }}" class="read-more-btn">View Details</a>
+                    <a href="{{ route('places.show', $place['slug']) }}" class="read-more-btn">View Details</a>
                 </div>
             @empty
                 <p class="text-center">No places found in {{ $provinceName }}.</p>
