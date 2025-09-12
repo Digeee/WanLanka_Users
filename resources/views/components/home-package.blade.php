@@ -1,4 +1,4 @@
-@extends('layouts.master')
+<link href="{{ asset('css/home-packages.css') }}" rel="stylesheet">
 
 
 <section class="packages-section">

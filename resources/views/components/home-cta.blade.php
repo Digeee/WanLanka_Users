@@ -1,4 +1,4 @@
-@extends('layouts.master')
+ <link href="{{ asset('css/home-about.css') }}" rel="stylesheet">
 <section class="cta-section">
     <div class="cta-container">
         <div class="cta-content">
