@@ -7,6 +7,7 @@ use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\GuiderAuthController;
 
 /* -------------------- Public pages (no login required) -------------------- */
 Route::view('/', 'home')->name('home'); // landing page
@@ -53,3 +54,17 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/packages/fix', [PackageController::class, 'fix'])->name('packages.fix'); // Route for fixed packages
 Route::get('/packages/{id}', [PackageController::class, 'show'])->name('packages.show');
+
+
+/* -------------------- Guider Auth -------------------- */
+
+
+Route::prefix('guider')->group(function() {
+    Route::get('/login', [GuiderAuthController::class, 'showLoginForm'])->name('guider.login');
+    Route::post('/login', [GuiderAuthController::class, 'login'])->name('guider.login.submit');
+    Route::post('/logout', [GuiderAuthController::class, 'logout'])->name('guider.logout');
+
+    Route::get('/dashboard', function() {
+        return view('guider.dashboard');
+    })->middleware('auth:guider');
+});
