@@ -1,4 +1,4 @@
-<link href="{{ asset('css/home-feedback.css') }}" rel="stylesheet">
+@extends('layouts.master')
 
 <div class="feedback-container" aria-label="Feedback Carousel">
     <div class="feedback-wrapper">
