@@ -1,4 +1,8 @@
 <!-- resources/views/include/header.blade.php -->
+
+
+<link href="{{ asset('css/header.css') }}" rel="stylesheet">
+
 <header class="wl-topbar wl-sticky wl-compact" role="banner">
   <div class="wl-container wl-container-fluid">
     <!-- LEFT: Brand -->
@@ -10,9 +14,9 @@
     <nav class="wl-menu-primary" aria-label="Main">
       <ul class="wl-menu">
         <li class="{{ request()->is('/') ? 'active' : '' }}"><a href="{{ url('/') }}">Home</a></li>
-        <li class="{{ request()->is('about') ? 'active' : '' }}"><a href="{{ url('about') }}">About</a></li>
-        <li class="{{ request()->is('destinations') ? 'active' : '' }}"><a href="{{ url('destinations') }}">Destinations</a></li>
-        <li class="{{ request()->is('offers') ? 'active' : '' }}"><a href="{{ url('offers') }}">Offers</a></li>
+        <li class="{{ request()->is('about') ? 'active' : '' }}"><a href="{{ url('/about') }}">About</a></li>
+        <li class="{{ request()->is('provinces') ? 'active' : '' }}"><a href="{{ route('province.index') }}">Destinations</a></li>
+         <li class="{{ request()->is('offers') ? 'active' : '' }}"><a href="{{ url('offers') }}">Offers</a></li>
         <li class="{{ request()->is('packages/fix') ? 'active' : '' }}"> <a href="{{ route('packages.fix') }}">Packages</a></li>
         <li class="{{ request()->is('contact') ? 'active' : '' }}"><a href="{{ url('contact') }}">Contact</a></li>
       </ul>
