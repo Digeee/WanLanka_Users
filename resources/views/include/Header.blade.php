@@ -3,7 +3,7 @@
   <div class="wl-container wl-container-fluid">
     <!-- LEFT: Brand -->
     <a href="{{ url('/') }}" class="wl-brand" aria-label="WanLanka Home">
-      <img src="{{ asset('images/wanlanka_logo.png') }}" alt="WanLanka Logo" class="wl-logo"/>
+      <img src="{{ asset('images/wanlanka_logo1.png') }}" alt="WanLanka Logo" class="wl-logo"/>
     </a>
 
     <!-- CENTER: Primary menu -->
@@ -13,7 +13,7 @@
         <li class="{{ request()->is('about') ? 'active' : '' }}"><a href="{{ url('about') }}">About</a></li>
         <li class="{{ request()->is('destinations') ? 'active' : '' }}"><a href="{{ url('destinations') }}">Destinations</a></li>
         <li class="{{ request()->is('offers') ? 'active' : '' }}"><a href="{{ url('offers') }}">Offers</a></li>
-        <li class="{{ request()->is('info') ? 'active' : '' }}"><a href="{{ url('info') }}">Travel Info</a></li>
+        <li class="{{ request()->is('packages/fix') ? 'active' : '' }}"> <a href="{{ route('packages.fix') }}">Packages</a></li>
         <li class="{{ request()->is('contact') ? 'active' : '' }}"><a href="{{ url('contact') }}">Contact</a></li>
       </ul>
     </nav>
@@ -278,3 +278,5 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
+
+

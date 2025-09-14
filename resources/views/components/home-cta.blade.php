@@ -1,4 +1,4 @@
-@extends('layouts.master')
+ <link href="{{ asset('css/home-about.css') }}" rel="stylesheet">
 <section class="cta-section">
     <div class="cta-container">
         <div class="cta-content">
@@ -9,7 +9,7 @@
                 lush tea plantations to wildlife adventures.
             </p>
 
-           <a href="{{ route('provinces') }}" class="cta-button">
+           <a href="{{ route('province.index') }}" class="cta-button">
     Explore Provinces
     <i class="fas fa-arrow-right"></i>
 </a>

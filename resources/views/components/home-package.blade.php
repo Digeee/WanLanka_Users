@@ -1,4 +1,4 @@
-@extends('layouts.master')
+<link href="{{ asset('css/home-packages.css') }}" rel="stylesheet">
 
 
 <section class="packages-section">
@@ -13,18 +13,18 @@
             <div class="offer-card">
                 <div class="card-front">
                     <div class="offer-badge">Limited Time</div>
-                    <h3 class="offer-title">Best of Japan</h3>
+                    <h3 class="offer-title">Best of Jaffna</h3>
                     <p class="offer-days">7 days / 6 nights</p>
-                    <p class="offer-price">From $2799 <span>per person</span></p>
+                    <p class="offer-price">From $9999 <span>per person</span></p>
                     <div class="view-tour-btn">View Details</div>
                 </div>
                 <div class="card-back">
                     <div class="offer-discount">25% OFF</div>
-                    <p class="offer-description">Experience the perfect blend of traditional culture and modern innovation in Japan.</p>
+                    <p class="offer-description">Experience the perfect blend of traditional culture and modern innovation in Jaffna.</p>
                     <ul class="offer-includes">
                         <li>Accommodation in 4-star hotels</li>
                         <li>All transportation included</li>
-                        <li>Guided tours in Tokyo, Kyoto, Osaka</li>
+                        <li>Guided tours in Jaffna</li>
                         <li>Traditional dinner experience</li>
                     </ul>
                     <div class="view-tour-btn">Book Now</div>
@@ -35,18 +35,18 @@
             <div class="offer-card">
                 <div class="card-front">
                     <div class="offer-badge">Popular</div>
-                    <h3 class="offer-title">Classic China</h3>
+                    <h3 class="offer-title">Classic Colombo</h3>
                     <p class="offer-days">12 days / 10 nights</p>
-                    <p class="offer-price">From $3300 <span>per person</span></p>
+                    <p class="offer-price">From $13000 <span>per person</span></p>
                     <div class="view-tour-btn">View Details</div>
                 </div>
                 <div class="card-back">
                     <div class="offer-discount">20% OFF</div>
-                    <p class="offer-description">Explore the ancient wonders and vibrant cities of China on this comprehensive tour.</p>
+                    <p class="offer-description">Explore the ancient wonders and vibrant cities of Sri Lanka on this comprehensive tour.</p>
                     <ul class="offer-includes">
-                        <li>Great Wall of China visit</li>
-                        <li>Forbidden City tour</li>
-                        <li>Yangtze River cruise</li>
+                        <li>Sigiriya Rock Fortress visit</li>
+                        <li>Temple of the Tooth tour</li>
+                        <li>Yala National Park safari</li>
                         <li>All meals included</li>
                     </ul>
                     <div class="view-tour-btn">Book Now</div>
@@ -57,9 +57,9 @@
             <div class="offer-card">
                 <div class="card-front">
                     <div class="offer-badge">New</div>
-                    <h3 class="offer-title">Yangtze Essence 2026</h3>
+                    <h3 class="offer-title">Kandy/Nuwara Eliya 2026</h3>
                     <p class="offer-days">13 days / 11 nights</p>
-                    <p class="offer-price">From $3100 <span>per person</span></p>
+                    <p class="offer-price">From $13100 <span>per person</span></p>
                     <div class="view-tour-btn">View Details</div>
                 </div>
                 <div class="card-back">
@@ -101,16 +101,16 @@
             <div class="offer-card">
                 <div class="card-front">
                     <div class="offer-badge">Premium</div>
-                    <h3 class="offer-title">European Discovery</h3>
+                    <h3 class="offer-title">Srilankan Discovery</h3>
                     <p class="offer-days">14 days / 12 nights</p>
                     <p class="offer-price">From $3899 <span>per person</span></p>
                     <div class="view-tour-btn">View Details</div>
                 </div>
                 <div class="card-back">
                     <div class="offer-discount">22% OFF</div>
-                    <p class="offer-description">Experience the diversity of Europe's most iconic cities and cultural landmarks.</p>
+                    <p class="offer-description">Experience the diversity of Sri Lanka's most iconic cities and cultural landmarks.</p>
                     <ul class="offer-includes">
-                        <li>4-country tour: France, Italy, Germany, Spain</li>
+                        <li>4-country tour: Colombo, Kandy, Nuwara Eliya, Galle</li>
                         <li>Luxury coach transportation</li>
                         <li>Professional multilingual guide</li>
                         <li>Entrance fees to all attractions</li>
