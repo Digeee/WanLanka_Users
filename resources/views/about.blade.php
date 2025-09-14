@@ -214,7 +214,7 @@
 }
 
 .mission-overlay {
-  background: rgba(17, 191, 197, 0.55); /* semi-transparent dark overlay */
+  background: #1a1a40; /* semi-transparent dark overlay */
   padding: 60px 20px;
   border-radius: 20px;
   max-width: 1000px;
@@ -856,42 +856,6 @@
   </style>
 </head>
 <body>
-
-  <!-- Floating Contact Us Button -->
-  <button class="contact-btn" data-bs-toggle="modal" data-bs-target="#contactModal">
-    Contact Us
-  </button>
-
-  <!-- Contact Us Modal -->
-  <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header bg-primary text-white">
-          <h5 class="modal-title" id="contactModalLabel">Get in Touch</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-              <input type="text" class="form-control" placeholder="Your Name" required>
-            </div>
-            <div class="mb-3">
-              <input type="email" class="form-control" placeholder="Your Email" required>
-            </div>
-            <div class="mb-3">
-              <textarea class="form-control" rows="4" placeholder="Your Message" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Send Message</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap JS Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
 
 
 <!-- End of About Us -->
