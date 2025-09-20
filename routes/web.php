@@ -69,3 +69,6 @@ Route::get('/place/{slug}', [PlaceController::class, 'show'])->name('places.show
 Route::get('/about', function () {
     return view('about');
 });
+Route::get('/add-place', function () {
+    return view('add_place'); // the form you created earlier
+});
