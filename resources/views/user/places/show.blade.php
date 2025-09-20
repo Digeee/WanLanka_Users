@@ -1,18 +1,21 @@
 
 @include('include.header')
 
-<!-- Swiper.js CSS CDN -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-<!-- Google Fonts: Poppins -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
 <section class="place-details">
-    <div class="container mt-5">
-        <h1 class="place-title">{{ $place['name'] ?? 'N/A' }}</h1>
-        <div class="place-card">
-            <div class="row">
-                <!-- Place Details -->
-                <div class="col-md-6 place-details-col">
+    <!-- Header Section -->
+    <div class="header-section">
+        <div class="container">
+            <h1 class="place-title">{{ $place['name'] ?? 'N/A' }}</h1>
+        </div>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="container main-content">
+        <div class="row">
+            <!-- Details Section -->
+            <div class="col-md-6 details-section">
+                <div class="glass-card details-card">
+                    <h2 class="section-title">Details</h2>
                     <div class="details-content">
                         <p><strong>Province:</strong> {{ $place['province'] ?? 'N/A' }}</p>
                         <p><strong>District:</strong> {{ $place['district'] ?? 'N/A' }}</p>
@@ -25,29 +28,28 @@
                         <p><strong>Rating:</strong> {{ $place['rating'] ? $place['rating'] . ' Stars' : 'N/A' }}</p>
                     </div>
                 </div>
-                <!-- Images -->
-                <div class="col-md-6 place-images-col">
-                    <h5 class="section-subtitle">Main Image</h5>
+            </div>
+            <!-- Images Section -->
+            <div class="col-md-6 images-section">
+                <div class="glass-card images-card">
+                    <h2 class="section-title">Photos</h2>
                     @if($place['image'])
                         <img src="{{ $place['image'] }}" alt="{{ $place['name'] ?? 'Place Image' }}" class="main-image">
                     @else
                         <p class="no-image">No main image available.</p>
                     @endif
-                    <h5 class="section-subtitle mt-4">Gallery</h5>
+                    <h2 class="section-title mt-4">Gallery</h2>
                     @if(!empty($place['gallery']) && is_array($place['gallery']))
-                        <div class="swiper gallery-slider">
-                            <div class="swiper-wrapper">
+                        <div class="gallery-slider">
+                            <div class="gallery-wrapper">
                                 @foreach($place['gallery'] as $image)
-                                    <div class="swiper-slide">
+                                    <div class="gallery-slide">
                                         <img src="{{ $image }}" alt="Gallery Image" class="gallery-image">
                                     </div>
                                 @endforeach
                             </div>
-                            <!-- Navigation buttons -->
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
-                            <!-- Pagination -->
-                            <div class="swiper-pagination"></div>
+                            <button class="gallery-prev">◄</button>
+                            <button class="gallery-next">►</button>
                         </div>
                     @else
                         <p class="no-image">No gallery images available.</p>
@@ -61,65 +63,89 @@
 <style>
 /* General Styling */
 .place-details {
-    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+    background: linear-gradient(135deg, #1a5a4d 0%, #366f2e 100%); /* Navy gradient */
+    min-height: 100vh;
     padding: 40px 0;
-    font-family: 'Poppins', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
+/* Container */
 .container {
     max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header Section */
+.header-section {
+    padding: 20px 0;
+    text-align: center;
 }
 
 .place-title {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #1A3C5A; /* Navy */
-    text-align: center;
-    margin-bottom: 30px;
+    color: #FFFFFF;
     text-transform: uppercase;
     letter-spacing: 1px;
+    padding: 15px 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease-out;
 }
 
-.place-card {
-    background: #FFFFFF;
+/* Main Content */
+.main-content {
+    padding: 30px 0;
+}
+
+/* Glassmorphism Card */
+.glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 15px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 25px;
+    margin-bottom: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.place-card:hover {
+.glass-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
-/* Details Column */
-.place-details-col {
-    padding: 30px;
+/* Details Section */
+.details-section {
+    animation: slideInLeft 1s ease-out;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #E6E6FA; /* Pastel lavender */
+    margin-bottom: 15px;
 }
 
 .details-content p {
     font-size: 1.1rem;
-    color: #333;
-    margin-bottom: 15px;
+    color: #F8F9FA; /* Soft white */
+    margin-bottom: 12px;
     line-height: 1.6;
 }
 
 .details-content p strong {
-    color: #1A3C5A; /* Navy */
+    color: #FFFFFF;
     font-weight: 600;
 }
 
-/* Images Column */
-.place-images-col {
-    padding: 30px;
-}
-
-.section-subtitle {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #D4A017; /* Gold */
-    margin-bottom: 15px;
+/* Images Section */
+.images-section {
+    animation: slideInRight 1s ease-out;
 }
 
 .main-image {
@@ -127,6 +153,7 @@
     height: 300px;
     object-fit: cover;
     border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     transition: transform 0.3s ease;
 }
 
@@ -136,13 +163,25 @@
 
 .no-image {
     font-size: 1rem;
-    color: #777;
+    color: #E6E6FA;
     text-align: center;
 }
 
-/* Swiper Gallery */
+/* Gallery Slider */
 .gallery-slider {
     position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.gallery-wrapper {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.gallery-slide {
+    flex: 0 0 100%;
     width: 100%;
     height: 200px;
 }
@@ -152,45 +191,67 @@
     height: 100%;
     object-fit: cover;
     border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.swiper-button-prev,
-.swiper-button-next {
-    color: #D4A017; /* Gold */
-    background: rgba(255, 255, 255, 0.8);
-    width: 40px;
-    height: 40px;
+.gallery-prev,
+.gallery-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #FFFFFF;
+    font-size: 1.5rem;
+    padding: 10px;
+    cursor: pointer;
     border-radius: 50%;
     transition: background 0.3s ease;
 }
 
-.swiper-button-prev:hover,
-.swiper-button-next:hover {
-    background: #D4A017;
-    color: #FFFFFF;
+.gallery-prev:hover,
+.gallery-next:hover {
+    background: #E6E6FA;
+    color: #1A3C5A;
 }
 
-.swiper-pagination-bullet {
-    background: #D4A017;
+.gallery-prev {
+    left: 10px;
 }
 
-.swiper-pagination-bullet-active {
-    background: #1A3C5A;
+.gallery-next {
+    right: 10px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .place-title {
         font-size: 2rem;
+        padding: 10px 20px;
     }
 
-    .place-card {
-        margin: 0 15px;
+    .main-content {
+        padding: 15px;
     }
 
-    .place-details-col,
-    .place-images-col {
-        padding: 20px;
+    .glass-card {
+        padding: 15px;
     }
 
     .main-image {
@@ -200,45 +261,62 @@
     .gallery-slider {
         height: 150px;
     }
+
+    .gallery-slide {
+        height: 150px;
+    }
 }
 </style>
 
-<!-- Swiper.js JavaScript CDN -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Initialize Swiper for gallery
-    const gallerySlider = new Swiper('.gallery-slider', {
-        slidesPerView: 1,
-        spaceBetween: 10,
-        loop: true,
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        autoplay: {
-            delay: 5000,
-            disableOnInteraction: false,
-        },
-        breakpoints: {
-            768: {
-                slidesPerView: 2,
-            },
-        },
-    });
+    // Gallery Slider
+    const galleryWrapper = document.querySelector('.gallery-wrapper');
+    const slides = document.querySelectorAll('.gallery-slide');
+    const prevButton = document.querySelector('.gallery-prev');
+    const nextButton = document.querySelector('.gallery-next');
+    let currentIndex = 0;
+    const totalSlides = slides.length;
 
-    // Add hover effect to main image
+    if (galleryWrapper && slides.length > 0) {
+        function updateSlider() {
+            galleryWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateSlider();
+        });
+
+        // Auto-slide every 5 seconds
+        let autoSlide = setInterval(() => {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateSlider();
+        }, 5000);
+
+        // Pause auto-slide on hover
+        galleryWrapper.addEventListener('mouseenter', () => clearInterval(autoSlide));
+        galleryWrapper.addEventListener('mouseleave', () => {
+            autoSlide = setInterval(() => {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateSlider();
+            }, 5000);
+        });
+    }
+
+    // Hover effect for main image
     const mainImage = document.querySelector('.main-image');
     if (mainImage) {
-        mainImage.addEventListener('mouseenter', function () {
-            this.style.transform = 'scale(1.05)';
+        mainImage.addEventListener('mouseenter', () => {
+            mainImage.style.transform = 'scale(1.05)';
         });
-        mainImage.addEventListener('mouseleave', function () {
-            this.style.transform = 'scale(1)';
+        mainImage.addEventListener('mouseleave', () => {
+            mainImage.style.transform = 'scale(1)';
         });
     }
 });

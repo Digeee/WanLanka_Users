@@ -54,7 +54,7 @@
             border-radius: 16px;
             box-shadow: 0 4px 20px rgba(0, 128, 128, 0.1);
             overflow: hidden;
-            
+
         }
 
         .image-container img {
@@ -156,7 +156,7 @@
     </style>
 </head>
 <body>
-@includeIf('include.Header')
+
 <!-- Logo -->
 <div class="logo">
     <img src="/images/dark logo.png" alt="Wan Lanka Logo">
@@ -201,6 +201,6 @@
         </form>
     </div>
 </div>
-@includeIf('include.footer')
+
 </body>
 </html>

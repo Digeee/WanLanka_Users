@@ -49,18 +49,21 @@
         @endforeach
     </div>
 
-    <!-- Map Section -->
-    <div class="map-container" style="margin-bottom:3rem;">
-        <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d41297.66458378165!2d135.4700108320272!3d34.69373652696326!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6000e681c6e9ed71%3A0x8f3e8587b78b1d31!2sOsaka%2C%20Japan!5e0!3m2!1sen!2slk!4v1691856000000!5m2!1sen!2slk"
-            width="100%"
-            height="350"
-            style="border:0; border-radius:8px;"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-    </div>
+
+<!-- Map Section -->
+<div class="map-container" style="margin-bottom:3rem;">
+    <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31145.937455228384!2d80.0087224852482!3d9.669487795453967!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3af5e20ad1edb62b%3A0xa456f2a6e83c080b!2sJaffna%2C%20Sri%20Lanka!5e0!3m2!1sen!2slk!4v1691856000000!5m2!1sen!2slk"
+        width="100%"
+        height="350"
+        style="border:0; border-radius:8px;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+</div>
+
+
 
 
     <!-- Contact Form Section -->

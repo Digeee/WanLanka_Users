@@ -141,7 +141,7 @@
 /* Compact */
 .wl-compact .wl-container-fluid{padding:10px 22px}
 .wl-compact .wl-brand{min-height:54px}
-.wl-compact .wl-logo{height:60px;width:auto;object-fit:contain}
+.wl-compact .wl-logo{height:90px;width:auto;object-fit:contain}
 .wl-compact .wl-menu{gap:16px}
 .wl-compact .wl-menu a{padding:8px 16px;font-size:14px;font-weight:600;letter-spacing:.2px}
 .wl-compact .wl-btn{padding:9px 16px;font-size:14px;border-radius:999px}
