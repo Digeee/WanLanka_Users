@@ -196,7 +196,7 @@
     <div class="mission-container text-center">
       <h2>Mission & Vision</h2>
       <img src="{{ asset('images/mission-icon.jpg') }}" alt="Mission Icon" class="mission-icon mb-4">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur  elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
       <p>Sed non mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue.</p>
 
     </div>
@@ -214,7 +214,7 @@
 }
 
 .mission-overlay {
-  background: rgba(17, 191, 197, 0.55); /* semi-transparent dark overlay */
+  background: #1a1a40; /* semi-transparent dark overlay */
   padding: 60px 20px;
   border-radius: 20px;
   max-width: 1000px;
@@ -754,6 +754,37 @@
     </div>
   </div>
 </section>
+<div style="text-align: right;">
+    <a href="{{ url('/add-place') }}" class="btn-unique">
+    <span class="icon">➕</span>Add New Tourist Place 
+</a>
+
+<style>
+.btn-unique {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Playfair Display', serif;
+    color: #fff;
+    background: linear-gradient(135deg, #005f73, #0a9396);     border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    transition: all 0.3s ease;
+}
+
+.btn-unique .icon {
+    color: #FFD700; }
+
+.btn-unique:hover {
+    background: linear-gradient(135deg, #0a9396, #005f73);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+}
+</style>
+
 
 <!-- Custom CSS -->
 <style>
@@ -856,42 +887,6 @@
   </style>
 </head>
 <body>
-
-  <!-- Floating Contact Us Button -->
-  <button class="contact-btn" data-bs-toggle="modal" data-bs-target="#contactModal">
-    Contact Us
-  </button>
-
-  <!-- Contact Us Modal -->
-  <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header bg-primary text-white">
-          <h5 class="modal-title" id="contactModalLabel">Get in Touch</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-              <input type="text" class="form-control" placeholder="Your Name" required>
-            </div>
-            <div class="mb-3">
-              <input type="email" class="form-control" placeholder="Your Email" required>
-            </div>
-            <div class="mb-3">
-              <textarea class="form-control" rows="4" placeholder="Your Message" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Send Message</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap JS Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
 
 
 <!-- End of About Us -->
