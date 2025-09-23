@@ -196,6 +196,14 @@
         </div>
       </div>
 
+    <a href="{{ url('/add-place') }}" class="btn btn-primary btn-pill">
+  <span class="icon">➕</span> Found New Tourist Place?
+    </a>
+
+
+
+
+
       {{-- EDIT --}}
       <form id="editMode" class="hidden" action="{{ route('account.update') }}" method="POST" enctype="multipart/form-data">
         @csrf @method('PUT')
