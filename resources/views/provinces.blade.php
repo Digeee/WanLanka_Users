@@ -3,11 +3,8 @@
 @include('include.header')
 
 
-<br>
-<br>
-<br>
-<br>
-<br>
+
+
 
 {{-- ✅ Title Section (Full Width) --}}
 <section class="provinces-header-section">
