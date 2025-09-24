@@ -105,7 +105,7 @@
   <div class="card-profile" id="profileCard" data-editing="false">
     {{-- LEFT --}}
     <aside class="panel">
-      <img src="{{ $pp }}" alt="Profile photo" class="avatar" id="avatarPreview">
+      <img src="{{ $user->profile_photo_url }}" alt="Profile photo" class="avatar" id="avatarPreview">
       <div class="name">{{ $user->name }}</div>
       <div class="email d-flex align-items-center gap-2">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -152,8 +152,6 @@
           <div class="item"></div>
         </div>
 
-        {{-- City & Country REMOVED --}}
-
         <h6 class="mt-3">Preferences</h6>
         <div class="row-line">
           <div class="item">
@@ -188,7 +186,16 @@
             <div class="label">Deals & Updates</div>
             <div class="value">{{ $user->marketing_opt_in ? 'Subscribed' : 'Not subscribed' }}</div>
           </div>
-          <div class="item"></div>
+          <div class="item">
+            <div class="label">ID Image</div>
+            <div class="value">
+              @if($user->id_image)
+                <a href="{{ Storage::url($user->id_image) }}" target="_blank">View ID Image</a>
+              @else
+                —
+              @endif
+            </div>
+          </div>
         </div>
 
         <div class="actions">
@@ -196,15 +203,25 @@
         </div>
       </div>
 
+      <a href="{{ url('/add-place') }}" class="btn btn-primary btn-pill">
+        <span class="icon">➕</span> Found New Tourist Place?
+      </a>
+
       {{-- EDIT --}}
       <form id="editMode" class="hidden" action="{{ route('account.update') }}" method="POST" enctype="multipart/form-data">
         @csrf @method('PUT')
 
-        <h6>Photo</h6>
+        <h6>Photos</h6>
         <div class="row g-2 mb-2">
-          <div class="col-12 col-md-8">
+          <div class="col-12 col-md-6">
+            <label class="form-label">Profile Photo</label>
             <input type="file" name="profile_photo" id="avatarInput" class="form-control" accept="image/*">
             <div class="form-text">Square image recommended, up to 3 MB.</div>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">ID Image</label>
+            <input type="file" name="id_image" id="idImageInput" class="form-control" accept="image/*">
+            <div class="form-text">Upload NIC, Passport, or Driving License image, up to 3 MB.</div>
           </div>
         </div>
 
@@ -212,15 +229,15 @@
         <div class="row g-3">
           <div class="col-md-6">
             <label class="form-label">Full Name</label>
-            <input type="text" class="form-control" name="name" value="{{ old('name',$user->name) }}" required>
+            <input type="text" class="form-control" name="name" value="{{ old('name', $user->name) }}" required>
           </div>
           <div class="col-md-6">
             <label class="form-label">Email</label>
-            <input type="email" class="form-control" name="email" value="{{ old('email',$user->email) }}" required>
+            <input type="email" class="form-control" name="email" value="{{ old('email', $user->email) }}" required>
           </div>
           <div class="col-md-6">
             <label class="form-label">Phone</label>
-            <input type="text" class="form-control" name="phone" value="{{ old('phone',$user->phone) }}" required>
+            <input type="text" class="form-control" name="phone" value="{{ old('phone', $user->phone) }}" required>
           </div>
         </div>
 
@@ -238,25 +255,23 @@
           </div>
           <div class="col-12">
             <label class="form-label">Home Address</label>
-            <input type="text" name="address" class="form-control" value="{{ old('address',$user->address) }}" required>
+            <input type="text" name="address" class="form-control" value="{{ old('address', $user->address) }}" required>
             @error('address')<small class="text-danger">{{ $message }}</small>@enderror
           </div>
         </div>
-
-        {{-- City & Country inputs REMOVED --}}
 
         <h6 class="mt-3">Preferences</h6>
         <div class="row g-3">
           <div class="col-md-6">
             <label class="form-label">Date of Birth</label>
-            <input type="date" class="form-control" name="dob" value="{{ $dobValue }}">
+            <input type="date" class="form-control" name="dob" value="{{ old('dob', $user->dob ? $user->dob->format('Y-m-d') : '') }}">
           </div>
           <div class="col-md-6">
             <label class="form-label">Preferred Language</label>
             <select name="preferred_language" class="form-select">
-              <option value="" {{ old('preferred_language',$user->preferred_language) ? '' : 'selected' }}>Select</option>
-              @foreach(['English','Tamil','Sinhala'] as $lng)
-                <option value="{{ $lng }}" {{ old('preferred_language',$user->preferred_language)===$lng ? 'selected':'' }}>{{ $lng }}</option>
+              <option value="" {{ old('preferred_language', $user->preferred_language) ? '' : 'selected' }}>Select</option>
+              @foreach(['English', 'Tamil', 'Sinhala'] as $lng)
+                <option value="{{ $lng }}" {{ old('preferred_language', $user->preferred_language) === $lng ? 'selected' : '' }}>{{ $lng }}</option>
               @endforeach
             </select>
           </div>
@@ -266,16 +281,16 @@
         <div class="row g-3">
           <div class="col-md-6">
             <label class="form-label">Emergency Contact</label>
-            <input type="text" class="form-control" name="emergency_name" value="{{ old('emergency_name',$user->emergency_name) }}">
+            <input type="text" class="form-control" name="emergency_name" value="{{ old('emergency_name', $user->emergency_name) }}">
           </div>
           <div class="col-md-6">
             <label class="form-label">Emergency Phone</label>
-            <input type="text" class="form-control" name="emergency_phone" value="{{ old('emergency_phone',$user->emergency_phone) }}">
+            <input type="text" class="form-control" name="emergency_phone" value="{{ old('emergency_phone', $user->emergency_phone) }}">
           </div>
           <div class="col-12">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" id="marketing_opt_in" name="marketing_opt_in" value="1"
-                     {{ old('marketing_opt_in',$user->marketing_opt_in) ? 'checked' : '' }}>
+                     {{ old('marketing_opt_in', $user->marketing_opt_in) ? 'checked' : '' }}>
               <label for="marketing_opt_in" class="form-check-label">Send me travel deals and updates</label>
             </div>
           </div>

@@ -11,7 +11,7 @@ class AccountController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();               // pass user to the view
+        $user = Auth::user();
         return view('account', compact('user'));
     }
 
@@ -20,14 +20,19 @@ class AccountController extends Controller
         $user = Auth::user();
 
         $validated = $request->validate([
-            'name'           => ['required','string','max:255'],
-            'email'          => ['required','email', Rule::unique('users','email')->ignore($user->id)],
-            'phone'          => ['required','string','max:30'],
-            'province'       => ['required','string','max:50'],
-            'district'       => ['required','string','max:60'],
-            'address'        => ['required','string','max:255'],
-            'profile_photo'  => ['nullable','image','mimes:jpg,jpeg,png','max:3072'],
-            'marketing_opt_in' => ['nullable','boolean'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
+            'phone' => ['required', 'string', 'max:30'],
+            'province' => ['required', 'string', 'max:50'],
+            'district' => ['required', 'string', 'max:60'],
+            'address' => ['required', 'string', 'max:255'],
+            'dob' => ['nullable', 'date'],
+            'preferred_language' => ['nullable', 'in:English,Tamil,Sinhala'],
+            'emergency_name' => ['nullable', 'string', 'max:255'],
+            'emergency_phone' => ['nullable', 'string', 'max:255'],
+            'profile_photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:3072'],
+            'id_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:3072'],
+            'marketing_opt_in' => ['nullable', 'boolean'],
         ]);
 
         if ($request->hasFile('profile_photo')) {
@@ -36,6 +41,14 @@ class AccountController extends Controller
                 Storage::disk('public')->delete($user->profile_photo);
             }
             $validated['profile_photo'] = $new;
+        }
+
+        if ($request->hasFile('id_image')) {
+            $new = $request->file('id_image')->store('id_images', 'public');
+            if ($user->id_image && Storage::disk('public')->exists($user->id_image)) {
+                Storage::disk('public')->delete($user->id_image);
+            }
+            $validated['id_image'] = $new;
         }
 
         $validated['marketing_opt_in'] = (bool) $request->boolean('marketing_opt_in');

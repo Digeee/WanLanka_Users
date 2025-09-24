@@ -754,10 +754,6 @@
     </div>
   </div>
 </section>
-<div style="text-align: right;">
-    <a href="{{ url('/add-place') }}" class="btn-unique">
-    <span class="icon">➕</span>Add New Tourist Place 
-</a>
 
 <style>
 .btn-unique {

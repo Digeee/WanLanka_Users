@@ -1,5 +1,5 @@
 <link href="{{ asset('css/home-cta.css') }}" rel="stylesheet">
-<link href="{{ asset('css/home-contact.css') }}" rel="stylesheet">
+
 <div class="contact-section">
     <div class="contact-container">
         <h2 class="contact-title">Contact Us</h2>
