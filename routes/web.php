@@ -8,6 +8,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\User\PlaceController;
 use App\Http\Controllers\User\ProvinceController;
+use App\Http\Controllers\GuiderAuthController;
 
 /* -------------------- Public pages (no login required) -------------------- */
 Route::view('/', 'home')->name('home'); // landing page
@@ -55,6 +56,20 @@ Route::middleware('auth')->group(function () {
 Route::get('/packages/fix', [PackageController::class, 'fix'])->name('packages.fix'); // Route for fixed packages
 Route::get('/packages/{id}', [PackageController::class, 'show'])->name('packages.show');
 
+
+/* -------------------- Guider Auth -------------------- */
+
+
+
+Route::get('/guider/login', [GuiderAuthController::class, 'showLogin'])->name('guider.login');
+Route::post('/guider/send-otp', [GuiderAuthController::class, 'sendOtp'])->name('guider.sendOtp');
+Route::post('/guider/verify-otp', [GuiderAuthController::class, 'verifyOtp'])->name('guider.verifyOtp');
+Route::post('/guider/logout', [GuiderAuthController::class, 'logout'])->name('guider.logout');
+
+Route::get('/guider/dashboard', function() {
+    return view('guider.dashboard'); // Create a guider dashboard page
+})->name('guider.dashboard')->middleware('auth.guider');
+
 // 9 province cards page
 Route::get('/provinces', [ProvinceController::class, 'index'])->name('province.index');
 
@@ -68,7 +83,4 @@ Route::get('/place/{slug}', [PlaceController::class, 'show'])->name('places.show
 //archaga
 Route::get('/about', function () {
     return view('about');
-});
-Route::get('/add-place', function () {
-    return view('add_place'); // the form you created earlier
 });
