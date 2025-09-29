@@ -60,15 +60,15 @@ Route::get('/packages/{id}', [PackageController::class, 'show'])->name('packages
 /* -------------------- Guider Auth -------------------- */
 
 
-Route::prefix('guider')->group(function() {
-    Route::get('/login', [GuiderAuthController::class, 'showLoginForm'])->name('guider.login');
-    Route::post('/login', [GuiderAuthController::class, 'login'])->name('guider.login.submit');
-    Route::post('/logout', [GuiderAuthController::class, 'logout'])->name('guider.logout');
 
-    Route::get('/dashboard', function() {
-        return view('guider.dashboard');
-    })->middleware('auth:guider');
-});
+Route::get('/guider/login', [GuiderAuthController::class, 'showLogin'])->name('guider.login');
+Route::post('/guider/send-otp', [GuiderAuthController::class, 'sendOtp'])->name('guider.sendOtp');
+Route::post('/guider/verify-otp', [GuiderAuthController::class, 'verifyOtp'])->name('guider.verifyOtp');
+Route::post('/guider/logout', [GuiderAuthController::class, 'logout'])->name('guider.logout');
+
+Route::get('/guider/dashboard', function() {
+    return view('guider.dashboard'); // Create a guider dashboard page
+})->name('guider.dashboard')->middleware('auth.guider');
 
 // 9 province cards page
 Route::get('/provinces', [ProvinceController::class, 'index'])->name('province.index');
@@ -83,7 +83,4 @@ Route::get('/place/{slug}', [PlaceController::class, 'show'])->name('places.show
 //archaga
 Route::get('/about', function () {
     return view('about');
-});
-Route::get('/add-place', function () {
-    return view('add_place'); // the form you created earlier
 });
