@@ -21,4 +21,9 @@ class PlaceController extends Controller
 
         return view('user.places.show', compact('place'));
     }
+
+    public function create()
+    {
+        return view('add_place');
+    }
 }
