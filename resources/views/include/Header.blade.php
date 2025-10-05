@@ -1,6 +1,5 @@
 <!-- resources/views/include/header.blade.php -->
 
-
 <link href="{{ asset('css/header.css') }}" rel="stylesheet">
 
 <header class="wl-topbar wl-sticky wl-compact" role="banner">
@@ -16,8 +15,24 @@
         <li class="{{ request()->is('/') ? 'active' : '' }}"><a href="{{ url('/') }}">Home</a></li>
         <li class="{{ request()->is('about') ? 'active' : '' }}"><a href="{{ url('/about') }}">About</a></li>
         <li class="{{ request()->is('provinces') ? 'active' : '' }}"><a href="{{ route('province.index') }}">Destinations</a></li>
-         <li class="{{ request()->is('offers') ? 'active' : '' }}"><a href="{{ url('offers') }}">Offers</a></li>
-        <li class="{{ request()->is('packages/fix') ? 'active' : '' }}"> <a href="{{ route('packages.fix') }}">Packages</a></li>
+        <li class="{{ request()->is('offers') ? 'active' : '' }}"><a href="{{ url('offers') }}">Offers</a></li>
+        
+        <!-- Packages Dropdown -->
+        <li class="wl-dropdown-wrapper {{ request()->is('packages*') || request()->is('custom-packages*') ? 'active' : '' }}" data-packages-menu>
+          <a href="#" class="wl-dropdown-toggle" data-packages-toggle aria-expanded="false">
+            Packages
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16" class="wl-dropdown-arrow">
+              <path d="M4.646 5.646a.5.5 0 0 1 .708 0L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
+            </svg>
+          </a>
+          <ul class="wl-dropdown-menu" data-packages-menu-list>
+            <li><a href="{{ route('packages.fix') }}" class="wl-dropdown-item">Fixed Packages</a></li>
+            <li><a href="{{ route('custom-packages.my') }}" class="wl-dropdown-item">Create Package</a></li>
+
+            
+          </ul>
+        </li>
+        
         <li class="{{ request()->is('contact') ? 'active' : '' }}"><a href="{{ url('contact') }}">Contact</a></li>
       </ul>
     </nav>
@@ -51,12 +66,11 @@
       </div>
 
       <a href="{{ route('guider.login') }}" class="wl-btn wl-btn-neutral" aria-label="Guider Login">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true" viewBox="0 0 16 16">
-      <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"/>
-    </svg>
-    Travel Agent
-</a>
-
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" aria-hidden="true" viewBox="0 0 16 16">
+          <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"/>
+        </svg>
+        Travel Agent
+      </a>
 
       {{-- GUEST: show Sign in --}}
       @guest
@@ -154,6 +168,30 @@
 .wl-menu li.active a{color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:var(--glow)}
 .wl-menu li.active a::after{content:"";position:absolute;left:50%;top:100%;transform:translateX(-50%);width:62%;height:18px;border-radius:40px;filter:blur(14px);background:rgba(99,91,255,.35);pointer-events:none}
 
+/* Dropdown Menu Styles */
+.wl-dropdown-wrapper{position:relative}
+.wl-dropdown-toggle{display:inline-flex;align-items:center;gap:6px}
+.wl-dropdown-arrow{transition:transform .2s ease}
+.wl-dropdown-wrapper.is-open .wl-dropdown-arrow{transform:rotate(180deg)}
+
+.wl-dropdown-menu{
+  position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  background:#fff;border:1px solid var(--border);border-radius:12px;
+  min-width:180px;box-shadow:0 12px 28px rgba(2,6,23,.12);
+  padding:8px;list-style:none;margin:0;display:none;z-index:1000;
+  margin-top:8px;
+}
+.wl-dropdown-wrapper.is-open .wl-dropdown-menu{display:block}
+
+.wl-dropdown-item{
+  display:block;width:100%;text-align:left;border:0;background:transparent;
+  padding:10px 12px;border-radius:8px;color:var(--text);text-decoration:none;
+  font-size:14px;transition:background .15s ease;
+}
+.wl-dropdown-item:hover{background:#f8fafc}
+
+.wl-dropdown-divider{border:none;height:1px;background:var(--border);margin:6px 0}
+
 /* Actions */
 .wl-actions{display:flex;align-items:center;gap:10px}
 .wl-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid transparent;line-height:1;text-decoration:none;cursor:pointer;transition:transform .18s ease, box-shadow .22s ease, filter .18s ease;box-shadow:var(--soft)}
@@ -222,6 +260,7 @@
   .wl-menu{flex-direction:column;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-top:1px solid rgba(0,0,0,.06);padding:10px}
   .wl-mobile-toggle{display:inline-flex}
   .wl-search{min-width:160px}
+  .wl-dropdown-menu{position:static;transform:none;margin-top:0;box-shadow:none;border:1px solid var(--border)}
 }
 </style>
 
@@ -235,6 +274,36 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault(); e.stopPropagation();
       const nowOpen = getComputedStyle(nav).display === 'none';
       nav.style.display = nowOpen ? 'flex' : 'none';
+    });
+  }
+
+  // Packages dropdown toggle
+  const packagesWrap = document.querySelector('[data-packages-menu]');
+  const packagesBtn = document.querySelector('[data-packages-toggle]');
+  const packagesMenuList = document.querySelector('[data-packages-menu-list]');
+
+  if (packagesWrap && packagesBtn && packagesMenuList) {
+    const closePackagesMenu = () => {
+      packagesWrap.classList.remove('is-open');
+      packagesBtn.setAttribute('aria-expanded', 'false');
+    };
+    const openPackagesMenu = () => {
+      packagesWrap.classList.add('is-open');
+      packagesBtn.setAttribute('aria-expanded', 'true');
+    };
+
+    packagesBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      packagesWrap.classList.contains('is-open') ? closePackagesMenu() : openPackagesMenu();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!packagesWrap.contains(e.target)) closePackagesMenu();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closePackagesMenu();
     });
   }
 
@@ -282,5 +351,3 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
-
-

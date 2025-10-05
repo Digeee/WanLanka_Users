@@ -1,11 +1,13 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\CustomPackageController; // Add this import
 use App\Http\Controllers\User\PlaceController;
 use App\Http\Controllers\User\ProvinceController;
 use App\Http\Controllers\GuiderAuthController;
@@ -22,6 +24,10 @@ Route::post('/contact', [ContactController::class, 'submitForm'])->name('contact
 
 Route::get('/provinces', [ProvinceController::class, 'index'])->name('provinces');
 Route::get('/search', [SearchController::class, 'index'])->name('search');
+
+// Add these public custom package routes
+Route::get('/custom-packages', [CustomPackageController::class, 'index'])->name('custom-packages.index');
+Route::get('/custom-packages/{id}', [CustomPackageController::class, 'show'])->name('custom-packages.show');
 
 /* -------------------- Guest-only (must be logged OUT) -------------------- */
 Route::middleware('guest')->group(function () {
@@ -49,6 +55,13 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/add-place', [PlaceController::class, 'create'])->name('places.create');
     // No POST route - submission via JS to admin API
+
+    // Custom Packages - Auth required routes
+Route::middleware('auth')->group(function () {
+    Route::get('/my-custom-packages', [CustomPackageController::class, 'myPackages'])->name('custom-packages.my');
+    Route::post('/custom-packages', [CustomPackageController::class, 'store'])->name('custom-packages.store');
+    Route::delete('/custom-packages/{id}', [CustomPackageController::class, 'destroy'])->name('custom-packages.destroy');
+});
 });
 
 /* -------------------- Guider Auth -------------------- */
