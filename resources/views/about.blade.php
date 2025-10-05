@@ -1,6 +1,9 @@
 <!-- resources/views/about.blade.php -->
+
 @extends('layouts.master')
 @include('include.Header')
+
+
 
 @section('content')
 <!DOCTYPE html>
