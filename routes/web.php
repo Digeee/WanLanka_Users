@@ -12,7 +12,6 @@ use App\Http\Controllers\User\PlaceController;
 use App\Http\Controllers\User\ProvinceController;
 use App\Http\Controllers\GuiderAuthController;
 
-
 /* -------------------- Public pages (no login required) -------------------- */
 Route::view('/', 'home')->name('home');
 Route::view('/about', 'about')->name('about');

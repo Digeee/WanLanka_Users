@@ -435,55 +435,219 @@
                 <form action="{{ route('custom-packages.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
-                    <!-- Section: Basic Information -->
-                    <div class="form-section">
-                        <h2 class="section-title">
-                            <i class="fas fa-info-circle"></i>Basic Information
-                        </h2>
-                        
-                        <div class="form-group">
-                            <label class="form-label required">
-                                <i class="fas fa-map-marker-alt"></i>Start Location
-                            </label>
-                            <input type="text" 
-                                   name="start_location" 
-                                   value="{{ old('start_location') }}"
-                                   class="form-control @error('start_location') is-invalid @enderror" 
-                                   placeholder="Where does your journey begin? (e.g., Colombo Airport)"
-                                   required>
-                            @error('start_location') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
-                        </div>
+<!-- Section: Basic Information -->
+<div class="form-section">
+    <h2 class="section-title">
+        <i class="fas fa-info-circle"></i> Basic Information
+    </h2>
 
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-pen"></i>Package Description
-                            </label>
-                            <textarea name="description" 
-                                      rows="3"
-                                      class="form-control @error('description') is-invalid @enderror"
-                                      placeholder="Describe your travel package...">{{ old('description') }}</textarea>
-                            @error('description') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
-                        </div>
-                    </div>
+    <div class="form-group" style="position: relative;">
+        <label class="form-label required">
+            <i class="fas fa-map-marker-alt"></i> Start Location
+        </label>
+        <input type="text"
+               name="start_location"
+               id="start_location"
+               value="{{ old('start_location') }}"
+               class="form-control @error('start_location') is-invalid @enderror"
+               placeholder="Where does your journey begin? (e.g., Colombo Airport)"
+               autocomplete="off"
+               required>
+
+        <!-- Suggestions dropdown -->
+        <ul id="locationSuggestions"
+            style="position: absolute;
+                   top: 100%;
+                   left: 0;
+                   right: 0;
+                   background: white;
+                   border: 1px solid #ccc;
+                   border-radius: 6px;
+                   z-index: 999;
+                   list-style: none;
+                   margin-top: 2px;
+                   padding: 0;
+                   display: none;
+                   max-height: 180px;
+                   overflow-y: auto;">
+        </ul>
+
+        <!-- Hidden coordinate fields -->
+        <input type="hidden" name="latitude" id="latitude">
+        <input type="hidden" name="longitude" id="longitude">
+
+        <button type="button" id="getLocationBtn" class="btn btn-success btn-sm mt-2">
+            <i class="fas fa-location-arrow"></i> Use My Current Location
+        </button>
+
+        @error('start_location')
+            <div class="invalid-feedback d-block">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <!-- Map container -->
+    <div id="map" style="height: 300px; width: 100%; border-radius: 10px; margin-top: 10px;"></div>
+
+    <div class="form-group mt-3">
+        <label class="form-label">
+            <i class="fas fa-pen"></i> Package Description
+        </label>
+        <textarea name="description"
+                  rows="3"
+                  class="form-control @error('description') is-invalid @enderror"
+                  placeholder="Describe your travel package...">{{ old('description') }}</textarea>
+        @error('description')
+            <div class="invalid-feedback d-block">{{ $message }}</div>
+        @enderror
+    </div>
+</div>
+
+<!-- Leaflet CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('getLocationBtn');
+    const input = document.getElementById('start_location');
+    const latField = document.getElementById('latitude');
+    const lonField = document.getElementById('longitude');
+    const suggestionsBox = document.getElementById('locationSuggestions');
+
+    // --- Initialize map ---
+    const map = L.map('map').setView([7.8731, 80.7718], 7); // Default Sri Lanka center
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+    let marker = null;
+
+    function updateMap(lat, lon) {
+        if (marker) map.removeLayer(marker);
+        marker = L.marker([lat, lon]).addTo(map);
+        map.setView([lat, lon], 13);
+    }
+
+    // --- Reverse geocode helper ---
+    function reverseGeocode(lat, lon) {
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+            .then(res => res.json())
+            .then(data => {
+                input.value = data.display_name || `${lat}, ${lon}`;
+                latField.value = lat;
+                lonField.value = lon;
+            });
+    }
+
+    // --- Map click event ---
+    map.on('click', function(e) {
+        const lat = e.latlng.lat;
+        const lon = e.latlng.lng;
+        updateMap(lat, lon);
+        reverseGeocode(lat, lon);
+    });
+
+    // --- Use My Current Location ---
+    btn.addEventListener('click', function() {
+        if (!navigator.geolocation) {
+            alert('Geolocation not supported by this browser.');
+            return;
+        }
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting location...';
+        navigator.geolocation.getCurrentPosition(success, error);
+    });
+
+    function success(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        latField.value = lat;
+        lonField.value = lon;
+        updateMap(lat, lon);
+        reverseGeocode(lat, lon);
+        btn.innerHTML = '<i class="fas fa-location-arrow"></i> Use My Current Location';
+        btn.disabled = false;
+    }
+
+    function error() {
+        alert('Unable to retrieve location.');
+        btn.innerHTML = '<i class="fas fa-location-arrow"></i> Use My Current Location';
+        btn.disabled = false;
+    }
+
+    // --- Autocomplete ---
+    let typingTimer;
+    input.addEventListener('input', function() {
+        clearTimeout(typingTimer);
+        const query = this.value.trim();
+        if (query.length < 3) {
+            suggestionsBox.style.display = 'none';
+            return;
+        }
+        typingTimer = setTimeout(() => fetchSuggestions(query), 400);
+    });
+
+    function fetchSuggestions(query) {
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5`)
+            .then(res => res.json())
+            .then(data => {
+                suggestionsBox.innerHTML = '';
+                if (!data.length) {
+                    suggestionsBox.style.display = 'none';
+                    return;
+                }
+                data.forEach(place => {
+                    const li = document.createElement('li');
+                    li.textContent = place.display_name;
+                    li.style.padding = '8px 10px';
+                    li.style.cursor = 'pointer';
+                    li.addEventListener('click', () => {
+                        input.value = place.display_name;
+                        latField.value = place.lat;
+                        lonField.value = place.lon;
+                        suggestionsBox.style.display = 'none';
+                        updateMap(place.lat, place.lon);
+                    });
+                    li.addEventListener('mouseenter', () => li.style.background = '#f0f0f0');
+                    li.addEventListener('mouseleave', () => li.style.background = 'white');
+                    suggestionsBox.appendChild(li);
+                });
+                suggestionsBox.style.display = 'block';
+            })
+            .catch(() => suggestionsBox.style.display = 'none');
+    }
+
+    document.addEventListener('click', function(e) {
+        if (!suggestionsBox.contains(e.target) && e.target !== input) {
+            suggestionsBox.style.display = 'none';
+        }
+    });
+});
+</script>
+
+
+
+
 
                     <!-- Section: Travel Options -->
                     <div class="form-section">
                         <h2 class="section-title">
                             <i class="fas fa-route"></i>Travel Options
                         </h2>
-                        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label required">
                                         <i class="fas fa-map-marked-alt"></i>Destinations (You'll visit)
                                     </label>
-                                    <select name="destinations[]" 
-                                            class="form-select @error('destinations') is-invalid @enderror" 
+                                    <select name="destinations[]"
+                                            class="form-select @error('destinations') is-invalid @enderror"
                                             multiple required>
                                         @foreach($availablePlaces as $place)
                                             <option value="{{ $place->id }}" {{ in_array($place->id, old('destinations', [])) ? 'selected' : '' }}>
-                                                {{ $place->name }} 
+                                                {{ $place->name }}
                                                 @if(isset($place->district) && $place->district) - {{ $place->district }} @endif
                                                 @if(isset($place->province) && $place->province) ({{ $place->province }}) @endif
                                             </option>
@@ -499,8 +663,8 @@
                                     <label class="form-label required">
                                         <i class="fas fa-car"></i>Vehicles
                                     </label>
-                                    <select name="vehicles[]" 
-                                            class="form-select @error('vehicles') is-invalid @enderror" 
+                                    <select name="vehicles[]"
+                                            class="form-select @error('vehicles') is-invalid @enderror"
                                             multiple required>
                                         @foreach($vehicleOptions as $vehicle)
                                             <option value="{{ $vehicle->id }}" {{ in_array($vehicle->id, old('vehicles', [])) ? 'selected' : '' }}>
@@ -523,13 +687,13 @@
                         <h2 class="section-title">
                             <i class="fas fa-bed"></i>Accommodation
                         </h2>
-                        
+
                         <div class="form-group">
                             <label class="form-label required">
                                 <i class="fas fa-hotel"></i>Accommodations
                             </label>
-                            <select name="accommodations[]" 
-                                    class="form-select @error('accommodations') is-invalid @enderror" 
+                            <select name="accommodations[]"
+                                    class="form-select @error('accommodations') is-invalid @enderror"
                                     multiple required>
                                 @if(isset($accommodationOptions) && $accommodationOptions->count() > 0)
                                     @foreach($accommodationOptions as $acc)
@@ -553,18 +717,18 @@
                         <h2 class="section-title">
                             <i class="fas fa-calendar-alt"></i>Logistics
                         </h2>
-                        
+
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="form-label required">
                                         <i class="fas fa-clock"></i>Duration (days)
                                     </label>
-                                    <input type="number" 
-                                           name="duration" 
+                                    <input type="number"
+                                           name="duration"
                                            min="1"
                                            value="{{ old('duration') }}"
-                                           class="form-control @error('duration') is-invalid @enderror" 
+                                           class="form-control @error('duration') is-invalid @enderror"
                                            placeholder="7"
                                            required>
                                     @error('duration') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
@@ -576,11 +740,11 @@
                                     <label class="form-label required">
                                         <i class="fas fa-users"></i>Number of People
                                     </label>
-                                    <input type="number" 
-                                           name="num_people" 
+                                    <input type="number"
+                                           name="num_people"
                                            min="1"
                                            value="{{ old('num_people', 1) }}"
-                                           class="form-control @error('num_people') is-invalid @enderror" 
+                                           class="form-control @error('num_people') is-invalid @enderror"
                                            placeholder="2"
                                            required>
                                     @error('num_people') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
@@ -592,7 +756,7 @@
                                     <label class="form-label">
                                         <i class="fas fa-calendar-check"></i>Start Date
                                     </label>
-                                    <input type="date" 
+                                    <input type="date"
                                            name="start_date"
                                            value="{{ old('start_date') }}"
                                            min="{{ date('Y-m-d') }}"
@@ -606,7 +770,7 @@
                             <label class="form-label">
                                 <i class="fas fa-image"></i>Package Image
                             </label>
-                            <input type="file" 
+                            <input type="file"
                                    name="image"
                                    class="form-control @error('image') is-invalid @enderror"
                                    accept="image/*">
@@ -634,7 +798,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Progress steps interaction
     const steps = document.querySelectorAll('.step');
-    
+
     steps.forEach(step => {
         step.addEventListener('click', function() {
             steps.forEach(s => s.classList.remove('active'));

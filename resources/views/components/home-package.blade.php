@@ -156,7 +156,7 @@
             card.addEventListener('click', function(e) {
                 if (!e.target.classList.contains('view-tour-btn')) {
                     // Redirect to package page (you can modify this URL)
-                    window.location.href = '/tour-package';
+                    window.location.href = '/packages/fix';
                 }
             });
         });
