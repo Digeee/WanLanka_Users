@@ -1,4 +1,3 @@
-
 @include('include.header')
 
 <section class="province-details-header">
@@ -17,34 +16,162 @@
 
 <section class="province-places-section">
     <div class="container">
-        <!-- District Filter Buttons -->
-        <div class="district-filter mb-4">
-            <button class="btn district-btn active" data-district="all">All</button>
-            @php
-                $districts = array_unique(array_column($places, 'district'));
-                sort($districts);
-            @endphp
-            @foreach($districts as $district)
-                @if($district)
-                    <button class="btn district-btn" data-district="{{ $district }}">{{ $district }}</button>
-                @endif
-            @endforeach
-        </div>
-        <!-- Places Grid -->
-        <div class="places-grid">
-            @forelse($places as $place)
-                <div class="place-card" data-district="{{ $place['district'] ?? 'N/A' }}">
-                    <img src="{{ $place['image'] ?? asset('images/default-place.jpg') }}" alt="{{ $place['name'] }}" class="place-image">
-                    <h3 class="place-title">{{ $place['name'] }}</h3>
-                    <p class="place-location">{{ $place['district'] ?? 'N/A' }}</p>
-                    <p class="place-description">
-                        {{ $place['description'] ?? 'N/A' }}
-                    </p>
-                    <a href="{{ route('places.show', $place['slug']) }}" class="read-more-btn">View Details</a>
+        <div class="content-wrapper">
+            <!-- Sidebar Filter -->
+            <div class="filter-sidebar">
+                <div class="filter-header">
+                    <h3>Filter Places</h3>
+                    <button class="clear-filters-btn">Clear All</button>
                 </div>
-            @empty
-                <p class="text-center">No places found in {{ $provinceName }}.</p>
-            @endforelse
+
+                <!-- Province Filter -->
+                <div class="filter-group">
+                    <h4>Provinces</h4>
+                    <div class="filter-options">
+                        @php
+                            $provinces = array_unique(array_column($places, 'province'));
+                            sort($provinces);
+                        @endphp
+                        @foreach($provinces as $province)
+                            @if($province)
+                                <label class="filter-option">
+                                    <input type="checkbox" name="province" value="{{ $province }}" {{ $province == $provinceName ? 'checked' : '' }}>
+                                    <span class="checkmark"></span>
+                                    {{ $province }}
+                                </label>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- District Filter -->
+                <div class="filter-group">
+                    <h4>Districts</h4>
+                    <div class="filter-options">
+                        @php
+                            $districts = array_unique(array_column($places, 'district'));
+                            sort($districts);
+                        @endphp
+                        @foreach($districts as $district)
+                            @if($district)
+                                <label class="filter-option">
+                                    <input type="checkbox" name="district" value="{{ $district }}">
+                                    <span class="checkmark"></span>
+                                    {{ $district }}
+                                </label>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- Rating Filter -->
+                <div class="filter-group">
+                    <h4>Rating</h4>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="rating" value="5">
+                            <span class="checkmark"></span>
+                            <span class="rating-stars">
+                                ★★★★★ <span class="rating-text">5 Stars</span>
+                            </span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="rating" value="4">
+                            <span class="checkmark"></span>
+                            <span class="rating-stars">
+                                ★★★★☆ <span class="rating-text">4+ Stars</span>
+                            </span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="rating" value="3">
+                            <span class="checkmark"></span>
+                            <span class="rating-stars">
+                                ★★★☆☆ <span class="rating-text">3+ Stars</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Type Filter -->
+                <div class="filter-group">
+                    <h4>Place Type</h4>
+                    <div class="filter-options">
+                        @php
+                            $types = ['Beach', 'Mountain', 'Cultural', 'Historical', 'Nature', 'Adventure', 'Religious', 'Swimming'];
+                        @endphp
+                        @foreach($types as $type)
+                            <label class="filter-option">
+                                <input type="checkbox" name="type" value="{{ strtolower($type) }}">
+                                <span class="checkmark"></span>
+                                {{ $type }}
+                            </label>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Mobile Filter Toggle -->
+                <div class="mobile-filter-toggle">
+                    <button class="btn filter-toggle-btn">
+                        <i class="filter-icon">☰</i> Filter Places
+                    </button>
+                </div>
+
+                <!-- District Filter Buttons -->
+                <div class="district-filter mb-4">
+                    <button class="btn district-btn active" data-district="all">All</button>
+                    @foreach($districts as $district)
+                        @if($district)
+                            <button class="btn district-btn" data-district="{{ $district }}">{{ $district }}</button>
+                        @endif
+                    @endforeach
+                </div>
+
+                <!-- Places Grid -->
+                <div class="places-grid">
+                    @forelse($places as $place)
+                        <div class="place-card"
+                             data-district="{{ $place['district'] ?? 'N/A' }}"
+                             data-province="{{ $place['province'] ?? 'N/A' }}"
+                             data-rating="{{ $place['rating'] ?? 0 }}"
+                             data-type="{{ $place['type'] ?? 'general' }}">
+                            <img src="{{ $place['image'] ?? asset('images/default-place.jpg') }}" alt="{{ $place['name'] }}" class="place-image">
+                            <div class="place-content">
+                                <h3 class="place-title">{{ $place['name'] }}</h3>
+                                <p class="place-location">{{ $place['district'] ?? 'N/A' }}</p>
+                                <div class="place-meta">
+                                    <span class="place-rating">
+                                        @php
+                                            $rating = $place['rating'] ?? 0;
+                                            $fullStars = floor($rating);
+                                            $halfStar = $rating - $fullStars >= 0.5;
+                                        @endphp
+                                        @for($i = 1; $i <= 5; $i++)
+                                            @if($i <= $fullStars)
+                                                <span class="star full">★</span>
+                                            @elseif($i == $fullStars + 1 && $halfStar)
+                                                <span class="star half">★</span>
+                                            @else
+                                                <span class="star empty">★</span>
+                                            @endif
+                                        @endfor
+                                        <span class="rating-value">{{ number_format($rating, 1) }}</span>
+                                    </span>
+                                    <span class="place-type">{{ $place['type'] ?? 'General' }}</span>
+                                </div>
+                                <p class="place-description">
+                                    {{ $place['description'] ?? 'N/A' }}
+                                </p>
+                                <a href="{{ route('places.show', $place['slug']) }}" class="read-more-btn">View Details</a>
+                            </div>
+                        </div>
+                    @empty
+                        <p class="text-center">No places found in {{ $provinceName }}.</p>
+                    @endforelse
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -165,6 +292,150 @@ body {
     background: linear-gradient(to right, transparent, #fff, transparent);
 }
 
+/* Content Wrapper */
+.content-wrapper {
+    display: flex;
+    gap: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Filter Sidebar */
+.filter-sidebar {
+    width: 280px;
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+    transition: all 0.3s ease;
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.filter-header h3 {
+    font-size: 1.3rem;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.clear-filters-btn {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.clear-filters-btn:hover {
+    color: #c0392b;
+    text-decoration: underline;
+}
+
+.filter-group {
+    margin-bottom: 25px;
+}
+
+.filter-group h4 {
+    font-size: 1rem;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.filter-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+
+.filter-option:hover {
+    color: #3498db;
+}
+
+.filter-option input {
+    display: none;
+}
+
+.checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ddd;
+    border-radius: 3px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.filter-option input:checked + .checkmark {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+.filter-option input:checked + .checkmark::after {
+    content: '✓';
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.rating-stars {
+    display: flex;
+    align-items: center;
+}
+
+.rating-text {
+    margin-left: 8px;
+    font-size: 0.9rem;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+}
+
+.mobile-filter-toggle {
+    display: none;
+    margin-bottom: 20px;
+}
+
+.filter-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.filter-toggle-btn:hover {
+    background: #2980b9;
+}
+
 /* Places Section */
 .province-places-section {
     padding: 100px 0;
@@ -263,7 +534,7 @@ body {
     opacity: 0;
     transition: opacity 0.3s ease;
     z-index: 1;
-    pointer-events: none; /* Allow clicks to pass through */
+    pointer-events: none;
 }
 
 .place-card.animate {
@@ -318,6 +589,41 @@ body {
     margin-right: 5px;
 }
 
+.place-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.place-rating {
+    display: flex;
+    align-items: center;
+}
+
+.star {
+    color: #f1c40f;
+    margin-right: 2px;
+}
+
+.star.empty {
+    color: #ddd;
+}
+
+.rating-value {
+    margin-left: 5px;
+    color: #7f8c8d;
+    font-weight: 600;
+}
+
+.place-type {
+    background: #ecf0f1;
+    padding: 3px 8px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    color: #7f8c8d;
+}
+
 .place-description {
     color: #555;
     margin-bottom: 25px;
@@ -342,8 +648,8 @@ body {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    z-index: 3; /* Higher z-index to ensure it's clickable */
-    margin-top: auto; /* Push button to bottom of card */
+    z-index: 3;
+    margin-top: auto;
 }
 
 .read-more-btn::before {
@@ -423,6 +729,10 @@ body {
     .places-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .filter-sidebar {
+        width: 250px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -432,6 +742,25 @@ body {
 
     .title-line {
         font-size: 2.2rem;
+    }
+
+    .content-wrapper {
+        flex-direction: column;
+    }
+
+    .filter-sidebar {
+        width: 100%;
+        position: static;
+        margin-bottom: 30px;
+        display: none;
+    }
+
+    .filter-sidebar.active {
+        display: block;
+    }
+
+    .mobile-filter-toggle {
+        display: block;
     }
 
     .places-grid {
@@ -467,6 +796,11 @@ body {
     .read-more-btn {
         padding: 10px 20px;
     }
+
+    .place-meta {
+        flex-direction: column;
+        gap: 10px;
+    }
 }
 </style>
 
@@ -475,6 +809,34 @@ document.addEventListener('DOMContentLoaded', function() {
     // District filtering functionality
     const buttons = document.querySelectorAll('.district-btn');
     const placeCards = document.querySelectorAll('.place-card');
+    const filterSidebar = document.querySelector('.filter-sidebar');
+    const filterToggleBtn = document.querySelector('.filter-toggle-btn');
+    const clearFiltersBtn = document.querySelector('.clear-filters-btn');
+
+    // Mobile filter toggle
+    if (filterToggleBtn) {
+        filterToggleBtn.addEventListener('click', function() {
+            filterSidebar.classList.toggle('active');
+        });
+    }
+
+    // Clear all filters
+    if (clearFiltersBtn) {
+        clearFiltersBtn.addEventListener('click', function() {
+            // Uncheck all filter checkboxes
+            const checkboxes = document.querySelectorAll('.filter-sidebar input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
+            // Reset district buttons
+            buttons.forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.district-btn[data-district="all"]').classList.add('active');
+
+            // Show all places
+            filterPlaces('all');
+        });
+    }
 
     // Add click event to filter buttons
     buttons.forEach(button => {
@@ -491,6 +853,54 @@ document.addEventListener('DOMContentLoaded', function() {
             filterPlaces(selectedDistrict);
         });
     });
+
+    // Add change event to sidebar filters
+    const filterCheckboxes = document.querySelectorAll('.filter-sidebar input[type="checkbox"]');
+    filterCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', applyFilters);
+    });
+
+    // Apply all filters function
+    function applyFilters() {
+        const selectedProvinces = getSelectedValues('province');
+        const selectedDistricts = getSelectedValues('district');
+        const selectedRatings = getSelectedValues('rating');
+        const selectedTypes = getSelectedValues('type');
+
+        placeCards.forEach(card => {
+            const cardProvince = card.getAttribute('data-province');
+            const cardDistrict = card.getAttribute('data-district');
+            const cardRating = parseFloat(card.getAttribute('data-rating'));
+            const cardType = card.getAttribute('data-type');
+
+            const provinceMatch = selectedProvinces.length === 0 || selectedProvinces.includes(cardProvince);
+            const districtMatch = selectedDistricts.length === 0 || selectedDistricts.includes(cardDistrict);
+            const ratingMatch = selectedRatings.length === 0 || selectedRatings.some(r => cardRating >= parseFloat(r));
+            const typeMatch = selectedTypes.length === 0 || selectedTypes.includes(cardType);
+
+            if (provinceMatch && districtMatch && ratingMatch && typeMatch) {
+                // Show matching cards
+                card.classList.remove('hide');
+                setTimeout(() => {
+                    card.style.display = 'flex';
+                    card.classList.add('show');
+                }, 50);
+            } else {
+                // Hide non-matching cards with animation
+                card.classList.add('hide');
+                card.classList.remove('show');
+                setTimeout(() => {
+                    card.style.display = 'none';
+                }, 500);
+            }
+        });
+    }
+
+    // Helper function to get selected values from checkboxes
+    function getSelectedValues(name) {
+        const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
+        return Array.from(checkboxes).map(checkbox => checkbox.value);
+    }
 
     // Filter function with animation
     function filterPlaces(district) {
@@ -510,7 +920,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 card.classList.remove('show');
                 setTimeout(() => {
                     card.style.display = 'none';
-                }, 500); // Match this with animation duration
+                }, 500);
             }
         });
     }
@@ -552,11 +962,7 @@ document.addEventListener('DOMContentLoaded', function() {
             header.style.backgroundPosition = `center ${rate}px`;
         });
     }
-
-    // REMOVED the test code that was preventing navigation
-    // The buttons will now work normally and navigate to their href destinations
 });
 </script>
-
 
 @include('include.footer')

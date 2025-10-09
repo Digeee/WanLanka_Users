@@ -576,3 +576,4 @@ Sign in
 </script>
 
 @include('include.footer')
+

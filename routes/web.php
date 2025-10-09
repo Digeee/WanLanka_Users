@@ -14,7 +14,7 @@ use App\Http\Controllers\GuiderAuthController;
 
 /* -------------------- Public pages (no login required) -------------------- */
 Route::view('/', 'home')->name('home');
-Route::view('/about', 'pages.about')->name('about');
+Route::view('/about', 'about')->name('about');
 Route::view('/destinations', 'pages.destinations')->name('destinations');
 Route::view('/offers', 'pages.offers')->name('offers');
 Route::view('/info', 'pages.info')->name('info');
