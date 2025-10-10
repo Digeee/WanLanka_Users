@@ -1,5 +1,3 @@
-
-@extends('layouts.master')
 <section class="about-section">
     <div class="about-background">
         <div class="floating-shape shape-1"></div>
