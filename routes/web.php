@@ -96,3 +96,9 @@ Route::delete('/bookings/{id}', [UserBookingController::class, 'destroy'])->name
 Route::post('/userbookings/{id}/rebook', [UserBookingController::class, 'rebook'])->name('userbookings.rebook');
 Route::delete('/bookings/{id}/delete', [UserBookingController::class, 'forceDelete'])
     ->name('userbookings.forceDelete');
+
+
+    Route::middleware(['auth'])->group(function () {
+    Route::get('/fixedbooking/{packageId}/reserve', [FixedBookingController::class, 'reserve'])->name('fixedbooking.reserve');
+    Route::post('/fixedbooking/store', [FixedBookingController::class, 'store'])->name('fixedbooking.store');
+});
