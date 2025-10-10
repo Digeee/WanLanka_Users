@@ -92,9 +92,14 @@
 @includeIf('include.header')
 
 <div class="wrap">
-  @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-  @endif
+  @if (session('success'))
+    <div class="alert alert-success text-center mt-3 container">
+        {{ session('success') }}
+    </div>
+@endif
+
+<h1>Welcome back, {{ Auth::user()->first_name }}!</h1>
+
   @if($errors->any())
     <div class="alert alert-danger">
       <strong>Please fix the following:</strong>
@@ -301,6 +306,56 @@
           <button type="button" class="btn btn-ghost btn-pill" id="btnCancel">Cancel</button>
         </div>
       </form>
+      <h6 class="mt-4">My Fixed Bookings</h6>
+
+@if($bookings->isEmpty())
+    <p>You have no booking requests yet.</p>
+@else
+    <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Package</th>
+                    <th>Pickup Location</th>
+                    <th>Payment Method</th>
+                    <th>Status</th>
+                    <th>Requested At</th>
+                    <th>Receipt</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($bookings as $booking)
+                    <tr>
+                        <td>{{ $booking->package->name ?? 'N/A' }}</td>
+                        <td>{{ $booking->pickup_location }}</td>
+                        <td>{{ $booking->payment_method }}</td>
+                        <td>
+                            @if($booking->status === 'pending')
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            @elseif($booking->status === 'approved')
+                                <span class="badge bg-success">Approved</span>
+                            @elseif($booking->status === 'rejected')
+                                <span class="badge bg-danger">Rejected</span>
+                            @endif
+                        </td>
+                        <td>{{ $booking->created_at->format('d M Y, H:i') }}</td>
+                        <td>
+                            @if($booking->receipt)
+                                <a href="{{ Storage::url($booking->receipt) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    View/Download
+                                </a>
+                            @else
+                                —
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+@endif
+
+
     </section>
   </div>
 </div>

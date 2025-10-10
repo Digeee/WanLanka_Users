@@ -56,4 +56,10 @@ class User extends Authenticatable
             ? Storage::url($path)
             : asset('images/avatar-default.png'); // make sure this file exists
     }
+
+    public function fixedBookings()
+{
+    return $this->hasMany(FixedBooking::class);
+}
+
 }

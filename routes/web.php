@@ -11,6 +11,8 @@ use App\Http\Controllers\CustomPackageController; // Add this import
 use App\Http\Controllers\User\PlaceController;
 use App\Http\Controllers\User\ProvinceController;
 use App\Http\Controllers\GuiderAuthController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\FixedBookingController;
 
 /* -------------------- Public pages (no login required) -------------------- */
 Route::view('/', 'home')->name('home');
