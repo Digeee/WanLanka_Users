@@ -152,7 +152,6 @@ class CustomPackageController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
             'start_location' => 'required|string|max:255',
             'duration' => 'required|integer|min:1',
             'num_people' => 'required|integer|min:1',
@@ -163,9 +162,12 @@ class CustomPackageController extends Controller
         ]);
 
         $data = $request->only([
-            'title', 'description', 'start_location', 'duration', 'num_people'
+            'title', 'start_location', 'duration', 'num_people'
         ]);
 
+        // Explicitly set description to null
+        $data['description'] = null;
+        
         $data['user_id'] = Auth::id();
         $data['destinations'] = $request->destinations;
         $data['vehicles'] = $request->vehicles;
@@ -173,8 +175,11 @@ class CustomPackageController extends Controller
         $data['status'] = 'active';
         $data['price'] = $this->calculatePackagePrice($request);
 
+        // Handle image (will be null if not provided)
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('custom-packages', 'public');
+        } else {
+            $data['image'] = null;
         }
 
         CustomPackage::create($data);

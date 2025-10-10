@@ -522,6 +522,11 @@
                         <input type="text" name="title" class="form-control" placeholder="Give your package a name" required>
                     </div>
 
+                    <!-- Hidden fields - not displayed to user but still sent to backend -->
+                    <input type="hidden" name="description" value="">
+                    <input type="hidden" name="image" value="">
+
+                    <!--
                     <div class="form-group">
                         <label class="form-label"><i class="fas fa-align-left"></i> Description</label>
                         <textarea name="description" class="form-control" rows="3" placeholder="Describe your travel package"></textarea>
@@ -531,6 +536,7 @@
                         <label class="form-label"><i class="fas fa-image"></i> Package Image</label>
                         <input type="file" name="image" class="form-control">
                     </div>
+                    -->
                 </div>
 
                 <!-- 4️⃣ LOGISTICS -->
@@ -600,6 +606,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const places = @json($placesByDistrict);
     const accommodations = @json($accommodationsByDistrict);
 
+    // Debug: Log the data to console
+    console.log('Provinces data:', provinces);
+    console.log('Places data:', places);
+    console.log('Accommodations data:', accommodations);
+
     // Store selected places
     let selectedPlaces = [];
 
@@ -622,9 +633,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     map.on('click', e => {
-        updateMarker(e.latlng.lat, e.latlng.lng);
-        latInput.value = e.latlng.lat;
-        lonInput.value = e.latlng.lng;
+        // Check if the clicked location is in Sri Lanka by reverse geocoding
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${e.latlng.lat}&lon=${e.latlng.lng}&addressdetails=1`)
+            .then(res => res.json())
+            .then(data => {
+                // Check if the location is in Sri Lanka
+                if (data.address && data.address.country_code === 'lk') {
+                    updateMarker(e.latlng.lat, e.latlng.lng);
+                    latInput.value = e.latlng.lat;
+                    lonInput.value = e.latlng.lng;
+                    
+                    if (data.display_name) {
+                        startInput.value = data.display_name;
+                    } else {
+                        startInput.value = `Lat: ${e.latlng.lat.toFixed(6)}, Lng: ${e.latlng.lng.toFixed(6)}`;
+                    }
+                } else {
+                    alert('Please select a location within Sri Lanka.');
+                }
+            })
+            .catch(() => {
+                alert('Unable to verify location. Please select a location within Sri Lanka.');
+            });
     });
 
     document.getElementById('getLocationBtn').addEventListener('click', () => {
@@ -639,8 +669,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateMarker(lat, lon);
                 latInput.value = lat;
                 lonInput.value = lon;
-                btn.innerHTML = '<i class="fas fa-location-arrow"></i> Use My Location';
-                btn.disabled = false;
+                
+                // Reverse geocode to get address
+                fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&addressdetails=1`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.display_name) {
+                            startInput.value = data.display_name;
+                        } else {
+                            startInput.value = `Lat: ${lat.toFixed(6)}, Lng: ${lon.toFixed(6)}`;
+                        }
+                        btn.innerHTML = '<i class="fas fa-location-arrow"></i> Use My Location';
+                        btn.disabled = false;
+                    })
+                    .catch(() => {
+                        startInput.value = `Lat: ${lat.toFixed(6)}, Lng: ${lon.toFixed(6)}`;
+                        btn.innerHTML = '<i class="fas fa-location-arrow"></i> Use My Location';
+                        btn.disabled = false;
+                    });
             }, () => {
                 alert('Unable to get location. Please allow location access.');
                 btn.innerHTML = '<i class="fas fa-location-arrow"></i> Use My Location';
@@ -668,7 +714,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function fetchSuggestions(query) {
-        fetch(https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&countrycodes=lk&limit=7)
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&countrycodes=lk&limit=7`)
             .then(res => res.json())
             .then(data => {
                 suggestionsBox.innerHTML = '';
@@ -677,18 +723,26 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
                 data.forEach(place => {
-                    const li = document.createElement('li');
-                    li.textContent = place.display_name;
-                    li.addEventListener('click', () => {
-                        startInput.value = place.display_name;
-                        latInput.value = place.lat;
-                        lonInput.value = place.lon;
-                        updateMarker(place.lat, place.lon);
-                        suggestionsBox.style.display = 'none';
-                    });
-                    suggestionsBox.appendChild(li);
+                    // Check if the place is in Sri Lanka
+                    if (place.address && place.address.country_code === 'lk') {
+                        const li = document.createElement('li');
+                        li.textContent = place.display_name;
+                        li.addEventListener('click', () => {
+                            startInput.value = place.display_name;
+                            latInput.value = place.lat;
+                            lonInput.value = place.lon;
+                            updateMarker(place.lat, place.lon);
+                            suggestionsBox.style.display = 'none';
+                        });
+                        suggestionsBox.appendChild(li);
+                    }
                 });
-                suggestionsBox.style.display = 'block';
+                // Only show suggestions box if there are Sri Lankan places
+                if (suggestionsBox.children.length > 0) {
+                    suggestionsBox.style.display = 'block';
+                } else {
+                    suggestionsBox.style.display = 'none';
+                }
             })
             .catch(() => suggestionsBox.style.display = 'none');
     }
@@ -719,22 +773,39 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function populateDistricts(province, target) {
+        console.log('populateDistricts called with province:', province, 'and target:', target);
+        console.log('Provinces data available:', provinces);
+        
+        // Clear the target select
         target.innerHTML = '<option value="">-- Select District --</option>';
-        if (provinces[province]) {
-            provinces[province].forEach(d => target.innerHTML += <option value="${d}">${d}</option>);
+        
+        // Check if provinces data exists and the selected province is valid
+        if (provinces && province && provinces[province]) {
+            console.log('Found districts for province:', provinces[province]);
+            // Populate districts
+            provinces[province].forEach(function(district) {
+                const option = document.createElement('option');
+                option.value = district;
+                option.textContent = district;
+                target.appendChild(option);
+            });
             target.disabled = false;
-        } else target.disabled = true;
+            console.log('Districts populated successfully');
+        } else {
+            console.log('No districts found for province or provinces data not available');
+            target.disabled = true;
+        }
     }
 
     function populatePlacesAndAccommodation(district, placeSel, accSel) {
         placeSel.innerHTML = '<option value="">-- Select Place --</option>';
         accSel.innerHTML = '<option value="">-- Select Accommodation --</option>';
         if (places[district]) {
-            places[district].forEach(p => placeSel.innerHTML += <option>${p}</option>);
+            places[district].forEach(p => placeSel.innerHTML += `<option>${p}</option>`);
             placeSel.disabled = false;
         } else placeSel.disabled = true;
         if (accommodations[district]) {
-            accommodations[district].forEach(a => accSel.innerHTML += <option>${a}</option>);
+            accommodations[district].forEach(a => accSel.innerHTML += `<option>${a}</option>`);
             accSel.disabled = false;
         } else accSel.disabled = true;
     }
@@ -785,15 +856,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Enable the province select
-        newSet.querySelector('.provinceMulti').disabled = false;
-        
-        // Add event listeners to the new set
         const provinceSelect = newSet.querySelector('.provinceMulti');
+        provinceSelect.disabled = false;
+        
+        // Get other selects
         const districtSelect = newSet.querySelector('.districtMulti');
         const placeSelect = newSet.querySelector('.placeMulti');
         const accommodationSelect = newSet.querySelector('.accommodationMulti');
         const addButton = newSet.querySelector('.add-multi-place-btn');
         
+        // Attach event listeners to the new set
         provinceSelect.addEventListener('change', function() {
             populateDistricts(this.value, districtSelect);
             // Reset dependent selects
@@ -824,40 +896,79 @@ document.addEventListener('DOMContentLoaded', function() {
         container.appendChild(newSet);
     });
 
-    // Handle existing multiple province sets
-    document.addEventListener('change', function(e) {
-        if (e.target.classList.contains('provinceMulti')) {
-            const wrapper = e.target.closest('.multi-province-set');
-            populateDistricts(e.target.value, wrapper.querySelector('.districtMulti'));
+    // Attach event listeners to the original multi-province set
+    function attachMultiProvinceEventListeners() {
+        const originalSet = document.querySelector('.multi-province-set');
+        if (originalSet) {
+            const provinceSelect = originalSet.querySelector('.provinceMulti');
+            const districtSelect = originalSet.querySelector('.districtMulti');
+            const placeSelect = originalSet.querySelector('.placeMulti');
+            const accommodationSelect = originalSet.querySelector('.accommodationMulti');
+            const addButton = originalSet.querySelector('.add-multi-place-btn');
+            
+            if (provinceSelect && districtSelect) {
+                provinceSelect.addEventListener('change', function() {
+                    populateDistricts(this.value, districtSelect);
+                    // Reset dependent selects
+                    placeSelect.innerHTML = '<option value="">-- Select Place --</option>';
+                    placeSelect.disabled = true;
+                    accommodationSelect.innerHTML = '<option value="">-- Select Accommodation --</option>';
+                    accommodationSelect.disabled = true;
+                });
+            }
+            
+            if (districtSelect && placeSelect && accommodationSelect) {
+                districtSelect.addEventListener('change', function() {
+                    populatePlacesAndAccommodation(this.value, placeSelect, accommodationSelect);
+                });
+            }
+            
+            if (addButton && placeSelect && accommodationSelect) {
+                addButton.addEventListener('click', function() {
+                    if (!placeSelect.value || !accommodationSelect.value) {
+                        alert('Please select both a place and accommodation');
+                        return;
+                    }
+                    
+                    addPlaceToItinerary(placeSelect.value, accommodationSelect.value);
+                    
+                    // Reset the selects but keep province/district selected
+                    placeSelect.value = '';
+                    accommodationSelect.value = '';
+                    accommodationSelect.disabled = true;
+                });
+            }
         }
-        if (e.target.classList.contains('districtMulti')) {
-            const wrapper = e.target.closest('.multi-province-set');
-            populatePlacesAndAccommodation(
-                e.target.value,
-                wrapper.querySelector('.placeMulti'),
-                wrapper.querySelector('.accommodationMulti')
-            );
-        }
-    });
+    }
+    
+    // Call this function when the DOM is loaded
+    attachMultiProvinceEventListeners();
 
-    // Handle add buttons for existing multiple province sets
+    // Handle existing multiple province sets using event delegation
+    // (This is now handled by direct event listeners on cloned elements)
+
+    // Handle add buttons for existing multiple province sets using event delegation
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('add-multi-place-btn')) {
             const wrapper = e.target.closest('.multi-province-set');
-            const placeSelect = wrapper.querySelector('.placeMulti');
-            const accommodationSelect = wrapper.querySelector('.accommodationMulti');
-            
-            if (!placeSelect.value || !accommodationSelect.value) {
-                alert('Please select both a place and accommodation');
-                return;
+            if (wrapper) {
+                const placeSelect = wrapper.querySelector('.placeMulti');
+                const accommodationSelect = wrapper.querySelector('.accommodationMulti');
+                
+                if (placeSelect && accommodationSelect) {
+                    if (!placeSelect.value || !accommodationSelect.value) {
+                        alert('Please select both a place and accommodation');
+                        return;
+                    }
+                    
+                    addPlaceToItinerary(placeSelect.value, accommodationSelect.value);
+                    
+                    // Reset the selects but keep province/district selected
+                    placeSelect.value = '';
+                    accommodationSelect.value = '';
+                    accommodationSelect.disabled = true;
+                }
             }
-            
-            addPlaceToItinerary(placeSelect.value, accommodationSelect.value);
-            
-            // Reset the selects but keep province/district selected
-            placeSelect.value = '';
-            accommodationSelect.value = '';
-            accommodationSelect.disabled = true;
         }
     });
 
