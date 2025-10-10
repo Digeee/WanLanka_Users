@@ -382,5 +382,8 @@
   if (oldProvince) fillDistricts(oldProvince);
   if (provinceEl) provinceEl.addEventListener('change', e => fillDistricts(e.target.value));
 </script>
+<a href="{{ route('user.bookings') }}" class="btn btn-primary mt-3">
+    My Bookings & Packages
+</a>
 </body>
 </html>
