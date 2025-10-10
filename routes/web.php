@@ -82,12 +82,17 @@ Route::get('/packages/{id}', [PackageController::class, 'show'])->name('packages
 Route::get('/provinces', [ProvinceController::class, 'index'])->name('province.index');
 Route::get('/province/{slug}', [ProvinceController::class, 'show'])->name('province.show');
 Route::get('/place/{slug}', [PlaceController::class, 'show'])->name('places.show');
-
-
-Route::get('/booking/{package}', [BookingController::class, 'create'])->name('booking.create');
-Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
+use App\Http\Controllers\UserBookingController;
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/fixedbooking/{packageId}/reserve', [FixedBookingController::class, 'reserve'])->name('fixedbooking.reserve');
-    Route::post('/fixedbooking/store', [FixedBookingController::class, 'store'])->name('fixedbooking.store');
+    Route::get('/my-bookings', [UserBookingController::class, 'index'])->name('user.bookings');
 });
+
+
+
+
+Route::get('/bookings/{id}', [UserBookingController::class, 'show'])->name('bookings.show');
+Route::delete('/bookings/{id}', [UserBookingController::class, 'destroy'])->name('bookings.destroy');
+Route::post('/userbookings/{id}/rebook', [UserBookingController::class, 'rebook'])->name('userbookings.rebook');
+Route::delete('/bookings/{id}/delete', [UserBookingController::class, 'forceDelete'])
+    ->name('userbookings.forceDelete');
