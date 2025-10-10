@@ -11,10 +11,12 @@ use App\Http\Controllers\CustomPackageController; // Add this import
 use App\Http\Controllers\User\PlaceController;
 use App\Http\Controllers\User\ProvinceController;
 use App\Http\Controllers\GuiderAuthController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\FixedBookingController;
 
 /* -------------------- Public pages (no login required) -------------------- */
 Route::view('/', 'home')->name('home');
-Route::view('/about', 'pages.about')->name('about');
+Route::view('/about', 'about')->name('about');
 Route::view('/destinations', 'pages.destinations')->name('destinations');
 Route::view('/offers', 'pages.offers')->name('offers');
 Route::view('/info', 'pages.info')->name('info');
@@ -80,3 +82,23 @@ Route::get('/packages/{id}', [PackageController::class, 'show'])->name('packages
 Route::get('/provinces', [ProvinceController::class, 'index'])->name('province.index');
 Route::get('/province/{slug}', [ProvinceController::class, 'show'])->name('province.show');
 Route::get('/place/{slug}', [PlaceController::class, 'show'])->name('places.show');
+use App\Http\Controllers\UserBookingController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/my-bookings', [UserBookingController::class, 'index'])->name('user.bookings');
+});
+
+
+
+
+Route::get('/bookings/{id}', [UserBookingController::class, 'show'])->name('bookings.show');
+Route::delete('/bookings/{id}', [UserBookingController::class, 'destroy'])->name('bookings.destroy');
+Route::post('/userbookings/{id}/rebook', [UserBookingController::class, 'rebook'])->name('userbookings.rebook');
+Route::delete('/bookings/{id}/delete', [UserBookingController::class, 'forceDelete'])
+    ->name('userbookings.forceDelete');
+
+
+    Route::middleware(['auth'])->group(function () {
+    Route::get('/fixedbooking/{packageId}/reserve', [FixedBookingController::class, 'reserve'])->name('fixedbooking.reserve');
+    Route::post('/fixedbooking/store', [FixedBookingController::class, 'store'])->name('fixedbooking.store');
+});

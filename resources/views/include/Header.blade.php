@@ -15,8 +15,8 @@
         <li class="{{ request()->is('/') ? 'active' : '' }}"><a href="{{ url('/') }}">Home</a></li>
         <li class="{{ request()->is('about') ? 'active' : '' }}"><a href="{{ url('/about') }}">About</a></li>
         <li class="{{ request()->is('provinces') ? 'active' : '' }}"><a href="{{ route('province.index') }}">Destinations</a></li>
-        <li class="{{ request()->is('offers') ? 'active' : '' }}"><a href="{{ url('offers') }}">Offers</a></li>
-        
+
+
         <!-- Packages Dropdown -->
         <li class="wl-dropdown-wrapper {{ request()->is('packages*') || request()->is('custom-packages*') ? 'active' : '' }}" data-packages-menu>
           <a href="#" class="wl-dropdown-toggle" data-packages-toggle aria-expanded="false">
@@ -29,10 +29,10 @@
             <li><a href="{{ route('packages.fix') }}" class="wl-dropdown-item">Fixed Packages</a></li>
             <li><a href="{{ route('custom-packages.my') }}" class="wl-dropdown-item">Create Package</a></li>
 
-            
+
           </ul>
         </li>
-        
+
         <li class="{{ request()->is('contact') ? 'active' : '' }}"><a href="{{ url('contact') }}">Contact</a></li>
       </ul>
     </nav>
