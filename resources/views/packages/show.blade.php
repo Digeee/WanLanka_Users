@@ -460,10 +460,21 @@ Sign in
             </div>
             <div class="d-flex align-items-center gap-3">
                 <div class="price-tag">${{ number_format( (float) str_replace(',','',$package['price'] ?? 0) ) }}</div>
-                <a href="/book/{{ $package['id'] }}" class="btn-ritz">Book Now</a>
-            </div>
+                <a href="#" id="bookNowBtn" data-package-id="{{ $package['id'] }}" class="btn-ritz">Book Now</a>
         </div>
     </div>
+</div>
+
+<!-- Confirm Modal -->
+<div id="confirmBookModal" class="modal" style="display:none;">
+  <div class="modal-content" style="max-width:500px; margin:50px auto; padding:20px; background:white; border-radius:8px;">
+    <h4>Confirm Booking</h4>
+    <p>Do you want to book <strong>{{ $package['package_name'] }}</strong> now?</p>
+    <div class="d-flex justify-content-end gap-2">
+      <button id="cancelBook" class="btn btn-secondary">Cancel</button>
+      <button id="confirmBook" class="btn btn-primary">Yes, Continue</button>
+    </div>
+  </div>
 </div>
 
 <div class="container my-5">
@@ -548,32 +559,97 @@ Sign in
     </div>
 </div>
 
-{{-- ---------------  JS  --------------- --}}
+
+
+<style>
+#confirmBookModal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1050;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+#confirmBookModal .modal-content {
+    background: #fff;
+    border-radius: 10px;
+    max-width: 420px;
+    width: 90%;
+    padding: 25px 30px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    text-align: center;
+}
+#confirmBookModal h4 {
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+#confirmBookModal .btn {
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.btn-primary {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+}
+.btn-secondary {
+    background: #ccc;
+    color: #000;
+    border: none;
+}
+</style>
+
+
+
 <script>
-    // hero thumbs
-    function changeHero(src,el){
-        document.getElementById('heroMain').src = src;
-        document.querySelectorAll('.hero-thumbs img').forEach(i=>i.classList.remove('active'));
-        el.classList.add('active');
-    }
-    // modal
-    function openModal(src){
-        document.getElementById('modalImg').src = src;
-        document.getElementById('imgModal').classList.add('show');
-        document.getElementById('imgModal').style.display = 'block';
-    }
-    function closeModal(){
-        document.getElementById('imgModal').classList.remove('show');
-        document.getElementById('imgModal').style.display = 'none';
-    }
-    // fade-up animations
-    const io = new IntersectionObserver((entries)=>{
-        entries.forEach(e=>{
-            if(e.isIntersecting) e.target.classList.add('in');
-        });
-    },{threshold:.2});
-    document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
+document.addEventListener('DOMContentLoaded', function () {
+    const bookBtn = document.getElementById('bookNowBtn');
+    const modal = document.getElementById('confirmBookModal');
+    const cancelBtn = document.getElementById('cancelBook');
+    const confirmBtn = document.getElementById('confirmBook');
+
+    if (!bookBtn) return;
+
+    bookBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        // ✅ Check Laravel login status from backend
+        const isLoggedIn = @json(auth()->check());
+
+        if (!isLoggedIn) {
+            // Show alert and redirect to login
+            if (confirm('⚠️ Before booking, please log in to your account. Do you want to go to the login page?')) {
+                window.location.href = "{{ route('login') }}";
+            }
+            return;
+        }
+
+        // ✅ Show confirmation modal
+        modal.style.display = 'flex';
+    });
+
+    // Close modal
+    cancelBtn.addEventListener('click', function () {
+        modal.style.display = 'none';
+    });
+
+    // ✅ On confirm booking
+    confirmBtn.addEventListener('click', function () {
+        const packageId = bookBtn.getAttribute('data-package-id');
+        window.location.href = `/fixedbooking/${packageId}/reserve`;
+
+    });
+
+    // Optional: close modal when clicking outside
+    window.addEventListener('click', function (e) {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+});
 </script>
 
-@include('include.footer')
 
+@include('include.footer')

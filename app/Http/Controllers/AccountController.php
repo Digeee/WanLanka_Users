@@ -11,8 +11,10 @@ class AccountController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-        return view('account', compact('user'));
+        $user = auth()->user();
+        $bookings = $user->fixedBookings()->latest()->get(); // fetch all fixed bookings
+
+        return view('account', compact('user', 'bookings')); // pass to view
     }
 
     public function update(Request $request)

@@ -11,6 +11,8 @@ use App\Http\Controllers\CustomPackageController; // Add this import
 use App\Http\Controllers\User\PlaceController;
 use App\Http\Controllers\User\ProvinceController;
 use App\Http\Controllers\GuiderAuthController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\FixedBookingController;
 
 /* -------------------- Public pages (no login required) -------------------- */
 Route::view('/', 'home')->name('home');
@@ -80,3 +82,12 @@ Route::get('/packages/{id}', [PackageController::class, 'show'])->name('packages
 Route::get('/provinces', [ProvinceController::class, 'index'])->name('province.index');
 Route::get('/province/{slug}', [ProvinceController::class, 'show'])->name('province.show');
 Route::get('/place/{slug}', [PlaceController::class, 'show'])->name('places.show');
+
+
+Route::get('/booking/{package}', [BookingController::class, 'create'])->name('booking.create');
+Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/fixedbooking/{packageId}/reserve', [FixedBookingController::class, 'reserve'])->name('fixedbooking.reserve');
+    Route::post('/fixedbooking/store', [FixedBookingController::class, 'store'])->name('fixedbooking.store');
+});
