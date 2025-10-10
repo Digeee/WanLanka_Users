@@ -636,7 +636,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <p class="fs-5"><strong>Total Price: $<span id="totalPrice">0.00</span></strong></p>
+                            <p class="fs-5"><strong>Total Price: RS <span id="totalPrice">0.00</span></strong></p>
                         </div>
                         <button type="submit" class="btn btn-primary w-100 py-3 fw-bold">
                             <i class="fas fa-check-circle me-2"></i>Order Now
@@ -938,7 +938,7 @@
                 vehicles.forEach(vehicle => {
                     const option = document.createElement('option');
                     option.value = vehicle.id;
-                    option.textContent = `${vehicle.type} (${vehicle.seat_count} seats) - Base $${vehicle.base_price}`;
+                    option.textContent = `${vehicle.type} (${vehicle.seat_count} seats) - Base RS ${vehicle.base_price}`;
                     option.dataset.type = vehicle.type.toLowerCase();
                     option.dataset.seats = vehicle.seat_count;
                     vehicleSelect.appendChild(option);
