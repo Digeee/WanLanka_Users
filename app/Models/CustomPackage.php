@@ -15,26 +15,23 @@ class CustomPackage extends Model
         'title',
         'description',
         'start_location',
-        'province_type',
-        'selected_province',
-        'num_people',
         'duration',
-        'start_date',
+        'num_people',
         'destinations',
         'vehicles',
         'accommodations',
         'image',
         'status',
-        'price',
-        'admin_notes'
+        'price'
     ];
 
     protected $casts = [
-        'start_date' => 'date',
         'destinations' => 'array',
         'vehicles' => 'array',
         'accommodations' => 'array',
-        'price' => 'decimal:2'
+        'price' => 'decimal:2',
+        'duration' => 'integer',
+        'num_people' => 'integer'
     ];
 
     public function user(): BelongsTo
