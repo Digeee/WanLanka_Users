@@ -1,6 +1,3 @@
-<link href="{{ asset('css/home-packages.css') }}" rel="stylesheet">
-
-
 <section class="packages-section">
     <div class="container">
         <div class="section-header">

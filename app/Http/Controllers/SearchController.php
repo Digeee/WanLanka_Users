@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
+use App\Models\Place;
+use App\Models\Package;
 
 class SearchController extends Controller
 {
@@ -82,5 +84,45 @@ class SearchController extends Controller
             'total'    => $total,
             'message'  => $q === '' ? 'Type something to search.' : ($total === 0 ? 'No results found.' : null),
         ]);
+    }
+
+    public function suggestions(Request $request)
+    {
+        $query = trim($request->get('q', ''));
+
+        if (strlen($query) < 2) {
+            return response()->json(['suggestions' => []]);
+        }
+
+        $suggestions = [];
+
+        // Search places
+        $places = Place::where('name', 'LIKE', "%{$query}%")
+            ->limit(5)
+            ->get(['name', 'id', 'slug'])
+            ->map(function ($place) {
+                return [
+                    'title' => $place->name,
+                    'type' => 'Destination',
+                    'url' => route('places.show', $place->slug)
+                ];
+            });
+
+        // Search packages
+        $packages = Package::where('package_name', 'LIKE', "%{$query}%")
+            ->limit(5)
+            ->get(['package_name', 'id'])
+            ->map(function ($package) {
+                return [
+                    'title' => $package->package_name,
+                    'type' => 'Package',
+                    'url' => '#' // You might want to add a proper route here
+                ];
+            });
+
+        // Combine results
+        $suggestions = $places->merge($packages)->take(10);
+
+        return response()->json(['suggestions' => $suggestions]);
     }
 }
