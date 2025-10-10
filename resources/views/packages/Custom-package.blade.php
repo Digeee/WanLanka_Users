@@ -3,9 +3,46 @@
 @section('title', 'Design Your Journey')
 
 @section('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+    :root {
+        --primary: #4361ee;
+        --primary-dark: #3a56d4;
+        --secondary: #7209b7;
+        --accent: #4cc9f0;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --success: #4ade80;
+        --warning: #facc15;
+        --danger: #f87171;
+        --gray-100: #f8f9fa;
+        --gray-200: #e9ecef;
+        --gray-300: #dee2e6;
+        --gray-400: #ced4da;
+        --gray-500: #adb5bd;
+        --gray-600: #6c757d;
+        --gray-700: #495057;
+        --gray-800: #343a40;
+        --gray-900: #212529;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --radius: 16px;
+        --transition: all 0.3s ease;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+        color: var(--gray-800);
+        line-height: 1.6;
+    }
+
     .custom-package-container {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
         padding: 2rem 1rem;
         display: flex;
@@ -13,123 +50,104 @@
         justify-content: center;
     }
 
-    .form-wrapper {
-        max-width: 1000px;
+    .form-card {
+        background: white;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        transition: var(--transition);
+        max-width: 1200px;
         width: 100%;
         margin: 0 auto;
     }
 
-    .form-card {
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-    }
-
     .form-header {
-        background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
         color: white;
         padding: 3rem 2rem;
         text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .form-header::before {
+        content: "";
+        position: absolute;
+        top: -50px;
+        right: -50px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .form-header::after {
+        content: "";
+        position: absolute;
+        bottom: -80px;
+        left: -80px;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.07);
     }
 
     .form-header h1 {
         font-size: 2.5rem;
         font-weight: 700;
         margin: 0 0 1rem 0;
-        letter-spacing: -0.025em;
+        position: relative;
+        z-index: 2;
     }
 
     .form-header p {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         opacity: 0.9;
-        margin: 0;
-        font-weight: 400;
+        max-width: 600px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
     }
 
     .form-body {
         padding: 3rem 2rem;
     }
 
-    /* Progress Steps */
-    .progress-steps {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 3rem;
-        gap: 2rem;
-    }
-
-    .step {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    .form-section {
+        margin-bottom: 2.5rem;
+        padding: 2rem;
+        background: var(--gray-100);
+        border-radius: var(--radius);
+        border: 1px solid var(--gray-200);
+        transition: var(--transition);
         position: relative;
     }
 
-    .step:not(:last-child)::after {
-        content: '';
-        position: absolute;
-        top: 24px;
-        right: -30px;
-        width: 60px;
-        height: 2px;
-        background: #E5E7EB;
-    }
-
-    .step-circle {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        background: #F3F4F6;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-        color: #6B7280;
-        font-size: 1.1rem;
-        margin-bottom: 0.75rem;
-        border: 2px solid #E5E7EB;
-    }
-
-    .step.active .step-circle {
-        background: #4F46E5;
-        color: white;
-        border-color: #4F46E5;
-    }
-
-    .step-label {
-        font-size: 0.9rem;
-        color: #6B7280;
-        font-weight: 500;
-    }
-
-    .step.active .step-label {
-        color: #4F46E5;
-        font-weight: 600;
-    }
-
-    /* Form Sections */
-    .form-section {
-        margin-bottom: 3rem;
-        padding: 2rem;
-        background: #F8FAFC;
-        border-radius: 16px;
-        border: 1px solid #E2E8F0;
+    .form-section:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transform: translateY(-3px);
     }
 
     .section-title {
         font-size: 1.5rem;
         font-weight: 600;
-        color: #1F2937;
         margin-bottom: 1.5rem;
         display: flex;
         align-items: center;
         gap: 0.75rem;
+        color: var(--primary-dark);
     }
 
     .section-title i {
-        color: #4F46E5;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 16px;
     }
 
     .form-group {
@@ -137,298 +155,278 @@
     }
 
     .form-label {
-        display: block;
         font-weight: 600;
-        color: #374151;
-        margin-bottom: 0.5rem;
-        font-size: 1rem;
+        margin-bottom: 0.75rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        color: var(--gray-800);
     }
 
-    .form-label i {
-        color: #4F46E5;
-        width: 16px;
-    }
-
-    .form-control, .form-select {
+    .form-control, 
+    .form-select {
         width: 100%;
-        padding: 1rem 1.25rem;
-        border: 2px solid #E5E7EB;
+        padding: 1rem;
+        border: 2px solid var(--gray-300);
         border-radius: 12px;
+        font-family: 'Poppins', sans-serif;
         font-size: 1rem;
-        transition: all 0.2s ease;
-        background: white;
+        transition: var(--transition);
     }
 
-    .form-control:focus, .form-select:focus {
+    .form-control:focus, 
+    .form-select:focus {
         outline: none;
-        border-color: #4F46E5;
-        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
     }
 
     .form-control::placeholder {
-        color: #9CA3AF;
+        color: var(--gray-500);
     }
 
-    .form-select[multiple] {
-        min-height: 150px;
-        padding: 1rem;
-    }
-
-    .form-select[multiple] option {
-        padding: 0.75rem 1rem;
-        margin: 0.25rem 0;
-        border-radius: 8px;
-        cursor: pointer;
-    }
-
-    .form-select[multiple] option:hover {
-        background: #4F46E5 !important;
-        color: white;
-    }
-
-    .form-select[multiple] option:checked {
-        background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
-        color: white;
-        font-weight: 600;
-    }
-
-    .required::after {
-        content: '*';
-        color: #EF4444;
-        margin-left: 4px;
-    }
-
-    .form-text {
-        font-size: 0.85rem;
-        color: #6B7280;
-        margin-top: 0.5rem;
-        padding-left: 1.5rem;
-    }
-
-    .row {
-        display: flex;
-        gap: 1.5rem;
-        margin: 0 -0.75rem;
-    }
-
-    .col-md-6 {
-        flex: 1;
-        padding: 0 0.75rem;
-    }
-
-    /* Buttons */
-    .form-actions {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        margin-top: 3rem;
-        padding-top: 2rem;
-        border-top: 1px solid #E5E7EB;
+    #map {
+        height: 300px;
+        width: 100%;
+        border-radius: 12px;
+        margin-top: 1rem;
+        border: 1px solid var(--gray-300);
     }
 
     .btn {
-        padding: 1rem 2.5rem;
-        border: none;
-        border-radius: 12px;
-        font-weight: 600;
-        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
+        border-radius: 10px;
         cursor: pointer;
-        transition: all 0.2s ease;
-        display: flex;
+        font-weight: 600;
+        border: none;
+        transition: var(--transition);
+        font-family: 'Poppins', sans-serif;
+        display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 0.5rem;
     }
 
     .btn-primary {
-        background: #4F46E5;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
         color: white;
+        box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
     }
 
     .btn-primary:hover {
-        background: #4338CA;
-        transform: translateY(-1px);
-        box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+        background: linear-gradient(135deg, var(--primary-dark) 0%, #2a47c2 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
     }
 
     .btn-secondary {
-        background: #F3F4F6;
-        color: #374151;
+        background: var(--gray-200);
+        color: var(--gray-800);
     }
 
     .btn-secondary:hover {
-        background: #E5E7EB;
+        background: var(--gray-300);
+        transform: translateY(-2px);
     }
 
-    /* Alerts */
-    .alert {
+    .btn-add {
+        background: linear-gradient(135deg, var(--success) 0%, #2dd4bf 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(76, 201, 240, 0.3);
+    }
+
+    .btn-add:hover {
+        background: linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(76, 201, 240, 0.4);
+    }
+
+    .mode-selector {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .mode-selector .btn {
+        flex: 1;
+        padding: 1rem;
+        font-size: 1rem;
+        border: 2px solid transparent;
+    }
+
+    .mode-selector .btn.active {
+        border-color: var(--primary);
+        background: rgba(67, 97, 238, 0.1);
+        color: var(--primary);
+    }
+
+    .multi-province-set {
         padding: 1.5rem;
+        background: white;
         border-radius: 12px;
-        margin-bottom: 2rem;
-        border-left: 4px solid;
+        border: 1px solid var(--gray-300);
+        margin-bottom: 1.5rem;
     }
 
-    .alert-success {
-        background: #D1FAE5;
-        color: #065F46;
-        border-left-color: #10B981;
+    .multi-province-set:last-child {
+        margin-bottom: 0;
     }
 
-    .alert-danger {
-        background: #FEE2E2;
-        color: #DC2626;
-        border-left-color: #EF4444;
+    .form-actions {
+        text-align: center;
+        margin-top: 2rem;
     }
 
-    .alert ul {
-        margin: 0.5rem 0 0 0;
-        padding-left: 1.5rem;
+    .form-actions .btn {
+        padding: 1rem 2.5rem;
+        font-size: 1.1rem;
+        box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
     }
 
-    /* Responsive Design */
+    /* Suggestion dropdown */
+    #locationSuggestions {
+        position: absolute;
+        z-index: 999;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: none;
+        width: 100%;
+        background: #fff;
+        border: 1px solid var(--gray-300);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        max-height: 250px;
+        overflow-y: auto;
+        margin-top: 8px;
+    }
+
+    #locationSuggestions li {
+        padding: 12px 16px;
+        cursor: pointer;
+        border-bottom: 1px solid var(--gray-200);
+        transition: var(--transition);
+    }
+
+    #locationSuggestions li:last-child {
+        border-bottom: none;
+    }
+
+    #locationSuggestions li:hover {
+        background: var(--gray-100);
+        padding-left: 20px;
+    }
+
+    /* Responsive adjustments */
     @media (max-width: 768px) {
-        .custom-package-container {
-            padding: 1rem;
-        }
-
-        .form-header {
-            padding: 2rem 1.5rem;
-        }
-
         .form-header h1 {
             font-size: 2rem;
         }
-
-        .form-header p {
-            font-size: 1.1rem;
-        }
-
+        
         .form-body {
             padding: 2rem 1.5rem;
         }
-
-        .progress-steps {
-            gap: 1rem;
-        }
-
-        .step:not(:last-child)::after {
-            width: 40px;
-            right: -22px;
-        }
-
-        .step-circle {
-            width: 40px;
-            height: 40px;
-            font-size: 1rem;
-        }
-
-        .step-label {
-            font-size: 0.8rem;
-        }
-
+        
         .form-section {
             padding: 1.5rem;
         }
-
-        .row {
+        
+        .mode-selector {
             flex-direction: column;
-            gap: 0;
         }
-
-        .col-md-6 {
-            margin-bottom: 1rem;
+        
+        .row {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
-
-        .btn {
-            padding: 0.875rem 2rem;
+        
+        .col-md-4 {
+            width: 100%;
         }
     }
 
-    @media (max-width: 576px) {
-        .form-header {
-            padding: 1.5rem 1rem;
-        }
+    /* Loading animation */
+    .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+        margin-right: 10px;
+    }
 
-        .form-header h1 {
-            font-size: 1.75rem;
-        }
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
 
-        .form-body {
-            padding: 1.5rem 1rem;
-        }
+    /* Success message */
+    .success-message {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--success);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        display: none;
+        z-index: 1000;
+        animation: fadeIn 0.5s;
+    }
 
-        .progress-steps {
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .step:not(:last-child)::after {
-            display: none;
-        }
-
-        .form-section {
-            padding: 1rem;
-        }
-
-        .form-actions {
-            flex-direction: column;
-        }
-
-        .btn {
-            width: 100%;
-            justify-content: center;
-        }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 </style>
 @endsection
 
 @section('content')
 <div class="custom-package-container">
-    <div class="form-wrapper">
-        <div class="form-card">
-            <div class="form-header">
-                <h1>Design Your Journey</h1>
-                <p>Craft your perfect travel experience with our expert guidance</p>
-            </div>
+    <div class="form-card">
+        <div class="form-header">
+            <h1>Design Your Journey</h1>
+            <p>Craft your perfect travel experience with smart selections</p>
+        </div>
 
-            <div class="form-body">
-                <!-- Progress Steps -->
-                <div class="progress-steps">
-                    <div class="step active">
-                        <div class="step-circle">1</div>
-                        <div class="step-label">Basic Info</div>
+        <div class="form-body">
+            <form id="travelForm" action="{{ route('custom-packages.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+
+                <!-- Hidden fields to store JSON data -->
+                <input type="hidden" name="destinations" id="destinationsInput">
+                <input type="hidden" name="vehicles" id="vehiclesInput">
+                <input type="hidden" name="accommodations" id="accommodationsInput">
+
+                <!-- 1️⃣ START LOCATION -->
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-map-marker-alt"></i> Start Location</h2>
+                    <div style="position: relative;">
+                        <input type="text" id="start_location" name="start_location" class="form-control mb-2"
+                               placeholder="Enter or select your starting point" autocomplete="off" required>
+                        <ul id="locationSuggestions"></ul>
                     </div>
-                    <div class="step">
-                        <div class="step-circle">2</div>
-                        <div class="step-label">Destinations</div>
-                    </div>
-                    <div class="step">
-                        <div class="step-circle">3</div>
-                        <div class="step-label">Preferences</div>
-                    </div>
-                    <div class="step">
-                        <div class="step-circle">4</div>
-                        <div class="step-label">Review</div>
-                    </div>
+                    <input type="hidden" id="latitude" name="latitude">
+                    <input type="hidden" id="longitude" name="longitude">
+                    <button type="button" id="getLocationBtn" class="btn btn-secondary mt-2">
+                        <i class="fas fa-location-arrow"></i> Use My Location
+                    </button>
+                    <div id="map"></div>
                 </div>
 
-                {{-- Validation Summary --}}
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <strong>There were some issues with your submission:</strong>
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                <!-- 2️⃣ TRAVEL OPTIONS -->
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-route"></i> Travel Options</h2>
 
-                @if(session('success'))
-                    <div class="alert alert-success">
-                        <strong>Success!</strong> {{ session('success') }}
+                    <div class="form-group mb-3">
+                        <label class="form-label"><i class="fas fa-map"></i> Choose Province Mode</label>
+                        <div class="mode-selector">
+                            <button type="button" class="btn btn-primary active" id="btnSingleProvince">Single Province</button>
+                            <button type="button" class="btn btn-primary" id="btnMultipleProvince">Multiple Province</button>
+                        </div>
                     </div>
                 @endif
 
@@ -653,12 +651,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                             </option>
                                         @endforeach
                                     </select>
-                                    <div class="form-text">Hold Ctrl (Cmd on Mac) to select multiple destinations</div>
-                                    @error('destinations') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
                                 </div>
-                            </div>
 
-                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label required">
                                         <i class="fas fa-car"></i>Vehicles
@@ -675,8 +669,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                             </option>
                                         @endforeach
                                     </select>
-                                    <div class="form-text">Select transportation options for your trip</div>
-                                    @error('vehicles') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
                                 </div>
                             </div>
                         </div>
@@ -733,9 +725,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                            required>
                                     @error('duration') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
                                 </div>
-                            </div>
 
-                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="form-label required">
                                         <i class="fas fa-users"></i>Number of People
@@ -749,7 +739,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                            required>
                                     @error('num_people') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
                                 </div>
-                            </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -765,6 +754,15 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                             </div>
                         </div>
+                        <button type="button" id="addPlaceBtn" class="btn btn-add mt-2">
+                            <i class="fas fa-plus"></i> Add Another Place
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3️⃣ PACKAGE DETAILS -->
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-info-circle"></i> Package Details</h2>
 
                         <div class="form-group">
                             <label class="form-label">
@@ -778,22 +776,47 @@ document.addEventListener('DOMContentLoaded', function() {
                             @error('image') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
                         </div>
                     </div>
+                </div>
 
-                    <!-- Form Actions -->
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i>Back
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-paper-plane"></i>Submit for Approval
-                        </button>
+                <!-- 5️⃣ SELECTED PLACES -->
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-list"></i> Selected Places</h2>
+                    <div id="selectedPlacesContainer">
+                        <p id="noPlacesMessage">No places selected yet. Add places using the options above.</p>
                     </div>
-                </form>
-            </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Create My Package
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
+<div class="success-message" id="successMessage">
+    <i class="fas fa-check-circle"></i> Your travel package has been created successfully!
+</div>
+
+<!-- Template for selected places (hidden) -->
+<div id="selectedPlaceTemplate" style="display: none;">
+    <div class="selected-place-item mb-2 p-3 border rounded">
+        <div class="d-flex justify-content-between">
+            <div>
+                <span class="place-name fw-bold"></span> - 
+                <span class="accommodation-name text-muted"></span>
+            </div>
+            <button type="button" class="btn btn-sm btn-danger remove-place-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Progress steps interaction
@@ -806,64 +829,449 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Form validation
-    const form = document.querySelector('form');
-    form.addEventListener('submit', function(e) {
-        const requiredFields = this.querySelectorAll('[required]');
-        let isValid = true;
+    /* ---------- AUTOCOMPLETE ---------- */
+    const suggestionsBox = document.getElementById('locationSuggestions');
+    let typingTimer;
 
-        requiredFields.forEach(field => {
-            if (field.type === 'select-multiple') {
-                if (field.selectedOptions.length === 0) {
-                    isValid = false;
-                    field.style.borderColor = '#EF4444';
-                } else {
-                    field.style.borderColor = '#E5E7EB';
+    startInput.addEventListener('input', function() {
+        clearTimeout(typingTimer);
+        const query = this.value.trim();
+        if (query.length < 3) {
+            suggestionsBox.style.display = 'none';
+            return;
+        }
+        typingTimer = setTimeout(() => fetchSuggestions(query), 400);
+    });
+
+    function fetchSuggestions(query) {
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&countrycodes=lk&limit=7`)
+            .then(res => res.json())
+            .then(data => {
+                suggestionsBox.innerHTML = '';
+                if (!data.length) {
+                    suggestionsBox.style.display = 'none';
+                    return;
                 }
-            } else if (!field.value.trim()) {
-                isValid = false;
-                field.style.borderColor = '#EF4444';
-            } else {
-                field.style.borderColor = '#E5E7EB';
-            }
-        });
+                data.forEach(place => {
+                    const li = document.createElement('li');
+                    li.textContent = place.display_name;
+                    li.addEventListener('click', () => {
+                        startInput.value = place.display_name;
+                        latInput.value = place.lat;
+                        lonInput.value = place.lon;
+                        updateMarker(place.lat, place.lon);
+                        suggestionsBox.style.display = 'none';
+                    });
+                    suggestionsBox.appendChild(li);
+                });
+                suggestionsBox.style.display = 'block';
+            })
+            .catch(() => suggestionsBox.style.display = 'none');
+    }
 
-        if (!isValid) {
-            e.preventDefault();
-            alert('Please fill in all required fields.');
-        } else if (!confirm('Are you ready to submit your custom package for approval?')) {
-            e.preventDefault();
+    document.addEventListener('click', e => {
+        if (!suggestionsBox.contains(e.target) && e.target !== startInput)
+            suggestionsBox.style.display = 'none';
+    });
+
+    /* ---------- PROVINCE LOGIC ---------- */
+    const btnSingle = document.getElementById('btnSingleProvince');
+    const btnMulti = document.getElementById('btnMultipleProvince');
+    const singleBlock = document.getElementById('singleProvinceBlock');
+    const multiBlock = document.getElementById('multipleProvinceBlock');
+
+    btnSingle.addEventListener('click', () => { 
+        singleBlock.style.display = 'block'; 
+        multiBlock.style.display = 'none'; 
+        btnSingle.classList.add('active');
+        btnMulti.classList.remove('active');
+    });
+    
+    btnMulti.addEventListener('click', () => { 
+        multiBlock.style.display = 'block'; 
+        singleBlock.style.display = 'none'; 
+        btnMulti.classList.add('active');
+        btnSingle.classList.remove('active');
+    });
+
+    function populateDistricts(province, target) {
+        target.innerHTML = '<option value="">-- Select District --</option>';
+        if (provinces[province]) {
+            provinces[province].forEach(d => target.innerHTML += `<option value="${d}">${d}</option>`);
+            target.disabled = false;
+        } else target.disabled = true;
+    }
+
+    function populatePlacesAndAccommodation(district, placeSel, accSel) {
+        placeSel.innerHTML = '<option value="">-- Select Place --</option>';
+        accSel.innerHTML = '<option value="">-- Select Accommodation --</option>';
+        if (places[district]) {
+            places[district].forEach(p => placeSel.innerHTML += `<option>${p}</option>`);
+            placeSel.disabled = false;
+        } else placeSel.disabled = true;
+        if (accommodations[district]) {
+            accommodations[district].forEach(a => accSel.innerHTML += `<option>${a}</option>`);
+            accSel.disabled = false;
+        } else accSel.disabled = true;
+    }
+
+    // Single province selection
+    const provinceSingle = document.getElementById('provinceSingle');
+    const districtSingle = document.getElementById('districtSingle');
+    const placeSingle = document.getElementById('placeSingle');
+    const accommodationSingle = document.getElementById('accommodationSingle');
+
+    provinceSingle.addEventListener('change', function() {
+        populateDistricts(this.value, districtSingle);
+        // Reset dependent selects
+        placeSingle.innerHTML = '<option value="">-- Select Place --</option>';
+        placeSingle.disabled = true;
+        accommodationSingle.innerHTML = '<option value="">-- Select Accommodation --</option>';
+        accommodationSingle.disabled = true;
+    });
+    
+    districtSingle.addEventListener('change', function() {
+        populatePlacesAndAccommodation(this.value, placeSingle, accommodationSingle);
+    });
+
+    // Add single place to itinerary
+    document.getElementById('addSinglePlaceBtn').addEventListener('click', function() {
+        if (!placeSingle.value || !accommodationSingle.value) {
+            alert('Please select both a place and accommodation');
+            return;
+        }
+        
+        addPlaceToItinerary(placeSingle.value, accommodationSingle.value);
+        
+        // Reset the selects but keep province/district selected
+        placeSingle.value = '';
+        accommodationSingle.value = '';
+        accommodationSingle.disabled = true;
+    });
+
+    // Multiple province selection
+    document.getElementById('addPlaceBtn').addEventListener('click', function() {
+        const container = document.getElementById('multi-province-container');
+        const newSet = container.querySelector('.multi-province-set').cloneNode(true);
+        
+        // Reset selects in the new set
+        newSet.querySelectorAll('select').forEach(sel => { 
+            sel.value = ''; 
+            sel.disabled = true; 
+        });
+        
+        // Enable the province select
+        newSet.querySelector('.provinceMulti').disabled = false;
+        
+        // Add event listeners to the new set
+        const provinceSelect = newSet.querySelector('.provinceMulti');
+        const districtSelect = newSet.querySelector('.districtMulti');
+        const placeSelect = newSet.querySelector('.placeMulti');
+        const accommodationSelect = newSet.querySelector('.accommodationMulti');
+        const addButton = newSet.querySelector('.add-multi-place-btn');
+        
+        provinceSelect.addEventListener('change', function() {
+            populateDistricts(this.value, districtSelect);
+            // Reset dependent selects
+            placeSelect.innerHTML = '<option value="">-- Select Place --</option>';
+            placeSelect.disabled = true;
+            accommodationSelect.innerHTML = '<option value="">-- Select Accommodation --</option>';
+            accommodationSelect.disabled = true;
+        });
+        
+        districtSelect.addEventListener('change', function() {
+            populatePlacesAndAccommodation(this.value, placeSelect, accommodationSelect);
+        });
+        
+        addButton.addEventListener('click', function() {
+            if (!placeSelect.value || !accommodationSelect.value) {
+                alert('Please select both a place and accommodation');
+                return;
+            }
+            
+            addPlaceToItinerary(placeSelect.value, accommodationSelect.value);
+            
+            // Reset the selects but keep province/district selected
+            placeSelect.value = '';
+            accommodationSelect.value = '';
+            accommodationSelect.disabled = true;
+        });
+        
+        container.appendChild(newSet);
+    });
+
+    // Handle existing multiple province sets
+    document.addEventListener('change', function(e) {
+        if (e.target.classList.contains('provinceMulti')) {
+            const wrapper = e.target.closest('.multi-province-set');
+            populateDistricts(e.target.value, wrapper.querySelector('.districtMulti'));
+        }
+        if (e.target.classList.contains('districtMulti')) {
+            const wrapper = e.target.closest('.multi-province-set');
+            populatePlacesAndAccommodation(
+                e.target.value,
+                wrapper.querySelector('.placeMulti'),
+                wrapper.querySelector('.accommodationMulti')
+            );
         }
     });
 
-    // Input focus effects
-    const inputs = document.querySelectorAll('.form-control, .form-select');
-    inputs.forEach(input => {
-        input.addEventListener('focus', function() {
-            this.style.borderColor = '#4F46E5';
-            this.style.boxShadow = '0 0 0 3px rgba(79, 70, 229, 0.1)';
-        });
-
-        input.addEventListener('blur', function() {
-            this.style.boxShadow = 'none';
-            if (!this.value && !this.classList.contains('is-invalid')) {
-                this.style.borderColor = '#E5E7EB';
+    // Handle add buttons for existing multiple province sets
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('add-multi-place-btn')) {
+            const wrapper = e.target.closest('.multi-province-set');
+            const placeSelect = wrapper.querySelector('.placeMulti');
+            const accommodationSelect = wrapper.querySelector('.accommodationMulti');
+            
+            if (!placeSelect.value || !accommodationSelect.value) {
+                alert('Please select both a place and accommodation');
+                return;
             }
-        });
+            
+            addPlaceToItinerary(placeSelect.value, accommodationSelect.value);
+            
+            // Reset the selects but keep province/district selected
+            placeSelect.value = '';
+            accommodationSelect.value = '';
+            accommodationSelect.disabled = true;
+        }
     });
 
-    // Multiple select enhancement
-    const multipleSelects = document.querySelectorAll('select[multiple]');
-    multipleSelects.forEach(select => {
-        select.addEventListener('change', function() {
-            const selectedCount = this.selectedOptions.length;
-            if (selectedCount > 0) {
-                this.style.borderColor = '#10B981';
-            } else {
-                this.style.borderColor = '#E5E7EB';
+    // Function to add place to itinerary
+    function addPlaceToItinerary(place, accommodation) {
+        // Add to selected places array
+        selectedPlaces.push({ place: place, accommodation: accommodation });
+        
+        // Update UI
+        updateSelectedPlacesUI();
+        
+        // Hide "no places" message
+        document.getElementById('noPlacesMessage').style.display = 'none';
+    }
+
+    // Function to update selected places UI
+    function updateSelectedPlacesUI() {
+        const container = document.getElementById('selectedPlacesContainer');
+        
+        // Clear container except for "no places" message
+        while (container.firstChild && container.firstChild.id !== 'noPlacesMessage') {
+            container.removeChild(container.firstChild);
+        }
+        
+        // Add each selected place
+        selectedPlaces.forEach((item, index) => {
+            const template = document.getElementById('selectedPlaceTemplate').firstElementChild.cloneNode(true);
+            template.querySelector('.place-name').textContent = item.place;
+            template.querySelector('.accommodation-name').textContent = item.accommodation;
+            template.querySelector('.remove-place-btn').addEventListener('click', function() {
+                removePlace(index);
+            });
+            container.insertBefore(template, document.getElementById('noPlacesMessage'));
+        });
+        
+        // Show/hide "no places" message
+        document.getElementById('noPlacesMessage').style.display = selectedPlaces.length ? 'none' : 'block';
+    }
+
+    // Function to remove place from itinerary
+    function removePlace(index) {
+        selectedPlaces.splice(index, 1);
+        updateSelectedPlacesUI();
+    }
+
+    /* ---------- VEHICLE LOGIC ---------- */
+    const numPeople = document.getElementById('num_people');
+    const vehicleSelect = document.getElementById('vehicleSelect');
+
+    function updateVehicleOptions() {
+        const count = parseInt(numPeople.value);
+        vehicleSelect.innerHTML = '<option value="">-- Select Vehicle --</option>';
+
+        if (!count || count < 1) return;
+
+        if (count === 1) vehicleSelect.innerHTML += '<option value="bike">Bike</option>';
+        else if (count >= 2 && count <= 3) vehicleSelect.innerHTML += '<option value="three_wheeler">Three Wheeler</option>';
+        else if (count === 4) vehicleSelect.innerHTML += '<option value="car">Car</option>';
+        else if (count >= 5 && count <= 9) vehicleSelect.innerHTML += '<option value="van">Van</option>';
+        else if (count >= 10) vehicleSelect.innerHTML += '<option value="bus">Bus</option>';
+    }
+
+    numPeople.addEventListener('input', updateVehicleOptions);
+    updateVehicleOptions(); // Initialize on load
+
+    /* ---------- FORM SUBMISSION ---------- */
+    document.getElementById('travelForm').addEventListener('submit', function(e) {
+        // Set destinations, vehicles, and accommodations as JSON in hidden inputs
+        document.getElementById('destinationsInput').value = JSON.stringify(selectedPlaces.map(item => item.place));
+        document.getElementById('vehiclesInput').value = JSON.stringify([document.getElementById('vehicleSelect').value]);
+        document.getElementById('accommodationsInput').value = JSON.stringify(selectedPlaces.map(item => item.accommodation));
+
+        // Validation
+        if (selectedPlaces.length === 0) {
+            e.preventDefault();
+            alert('Please add at least one place to your itinerary');
+            return;
+        }
+
+        if (!document.getElementById('vehicleSelect').value) {
+            e.preventDefault();
+            alert('Please select a vehicle type');
+            return;
+        }
+
+        // Show loading state
+        const submitBtn = this.querySelector('.btn-primary');
+        submitBtn.innerHTML = '<span class="loading"></span> Creating Package...';
+        submitBtn.disabled = true;
+    });
+
+    // Show success message if it's present in the URL or session
+    window.addEventListener('DOMContentLoaded', function() {
+        // Check for success message in session (Laravel)
+        const successMessage = "{{ session('success') ?? '' }}";
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        if (successMessage || urlParams.has('success')) {
+            showSuccessPopup();
+        }
+    });
+
+    // Function to show success popup
+    function showSuccessPopup() {
+        // Create popup element
+        const popup = document.createElement('div');
+        popup.id = 'successPopup';
+        popup.innerHTML = `
+            <div class="popup-overlay">
+                <div class="popup-content">
+                    <div class="popup-header">
+                        <h3>Success!</h3>
+                        <span class="popup-close">&times;</span>
+                    </div>
+                    <div class="popup-body">
+                        <p>Your application submitted successfully. Wait for the admin approval and check your email for payment methods.</p>
+                    </div>
+                    <div class="popup-footer">
+                        <button class="btn btn-primary popup-ok">OK</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(popup);
+
+        // Add styles for popup
+        const style = document.createElement('style');
+        style.textContent = `
+            #successPopup {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 10000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .popup-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+            
+            .popup-content {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                max-width: 500px;
+                width: 90%;
+                margin: 0 auto;
+                position: relative;
+                animation: popupFadeIn 0.3s ease-out;
+            }
+            
+            @keyframes popupFadeIn {
+                from { opacity: 0; transform: translateY(-20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            .popup-header {
+                padding: 20px;
+                border-bottom: 1px solid var(--gray-200);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .popup-header h3 {
+                margin: 0;
+                color: var(--success);
+                font-weight: 600;
+            }
+            
+            .popup-close {
+                font-size: 24px;
+                cursor: pointer;
+                color: var(--gray-500);
+            }
+            
+            .popup-body {
+                padding: 20px;
+            }
+            
+            .popup-body p {
+                margin: 0;
+                font-size: 16px;
+                line-height: 1.6;
+                color: var(--gray-700);
+            }
+            
+            .popup-footer {
+                padding: 20px;
+                border-top: 1px solid var(--gray-200);
+                text-align: right;
+            }
+            
+            .popup-ok {
+                padding: 10px 20px;
+                background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: var(--transition);
+            }
+            
+            .popup-ok:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Add event listeners to close popup
+        const closeBtn = popup.querySelector('.popup-close');
+        const okBtn = popup.querySelector('.popup-ok');
+        const overlay = popup.querySelector('.popup-overlay');
+        
+        const closePopup = function() {
+            document.body.removeChild(popup);
+            document.head.removeChild(style);
+        };
+        
+        closeBtn.addEventListener('click', closePopup);
+        okBtn.addEventListener('click', closePopup);
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) {
+                closePopup();
             }
         });
-    });
+    }
 });
 </script>
 @endsection

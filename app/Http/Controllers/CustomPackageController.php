@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -12,7 +11,8 @@ use Illuminate\Support\Facades\DB;
 class CustomPackageController extends Controller
 {
     /**
-     * Public listing of all active packages
+     * Display a listing of all active packages publicly
+     * (used in /custom-packages page).
      */
     public function index()
     {
@@ -21,11 +21,52 @@ class CustomPackageController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(12);
 
-        return view('packages.Custom-package', compact('packages'));
+        // --- Fetch all Places grouped by District ---
+        $placesByDistrict = DB::table('places')
+            ->select('district', 'name')
+            ->orderBy('district')
+            ->get()
+            ->groupBy('district')
+            ->map(fn($group) => $group->pluck('name')->values());
+
+        // --- Fetch all Accommodations grouped by District ---
+        $accommodationsByDistrict = DB::table('accommodations')
+            ->select('district', 'name')
+            ->orderBy('district')
+            ->get()
+            ->groupBy('district')
+            ->map(fn($group) => $group->pluck('name')->values());
+
+        // --- Fetch Vehicle Options ---
+        $vehicleOptions = DB::table('vehicles')
+            ->select('id', 'vehicle_type as name', 'vehicle_type as type')
+            ->orderBy('vehicle_type')
+            ->get();
+
+        // --- Static Province → District mapping ---
+        $provinces = [
+            'Central'       => ['Kandy', 'Matale', 'Nuwara Eliya'],
+            'Eastern'       => ['Ampara', 'Batticaloa', 'Trincomalee'],
+            'North Central' => ['Anuradhapura', 'Polonnaruwa'],
+            'Northern'      => ['Jaffna', 'Kilinochchi', 'Mannar', 'Vavuniya', 'Mullaitivu'],
+            'North Western' => ['Kurunegala', 'Puttalam'],
+            'Sabaragamuwa'  => ['Kegalle', 'Ratnapura'],
+            'Southern'      => ['Galle', 'Matara', 'Hambantota'],
+            'Uva'           => ['Badulla', 'Monaragala'],
+            'Western'       => ['Colombo', 'Gampaha', 'Kalutara'],
+        ];
+
+        return view('packages.Custom-package', compact(
+            'packages',
+            'vehicleOptions',
+            'provinces',
+            'placesByDistrict',
+            'accommodationsByDistrict'
+        ));
     }
 
     /**
-     * Show authenticated user's packages + creation form view
+     * Display packages created by the authenticated user.
      */
     public function myPackages()
     {
@@ -33,62 +74,67 @@ class CustomPackageController extends Controller
             ->latest()
             ->paginate(10);
 
-        // Fetch all required options from your existing database tables
-        $availablePlaces = DB::table('places')
-            ->select('id', 'name', 'province', 'district')
-            ->orderBy('name')
-            ->get();
-            
-        // Updated to use correct column names based on your actual table structure
+        $placesByDistrict = DB::table('places')
+            ->select('district', 'name')
+            ->orderBy('district')
+            ->get()
+            ->groupBy('district')
+            ->map(fn($group) => $group->pluck('name')->values());
+
+        $accommodationsByDistrict = DB::table('accommodations')
+            ->select('district', 'name')
+            ->orderBy('district')
+            ->get()
+            ->groupBy('district')
+            ->map(fn($group) => $group->pluck('name')->values());
+
         $vehicleOptions = DB::table('vehicles')
             ->select('id', 'vehicle_type as name', 'vehicle_type as type')
             ->orderBy('vehicle_type')
             ->get();
-            
-        // Check accommodations table structure first - let's be safe
-        try {
-            $accommodationOptions = DB::table('accommodations')
-                ->select('id', 'name', 'type', 'location')
-                ->orderBy('name')
-                ->get();
-        } catch (\Exception $e) {
-            // If the query fails, try with different column names or return empty
-            $accommodationOptions = collect([]);
-        }
+
+        $provinces = [
+            'Central'       => ['Kandy', 'Matale', 'Nuwara Eliya'],
+            'Eastern'       => ['Ampara', 'Batticaloa', 'Trincomalee'],
+            'North Central' => ['Anuradhapura', 'Polonnaruwa'],
+            'Northern'      => ['Jaffna', 'Kilinochchi', 'Mannar', 'Vavuniya', 'Mullaitivu'],
+            'North Western' => ['Kurunegala', 'Puttalam'],
+            'Sabaragamuwa'  => ['Kegalle', 'Ratnapura'],
+            'Southern'      => ['Galle', 'Matara', 'Hambantota'],
+            'Uva'           => ['Badulla', 'Monaragala'],
+            'Western'       => ['Colombo', 'Gampaha', 'Kalutara'],
+        ];
 
         return view('packages.Custom-package', compact(
             'packages',
-            'availablePlaces',
             'vehicleOptions',
-            'accommodationOptions'
+            'provinces',
+            'placesByDistrict',
+            'accommodationsByDistrict'
         ));
     }
 
     /**
-     * Show form for creating new package
+     * Show the form for creating a new custom package.
      */
     public function create()
     {
-        // Fetch all required options from your existing database tables
         $availablePlaces = DB::table('places')
             ->select('id', 'name', 'province', 'district')
             ->orderBy('name')
             ->get();
-            
-        // Updated to use correct column names based on your actual table structure
+
         $vehicleOptions = DB::table('vehicles')
             ->select('id', 'vehicle_type as name', 'vehicle_type as type')
             ->orderBy('vehicle_type')
             ->get();
-            
-        // Check accommodations table structure first - let's be safe
+
         try {
             $accommodationOptions = DB::table('accommodations')
                 ->select('id', 'name', 'type', 'location')
                 ->orderBy('name')
                 ->get();
         } catch (\Exception $e) {
-            // If the query fails, try with different column names or return empty
             $accommodationOptions = collect([]);
         }
 
@@ -100,7 +146,7 @@ class CustomPackageController extends Controller
     }
 
     /**
-     * Store a new custom package
+     * Store a new custom package.
      */
     public function store(Request $request)
     {
@@ -110,72 +156,60 @@ class CustomPackageController extends Controller
             'start_location' => 'required|string|max:255',
             'duration' => 'required|integer|min:1',
             'num_people' => 'required|integer|min:1',
-            'start_date' => 'nullable|date|after_or_equal:today',
-            'destinations' => 'required|array|min:1',
-            'vehicles' => 'required|array|min:1',
-            'accommodations' => 'required|array|min:1',
+            'destinations' => 'required|string', // JSON string
+            'vehicles' => 'required|string', // JSON string
+            'accommodations' => 'required|string', // JSON string
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $data = $request->only([
-            'title',
-            'description',
-            'start_location',
-            'duration',
-            'num_people',
-            'start_date'
+            'title', 'description', 'start_location', 'duration', 'num_people'
         ]);
-        
+
         $data['user_id'] = Auth::id();
-        $data['destinations'] = json_encode($request->destinations);
-        $data['vehicles'] = json_encode($request->vehicles);
-        $data['accommodations'] = json_encode($request->accommodations);
+        $data['destinations'] = $request->destinations;
+        $data['vehicles'] = $request->vehicles;
+        $data['accommodations'] = $request->accommodations;
         $data['status'] = 'active';
-        
-        // Calculate price based on selections (you can customize this logic)
         $data['price'] = $this->calculatePackagePrice($request);
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('custom-packages', 'public');
-            $data['image'] = $imagePath;
+            $data['image'] = $request->file('image')->store('custom-packages', 'public');
         }
 
-        $package = CustomPackage::create($data);
+        CustomPackage::create($data);
 
-        return redirect()->route('custom-packages.my')->with('success', 'Package created successfully!');
+        return redirect()->route('custom-packages.my')
+            ->with('success', 'Package created successfully!');
     }
 
     /**
-     * Show specific package
+     * Show details for a specific custom package.
      */
     public function show($id)
     {
-        $package = CustomPackage::with(['user'])->findOrFail($id);
-        
-        // Load related data for display using correct column names
+        $package = CustomPackage::with('user')->findOrFail($id);
+
         $destinations = DB::table('places')
             ->whereIn('id', json_decode($package->destinations, true) ?? [])
             ->get();
-            
+
         $vehicles = DB::table('vehicles')
             ->select('id', 'vehicle_type as name', 'vehicle_type as type')
             ->whereIn('id', json_decode($package->vehicles, true) ?? [])
             ->get();
-            
+
         $accommodations = DB::table('accommodations')
             ->whereIn('id', json_decode($package->accommodations, true) ?? [])
             ->get();
-        
+
         return view('custom-packages.show', compact(
-            'package',
-            'destinations',
-            'vehicles',
-            'accommodations'
+            'package', 'destinations', 'vehicles', 'accommodations'
         ));
     }
 
     /**
-     * Delete a package
+     * Delete a custom package.
      */
     public function destroy($id)
     {
@@ -187,52 +221,41 @@ class CustomPackageController extends Controller
 
         $package->delete();
 
-        return redirect()->route('custom-packages.my')->with('success', 'Package deleted successfully!');
+        return redirect()->route('custom-packages.my')
+            ->with('success', 'Package deleted successfully!');
     }
 
     /**
-     * Calculate package price based on selections
+     * Calculate total price of the package.
      */
-    private function calculatePackagePrice($request)
+    private function calculatePackagePrice(Request $request)
     {
-        $basePrice = 50; // Base price per person per day
-        
-        // Simple pricing since we don't have price columns in vehicles table yet
-        $vehicleCount = count($request->vehicles);
-        $accommodationCount = count($request->accommodations);
-        
-        // Vehicle pricing based on type (you can adjust these rates)
+        $basePrice = 50;
         $vehicleCost = 0;
-        foreach ($request->vehicles as $vehicleId) {
-            $vehicleType = DB::table('vehicles')->where('id', $vehicleId)->value('vehicle_type');
-            switch ($vehicleType) {
-                case 'bike':
-                    $vehicleCost += 25 * $request->duration;
-                    break;
-                case 'three_wheeler':
-                    $vehicleCost += 35 * $request->duration;
-                    break;
-                case 'car':
-                    $vehicleCost += 50 * $request->duration;
-                    break;
-                case 'van':
-                    $vehicleCost += 80 * $request->duration;
-                    break;
-                case 'bus':
-                    $vehicleCost += 120 * $request->duration;
-                    break;
-                default:
-                    $vehicleCost += 40 * $request->duration;
+        
+        // Decode the JSON vehicles array
+        $vehicles = json_decode($request->vehicles, true);
+        
+        if (!empty($vehicles)) {
+            foreach ($vehicles as $vehicleType) {
+                $dailyRate = match ($vehicleType) {
+                    'bike' => 25,
+                    'three_wheeler' => 35,
+                    'car' => 50,
+                    'van' => 80,
+                    'bus' => 120,
+                    default => 40,
+                };
+                $vehicleCost += $dailyRate * $request->duration;
             }
         }
-        
-        // Simple accommodation cost (adjust as needed)
-        $accommodationCost = $accommodationCount * 60 * $request->duration;
-        
-        $totalPrice = ($basePrice * $request->num_people * $request->duration) + 
-                     $vehicleCost + 
-                     $accommodationCost;
-                     
-        return $totalPrice;
+
+        // Decode accommodations to calculate cost
+        $accommodations = json_decode($request->accommodations, true);
+        $accommodationCost = (!empty($accommodations) ? count($accommodations) : 0) * 60 * $request->duration;
+
+        return ($basePrice * $request->num_people * $request->duration)
+            + $vehicleCost
+            + $accommodationCost;
     }
 }
