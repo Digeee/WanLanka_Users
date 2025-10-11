@@ -99,9 +99,9 @@ Route::delete('/bookings/{id}/delete', [UserBookingController::class, 'forceDele
     ->name('userbookings.forceDelete');
 
 
-    Route::middleware(['auth'])->group(function () {
-    Route::get('/fixedbooking/{packageId}/reserve', [FixedBookingController::class, 'reserve'])->name('fixedbooking.reserve');
-    Route::post('/fixedbooking/store', [FixedBookingController::class, 'store'])->name('fixedbooking.store');
+Route::middleware(['auth'])->group(function () {
+Route::get('/fixedbooking/{packageId}/reserve', [FixedBookingController::class, 'reserve'])->name('fixedbooking.reserve');
+Route::post('/fixedbooking/store', [FixedBookingController::class, 'store'])->name('fixedbooking.store');
 });
 
 // Travel Locker Debug Route (temporary)

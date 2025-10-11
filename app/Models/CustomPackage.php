@@ -17,12 +17,12 @@ class CustomPackage extends Model
         'start_location',
         'duration',
         'num_people',
+        'travel_date',
         'destinations',
         'vehicles',
         'accommodations',
-        'image',
-        'status',
-        'price'
+        'image'
+        // Removed 'status' and 'price' as they should be null initially
     ];
 
     protected $casts = [
@@ -31,7 +31,8 @@ class CustomPackage extends Model
         'accommodations' => 'array',
         'price' => 'decimal:2',
         'duration' => 'integer',
-        'num_people' => 'integer'
+        'num_people' => 'integer',
+        'travel_date' => 'date'
     ];
 
     public function user(): BelongsTo

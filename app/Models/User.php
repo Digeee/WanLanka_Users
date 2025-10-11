@@ -72,9 +72,15 @@ class User extends Authenticatable
     }
 
     // Relationship with Travel Documents
-public function travelDocuments()
-{
-    return $this->hasMany(\App\Models\TravelDocument::class);
-}
-}
+    public function travelDocuments()
+    {
+        return $this->hasMany(\App\Models\TravelDocument::class);
+    }
 
+    // Relationship with Fixed Bookings
+    public function fixedBookings()
+    {
+        return $this->hasMany(\App\Models\FixedBooking::class, 'user_id');
+    }
+
+}

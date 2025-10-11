@@ -9,21 +9,12 @@ class FixedBooking extends Model
 {
     use HasFactory;
 
-   protected $fillable = [
-    'package_id',
-    'first_name',
-    'last_name',
-    'email',
-    'phone',
-    'pickup_location',
-    'payment_method',
-    'receipt',
-    'user_id',
-    'status', // include this!
+    protected $fillable = [
+    'package_id', 'package_name', 'first_name', 'last_name', 'email', 'phone',
+    'pickup_location', 'payment_method', 'receipt',
+    'participants', 'total_price', // ✅ new
+    'user_id', 'status',
 ];
-
-
-
 
     public function package()
     {
