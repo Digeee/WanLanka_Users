@@ -11,27 +11,28 @@ class UserBookingController extends Controller
 {
     public function index()
     {
-        $userId = Auth::id();
+        $user = Auth::user();
+        $userEmail = $user->email;
 
         // Current Bookings (today or future)
-        $currentBookings = Booking::where('user_id', $userId)
+        $currentBookings = Booking::where('email', $userEmail)
             ->whereDate('date', '>=', now()->toDateString())
             ->orderBy('date', 'asc')
             ->get();
 
         // Past Bookings (before today)
-        $pastBookings = Booking::where('user_id', $userId)
+        $pastBookings = Booking::where('email', $userEmail)
             ->whereDate('date', '<', now()->toDateString())
             ->orderBy('date', 'desc')
             ->get();
 
         // Current (active) Packages
-        $currentPackages = CustomPackage::where('user_id', $userId)
+        $currentPackages = CustomPackage::where('user_id', $user->id)
             ->where('status', 'active')
             ->get();
 
         // Past (inactive) Packages
-        $pastPackages = CustomPackage::where('user_id', $userId)
+        $pastPackages = CustomPackage::where('user_id', $user->id)
             ->where('status', 'inactive')
             ->get();
 
@@ -43,12 +44,13 @@ class UserBookingController extends Controller
         ));
     }
 
-    
 
-   
+
+
     public function show($id)
    {
-    $booking = Booking::findOrFail($id);
+    $user = Auth::user();
+    $booking = Booking::where('email', $user->email)->findOrFail($id);
     return view('user.bookings_show', compact('booking'));
    }
 
@@ -56,7 +58,8 @@ class UserBookingController extends Controller
 
     public function destroy($id)
 {
-    $booking = Booking::findOrFail($id);
+    $user = Auth::user();
+    $booking = Booking::where('email', $user->email)->findOrFail($id);
     $booking->status = 'cancelled';
     $booking->save();
 
@@ -65,7 +68,8 @@ class UserBookingController extends Controller
 
 public function rebook($id)
 {
-    $oldBooking = Booking::findOrFail($id);
+    $user = Auth::user();
+    $oldBooking = Booking::where('email', $user->email)->findOrFail($id);
 
     $newBooking = $oldBooking->replicate(); // clone old booking
     $newBooking->status = 'pending';
@@ -79,7 +83,8 @@ public function rebook($id)
 
  public function forceDelete($id)
     {
-        $booking = Booking::findOrFail($id);
+        $user = Auth::user();
+        $booking = Booking::where('email', $user->email)->findOrFail($id);
 
         if (!in_array(strtolower($booking->status), ['cancelled', 'completed'])) {
             return redirect()->back()->with('error', 'Only cancelled or completed bookings can be deleted.');
