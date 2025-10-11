@@ -3,51 +3,58 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\FixedBooking;
 use App\Models\Package;
+use Illuminate\Support\Facades\Auth;
 
 class FixedBookingController extends Controller
 {
-    /**
-     * Show booking form for a selected package
-     */
     public function reserve($packageId)
     {
         $package = Package::findOrFail($packageId);
         return view('fixedbooking.reserve', compact('package'));
     }
 
-    /**
-     * Handle booking submission
-     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'package_id' => 'required|exists:packages,id',
             'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'phone' => 'required|string|max:20',
-            'pickup_location' => 'required|string',
-            'payment_method' => 'required|string',
-            'receipt' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'last_name'  => 'required|string|max:255',
+            'email'      => 'required|email|max:255',
+            'phone'      => 'required|string|max:30',
+            'pickup_location' => 'required|string|max:255',
+            'payment_method'  => 'required|string|max:50',
+            'participants'    => 'required|integer|min:1',
+            'receipt'         => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
-        // ✅ Handle file upload (if receipt is provided)
+        $package = Package::findOrFail($request->package_id);
+        $participants = $request->input('participants', 1);
+        $totalPrice = $package->price * $participants;
+
+        // Handle receipt upload
+        $receiptPath = null;
         if ($request->hasFile('receipt')) {
-            $validated['receipt'] = $request->file('receipt')->store('fixedbookings/receipts', 'public');
+            $receiptPath = $request->file('receipt')->store('receipts', 'public');
         }
 
-        // ✅ Attach logged-in user ID & booking status
-        $validated['user_id'] = auth()->id();
-$validated['status'] = 'pending';
+        $booking = FixedBooking::create([
+            'package_id' => $package->id,
+            'package_name' => $package->package_name, // Add package name
+            'first_name' => $request->first_name,
+            'last_name'  => $request->last_name,
+            'email'      => $request->email,
+            'phone'      => $request->phone,
+            'pickup_location' => $request->pickup_location,
+            'payment_method'  => $request->payment_method,
+            'receipt'         => $receiptPath,
+            'participants'    => $participants,
+            'total_price'     => $totalPrice,
+            'user_id'         => auth()->id(),
+            'status'          => 'pending',
+        ]);
 
-FixedBooking::create($validated);
-
-
-        // ✅ Redirect safely (no 404)
-        return redirect('/')
-            ->with('success', 'Your booking request has been sent successfully and is now pending admin approval.');
+        return redirect()->route('account')->with('success', 'Booking created successfully!');
     }
 }
