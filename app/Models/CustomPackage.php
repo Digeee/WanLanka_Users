@@ -12,6 +12,9 @@ class CustomPackage extends Model
 
     protected $fillable = [
         'user_id',
+        'guider_id',
+        'guider_name',
+        'guider_email',
         'title',
         'description',
         'start_location',
@@ -44,5 +47,10 @@ class CustomPackage extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+    
+    public function guider(): BelongsTo
+    {
+        return $this->belongsTo(Guider::class);
     }
 }

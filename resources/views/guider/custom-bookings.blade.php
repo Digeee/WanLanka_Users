@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guider Dashboard - WanLanka</title>
+    <title>Custom Bookings - Guider Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -177,7 +177,7 @@
             font-size: 14px;
         }
         
-        .submenu-item:hover {
+        .submenu-item:hover, .submenu-item.active {
             background: #e9f0ff;
             color: var(--primary);
         }
@@ -339,120 +339,8 @@
             margin-bottom: 0;
         }
         
-        /* Dashboard Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: var(--radius);
-            padding: 20px;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 15px;
-        }
-        
-        .stat-value {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            color: var(--text-light);
-            font-size: 14px;
-        }
-        
-        /* Activity Section */
-        .activity-card {
-            background: white;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            margin-bottom: 30px;
-        }
-        
-        .card-header {
-            padding: 20px 25px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .card-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin: 0;
-        }
-        
-        .card-body {
-            padding: 25px;
-        }
-        
-        /* Activity List */
-        .activity-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .activity-item {
-            display: flex;
-            padding: 15px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        .activity-item:last-child {
-            border-bottom: none;
-        }
-        
-        .activity-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #f0f7ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            color: var(--primary);
-        }
-        
-        .activity-content {
-            flex: 1;
-        }
-        
-        .activity-title {
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
-        
-        .activity-time {
-            font-size: 12px;
-            color: var(--text-light);
-        }
-        
-        /* Upcoming Tours */
-        .tour-card {
+        /* Booking Card */
+        .booking-card {
             background: white;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
@@ -460,42 +348,43 @@
             margin-bottom: 20px;
         }
         
-        .tour-header {
+        .booking-header {
             padding: 15px 20px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
         }
         
-        .tour-title {
+        .booking-title {
             font-size: 16px;
             font-weight: 600;
             margin: 0;
         }
         
-        .tour-body {
+        .booking-body {
             padding: 20px;
         }
         
-        .tour-details {
+        .booking-details {
             display: flex;
             justify-content: space-between;
             margin-bottom: 15px;
         }
         
-        .tour-info {
+        .booking-info {
             display: flex;
             align-items: center;
             margin-bottom: 10px;
         }
         
-        .tour-info i {
+        .booking-info i {
             margin-right: 8px;
             color: var(--primary);
         }
         
-        .tour-actions {
+        .booking-actions {
             display: flex;
             gap: 10px;
+            margin-top: 15px;
         }
         
         .btn-sm {
@@ -567,10 +456,6 @@
                 padding: 20px 15px;
             }
             
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
             .page-header {
                 flex-direction: column;
                 align-items: flex-start;
@@ -623,66 +508,27 @@
         </div>
         
         <div class="sidebar-menu">
-            <a href="{{ route('guider.dashboard') }}" class="menu-item active">
+            <a href="{{ route('guider.dashboard') }}" class="menu-item">
                 <i class="fas fa-tachometer-alt"></i>
                 <span class="menu-label">Dashboard</span>
             </a>
-            <a href="#" class="menu-item has-dropdown">
+            <a href="#" class="menu-item has-dropdown active">
                 <i class="fas fa-calendar-alt"></i>
                 <span class="menu-label">My Tours</span>
                 <i class="fas fa-chevron-down dropdown-icon"></i>
             </a>
-            <div class="submenu">
-                <?php
-                    // Count upcoming individual bookings
-                    $individualCount = 0;
-                    $fixedCount = 0;
-                    $customCount = 0;
-                    $gId = session('guider_id');
-                    $today = \Carbon\Carbon::today()->toDateString();
-                    
-                    if ($gId) {
-                        try {
-                            // Individual bookings count
-                            $individualCount = \App\Models\Booking::where('guider_id', $gId)
-                                ->whereDate('date', '>=', $today)
-                                ->whereNotIn('status', ['cancelled', 'completed'])
-                                ->count();
-                                
-                            // Fixed bookings count (if they have a guider field in the future)
-                            // For now, we'll assume fixed bookings don't have guiders assigned directly
-                            $fixedCount = 0;
-                            
-                            // Custom packages count
-                            $customCount = \App\Models\CustomPackage::where('guider_id', $gId)
-                                ->whereDate('travel_date', '>=', $today)
-                                ->whereIn('status', ['approved', 'active'])
-                                ->count();
-                        } catch (\Throwable $e) {
-                            // Ignore errors
-                        }
-                    }
-                ?>
+            <div class="submenu" style="display: block;">
                 <a href="{{ route('guider.individual-bookings') }}" class="submenu-item">
                     <i class="fas fa-user"></i>
                     <span>Individual Bookings</span>
-                    <?php if($individualCount > 0): ?>
-                    <span class="menu-badge"><?php echo e($individualCount); ?></span>
-                    <?php endif; ?>
                 </a>
                 <a href="{{ route('guider.fixed-bookings') }}" class="submenu-item">
                     <i class="fas fa-box"></i>
                     <span>Fixed Bookings</span>
-                    <?php if($fixedCount > 0): ?>
-                    <span class="menu-badge"><?php echo e($fixedCount); ?></span>
-                    <?php endif; ?>
                 </a>
-                <a href="{{ route('guider.custom-bookings') }}" class="submenu-item">
+                <a href="{{ route('guider.custom-bookings') }}" class="submenu-item active">
                     <i class="fas fa-cube"></i>
                     <span>Custom Bookings</span>
-                    <?php if($customCount > 0): ?>
-                    <span class="menu-badge"><?php echo e($customCount); ?></span>
-                    <?php endif; ?>
                 </a>
             </div>
             <a href="{{ route('guider.messages') }}" class="menu-item">
@@ -728,196 +574,74 @@
         <!-- Page Header -->
         <div class="page-header">
             <div>
-                <h1 class="page-title">Dashboard</h1>
+                <h1 class="page-title">Custom Bookings</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                        <li class="breadcrumb-item"><a href="{{ route('guider.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('guider.dashboard') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Custom Bookings</li>
                     </ol>
                 </nav>
             </div>
-            <div class="page-actions">
-                <button class="btn btn-primary">
-                    <i class="fas fa-plus me-2"></i>New Tour
-                </button>
-            </div>
         </div>
         
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon bg-primary-light text-primary">
-                    <i class="fas fa-calendar-check"></i>
-                </div>
-                <div class="stat-value">12</div>
-                <div class="stat-label">Upcoming Tours</div>
-            </div>
+        <!-- Upcoming Custom Bookings -->
+        <?php
+            $today = \Carbon\Carbon::today()->toDateString();
+            $gId = session('guider_id');
+            $upcomingBookings = collect();
             
-            <div class="stat-card">
-                <div class="stat-icon bg-primary-light text-primary">
-                    <i class="fas fa-user-check"></i>
-                </div>
-                <div class="stat-value">47</div>
-                <div class="stat-label">Tourists This Month</div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon bg-primary-light text-primary">
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="stat-value">4.8</div>
-                <div class="stat-label">Average Rating</div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon bg-primary-light text-primary">
-                    <i class="fas fa-wallet"></i>
-                </div>
-                <div class="stat-value">$2,450</div>
-                <div class="stat-label">Earnings This Month</div>
-            </div>
-        </div>
+            if ($gId) {
+                try {
+                    $upcomingBookings = \App\Models\CustomPackage::query()
+                        ->where('guider_id', $gId)
+                        ->whereDate('travel_date', '>=', $today)
+                        ->whereIn('status', ['approved', 'active'])
+                        ->orderBy('travel_date')
+                        ->get();
+                } catch (\Throwable $e) {
+                    $upcomingBookings = collect();
+                }
+            }
+        ?>
         
         <div class="row">
-            <div class="col-lg-8">
-                <!-- Recent Activity -->
-                <div class="activity-card">
-                    <div class="card-header">
-                        <h3 class="card-title">Recent Activity</h3>
-                        <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+            <div class="col-12">
+                <div class="booking-card">
+                    <div class="booking-header">
+                        <h3 class="booking-title">Upcoming Custom Bookings</h3>
                     </div>
-                    <div class="card-body">
-                        <ul class="activity-list">
-                            <li class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-calendar-plus"></i>
+                    <div class="booking-body">
+                        @forelse($upcomingBookings as $booking)
+                            <div class="booking-card">
+                                <div class="booking-header">
+                                    <h4 class="booking-title">{{ $booking->title }}</h4>
                                 </div>
-                                <div class="activity-content">
-                                    <div class="activity-title">New tour booking received</div>
-                                    <div class="activity-desc">Colombo City Tour for 4 people on June 15</div>
-                                    <div class="activity-time">2 hours ago</div>
-                                </div>
-                            </li>
-                            <li class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-title">New review received</div>
-                                    <div class="activity-desc">"Excellent guide with deep knowledge of history" - Sarah Johnson</div>
-                                    <div class="activity-time">5 hours ago</div>
-                                </div>
-                            </li>
-                            <li class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-check-circle"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-title">Tour completed successfully</div>
-                                    <div class="activity-desc">Sigiriya Rock Fortress Tour with 6 tourists</div>
-                                    <div class="activity-time">Yesterday, 4:30 PM</div>
-                                </div>
-                            </li>
-                            <li class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-comment"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-title">New message from tourist</div>
-                                    <div class="activity-desc">"Can we adjust the start time for the Kandy tour?"</div>
-                                    <div class="activity-time">June 10, 11:20 AM</div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-4">
-                <!-- Upcoming Packages (Dynamic) -->
-                <?php
-                    $today = \Carbon\Carbon::today()->toDateString();
-                    $gId = session('guider_id');
-                    $gEmail = null;
-                    $gUsername = null;
-                    if ($gId) {
-                        try {
-                            $g = \App\Models\Guider::find($gId);
-                            if ($g) { 
-                                $gEmail = $g->email ?? null; 
-                                $gUsername = $g->username ?? null; 
-                            }
-                        } catch (\Throwable $e) { /* ignore */ }
-                    }
-
-                    // Upcoming individual bookings assigned to this guider
-                    $upcomingBookings = collect();
-                    try {
-                        $query = \App\Models\Booking::query()
-                            ->whereDate('date', '>=', $today)
-                            ->where('guider_id', $gId)
-                            ->whereNotIn('status', ['cancelled', 'completed'])
-                            ->orderBy('date');
-                        
-                        $upcomingBookings = $query->limit(5)->get();
-                    } catch (\Throwable $e) { 
-                        $upcomingBookings = collect(); 
-                    }
-
-                    // Upcoming custom packages assigned to this guider
-                    $upcomingCustomPackages = collect();
-                    $customPackagesNote = null;
-                    try {
-                        if ($gId) {
-                            $upcomingCustomPackages = \App\Models\CustomPackage::query()
-                                ->where('guider_id', $gId)
-                                ->whereDate('travel_date', '>=', $today)
-                                ->whereIn('status', ['approved', 'active'])
-                                ->orderBy('travel_date')
-                                ->limit(5)
-                                ->get();
-                        } else {
-                            $customPackagesNote = 'Unable to load custom packages. Please log in again.';
-                        }
-                    } catch (\Throwable $e) { 
-                        $upcomingCustomPackages = collect();
-                        $customPackagesNote = 'Error loading custom packages.';
-                    }
-                ?>
-
-                <div class="activity-card">
-                    <div class="card-header">
-                        <h3 class="card-title">Upcoming Bookings</h3>
-                    </div>
-                    <div class="card-body">
-                        @forelse($upcomingBookings as $bk)
-                            <div class="tour-card">
-                                <div class="tour-header">
-                                    <h4 class="tour-title">Booking #{{ $bk->id }}</h4>
-                                </div>
-                                <div class="tour-body">
-                                    <div class="tour-details">
-                                        <span class="badge badge-success">{{ ucfirst($bk->status ?? 'pending') }}</span>
-                                        <span>{{ $bk->people_count ?? '-' }} people</span>
+                                <div class="booking-body">
+                                    <div class="booking-details">
+                                        <span class="badge badge-success">{{ ucfirst($booking->status ?? 'pending') }}</span>
+                                        <span>{{ $booking->num_people ?? '-' }} people</span>
                                     </div>
-                                    <div class="tour-info">
+                                    @if(!empty($booking->travel_date))
+                                    <div class="booking-info">
                                         <i class="fas fa-calendar"></i>
-                                        <span>{{ \Carbon\Carbon::parse($bk->date)->format('M d, Y') }}</span>
+                                        <span>{{ \Carbon\Carbon::parse($booking->travel_date)->format('M d, Y') }}</span>
                                     </div>
-                                    @if(!empty($bk->time))
-                                    <div class="tour-info">
+                                    @endif
+                                    @if(!empty($booking->start_location))
+                                    <div class="booking-info">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>{{ $booking->start_location }}</span>
+                                    </div>
+                                    @endif
+                                    @if(!empty($booking->duration))
+                                    <div class="booking-info">
                                         <i class="fas fa-clock"></i>
-                                        <span>{{ $bk->time }}</span>
+                                        <span>{{ $booking->duration }} days</span>
                                     </div>
                                     @endif
-                                    @if(!empty($bk->pickup_location))
-                                    <div class="tour-info">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        <span>{{ $bk->pickup_location }}</span>
-                                    </div>
-                                    @endif
-                                    <div class="tour-actions">
-                                        <form method="POST" action="{{ route('bookings.complete', $bk->id) }}" style="display: inline;">
+                                    <div class="booking-actions">
+                                        <form method="POST" action="{{ route('custom-packages.complete', $booking->id) }}" style="display: inline;">
                                             @csrf
                                             @method('PATCH')
                                             <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Are you sure you want to mark this tour as completed?')">Complete Tour</button>
@@ -926,52 +650,7 @@
                                 </div>
                             </div>
                         @empty
-                            <p class="text-muted mb-0">No upcoming bookings.</p>
-                        @endforelse
-                    </div>
-                </div>
-
-                <div class="activity-card">
-                    <div class="card-header">
-                        <h3 class="card-title">Upcoming Custom Packages</h3>
-                    </div>
-                    <div class="card-body">
-                        @if($customPackagesNote)
-                            <div class="alert alert-info py-2">{{ $customPackagesNote }}</div>
-                        @endif
-                        @forelse($upcomingCustomPackages as $cp)
-                            <div class="tour-card">
-                                <div class="tour-header">
-                                    <h4 class="tour-title">{{ $cp->title }}</h4>
-                                </div>
-                                <div class="tour-body">
-                                    <div class="tour-details">
-                                        <span class="badge badge-success">{{ ucfirst($cp->status ?? 'pending') }}</span>
-                                        <span>{{ $cp->num_people ?? '-' }} people</span>
-                                    </div>
-                                    @if(!empty($cp->travel_date))
-                                    <div class="tour-info">
-                                        <i class="fas fa-calendar"></i>
-                                        <span>{{ \Carbon\Carbon::parse($cp->travel_date)->format('M d, Y') }}</span>
-                                    </div>
-                                    @endif
-                                    @if(!empty($cp->start_location))
-                                    <div class="tour-info">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        <span>{{ $cp->start_location }}</span>
-                                    </div>
-                                    @endif
-                                    <div class="tour-actions">
-                                        <form method="POST" action="{{ route('custom-packages.complete', $cp->id) }}" style="display: inline;">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Are you sure you want to mark this tour as completed?')">Complete Tour</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        @empty
-                            <p class="text-muted mb-0">No upcoming custom packages.</p>
+                            <p class="text-muted mb-0">No upcoming custom bookings.</p>
                         @endforelse
                     </div>
                 </div>

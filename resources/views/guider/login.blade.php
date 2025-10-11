@@ -361,6 +361,13 @@
                         </div>
                     @endif
                     
+                    @if(session('otp_sent') && !session('success'))
+                        <div class="success-message">
+                            <i class="fas fa-check-circle"></i>
+                            Verification code sent to your email.
+                        </div>
+                    @endif
+                    
                     <!-- Step 1: Enter Email -->
                     @if(!session('otp_sent'))
                         <form action="{{ route('guider.sendOtp') }}" method="POST">
