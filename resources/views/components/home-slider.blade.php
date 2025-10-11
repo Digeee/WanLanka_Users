@@ -33,7 +33,7 @@
         <label for="cr-3"></label>
         <label for="cr-4"></label>
     </div>
-
+    
     <!-- Scroll Down Indicator -->
     <div class="scroll-down">
         <i class="fas fa-chevron-down"></i>
@@ -87,17 +87,17 @@
         font-size: 2rem !important;
         bottom: 30% !important;
     }
-
+    
     .slider-subtitle {
         font-size: 1.1rem;
         bottom: 22%;
         max-width: 90%;
     }
-
+    
     .slider-btn {
         bottom: 12%;
     }
-
+    
     .explore-btn {
         padding: 12px 25px;
         font-size: 1rem;
@@ -109,7 +109,7 @@
         font-size: 1.6rem !important;
         bottom: 35% !important;
     }
-
+    
     .slider-subtitle {
         font-size: 0.9rem;
         bottom: 25%;
