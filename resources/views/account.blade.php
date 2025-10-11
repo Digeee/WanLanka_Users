@@ -15,6 +15,9 @@
         try { $dobValue = \Illuminate\Support\Carbon::parse($user->dob)->format('Y-m-d'); }
         catch (\Throwable $e) { $dobValue = $user->dob; }
     }
+    
+    $oldProvince = old('province', $user->province);
+    $oldDistrict = old('district', $user->district);
 @endphp
 
 <!DOCTYPE html>
@@ -308,51 +311,48 @@
       </form>
       <h6 class="mt-4">My Fixed Bookings</h6>
 
-@if($bookings->isEmpty())
-    <p>You have no booking requests yet.</p>
+@if($bookings->count() > 0)
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle">
+      <thead>
+<tr>
+  <th>Package</th>
+  <th>Status</th>
+  <th>Participants</th>
+  <th>Total Amount</th>
+  <th>Pickup Location</th>
+  <th>Payment Method</th>
+  <th>Receipt</th>
+  <th>Booked On</th>
+</tr>
+</thead>
+<tbody>
+@foreach ($bookings as $booking)
+<tr>
+  <td>{{ $booking->package_name ?? ($booking->package->package_name ?? 'N/A') }}</td>
+  <td>{{ ucfirst($booking->status) }}</td>
+  <td>{{ $booking->participants }}</td> <!-- new -->
+  <td>${{ number_format($booking->total_price, 2) }}</td> <!-- new -->
+  <td>{{ $booking->pickup_location }}</td>
+  <td>{{ $booking->payment_method }}</td>
+  <td>
+    @if($booking->receipt)
+      <a href="{{ Storage::url($booking->receipt) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+        View/Download
+      </a>
+    @else
+      —
+    @endif
+  </td>
+  <td>{{ $booking->created_at->format('d M Y, H:i') }}</td>
+</tr>
+@endforeach
+</tbody>
+
+    </table>
+  </div>
 @else
-    <div class="table-responsive">
-        <table class="table table-bordered align-middle">
-            <thead class="table-light">
-                <tr>
-                    <th>Package</th>
-                    <th>Pickup Location</th>
-                    <th>Payment Method</th>
-                    <th>Status</th>
-                    <th>Requested At</th>
-                    <th>Receipt</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($bookings as $booking)
-                    <tr>
-                        <td>{{ $booking->package->name ?? 'N/A' }}</td>
-                        <td>{{ $booking->pickup_location }}</td>
-                        <td>{{ $booking->payment_method }}</td>
-                        <td>
-                            @if($booking->status === 'pending')
-                                <span class="badge bg-warning text-dark">Pending</span>
-                            @elseif($booking->status === 'approved')
-                                <span class="badge bg-success">Approved</span>
-                            @elseif($booking->status === 'rejected')
-                                <span class="badge bg-danger">Rejected</span>
-                            @endif
-                        </td>
-                        <td>{{ $booking->created_at->format('d M Y, H:i') }}</td>
-                        <td>
-                            @if($booking->receipt)
-                                <a href="{{ Storage::url($booking->receipt) }}" target="_blank" class="btn btn-sm btn-outline-primary">
-                                    View/Download
-                                </a>
-                            @else
-                                —
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+  <p>No bookings found.</p>
 @endif
 
 
@@ -409,8 +409,8 @@
 
   const provinceEl = document.getElementById('province');
   const districtEl = document.getElementById('district');
-  const oldProvince = @json(old('province', $user->province));
-  const oldDistrict = @json(old('district', $user->district));
+  const oldProvince = `{!! json_encode($oldProvince) !!}`;
+  const oldDistrict = `{!! json_encode($oldDistrict) !!}`;
 
   function fillProvinces(){
     if(!provinceEl) return;
@@ -434,11 +434,11 @@
   }
 
   fillProvinces();
-  if (oldProvince) fillDistricts(oldProvince);
+  if (oldProvince && oldProvince !== 'null') fillDistricts(oldProvince);
   if (provinceEl) provinceEl.addEventListener('change', e => fillDistricts(e.target.value));
 </script>
 <a href="{{ route('user.bookings') }}" class="btn btn-primary mt-3">
-    My Bookings & Packages
+    My Bookings & Packages
 </a>
 </body>
 </html>

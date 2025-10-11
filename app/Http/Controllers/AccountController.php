@@ -10,12 +10,13 @@ use Illuminate\Validation\Rule;
 class AccountController extends Controller
 {
     public function index()
-    {
-        $user = auth()->user();
-        $bookings = $user->fixedBookings()->latest()->get(); // fetch all fixed bookings
+{
+    $user = auth()->user();
+    $bookings = $user->fixedBookings()->with('package')->latest()->get();
 
-        return view('account', compact('user', 'bookings')); // pass to view
-    }
+    return view('account', compact('user', 'bookings'));
+}
+
 
     public function update(Request $request)
     {

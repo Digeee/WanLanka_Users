@@ -182,37 +182,31 @@
 
         <!-- STEP 3: PAYMENT -->
         <div class="step-section" id="step3">
-            <div class="form-section">
-                <h2 class="section-title">Payment Details</h2>
-                <p>Review your booking and complete payment.</p>
+        <div class="form-section">
+            <h2 class="section-title">Payment Details</h2>
 
-                <div class="free-cancel">
-                    <svg fill="#28a745" width="16" height="16"><use href="#clock"/></svg>
-                    Free cancellation before 5:00 AM on October 5 (tour local time)
-                </div>
-
-                <div class="form-group">
-                    <label for="payment_method">Payment Method *</label>
-                    <select name="payment_method" id="payment_method" class="form-control" required>
-                        <option value="">Select payment method</option>
-                        <option value="cash">Cash on Arrival</option>
-                        <option value="online">Online Payment</option>
-                    </select>
-                </div>
-
-                <div class="form-group" id="receiptUpload" style="display: none;">
-                    <label for="receipt">Upload Payment Receipt</label>
-                    <input type="file" name="receipt" id="receipt" class="form-control" accept="image/*,application/pdf">
-                    <small class="text-muted">Upload proof of payment if paying online.</small>
-                </div>
-
-                <div class="terms">
-                    By clicking "Book Now", you agree to WanLanka's <a href="#">Terms & Privacy</a> and <a href="#">Cookies Statement</a>.
-                </div>
-
-                <button type="button" class="btn btn-book" onclick="showConfirmModal()">Book Now</button>
+            <div class="form-group">
+                <label for="payment_method">Payment Method *</label>
+                <select name="payment_method" id="payment_method" class="form-control" required>
+                    <option value="">Select payment method</option>
+                    <option value="cash">Cash on Arrival</option>
+                    <option value="online">Online Payment</option>
+                </select>
             </div>
+
+            <div class="form-group" id="receiptUpload" style="display: none;">
+                <label for="receipt">Upload Payment Receipt</label>
+                <input type="file" name="receipt" id="receipt" class="form-control" accept="image/*,application/pdf">
+                <small class="text-muted">Upload proof of payment if paying online.</small>
+            </div>
+
+            <!-- ✅ Participants & Total Price hidden fields (to store in DB) -->
+            <input type="hidden" name="participants" id="participantsHidden" value="1">
+            <input type="hidden" name="total_price" id="totalPriceHidden" value="{{ $package->price }}">
+
+            <button type="button" class="btn btn-book" onclick="submitBooking()">Book Now</button>
         </div>
+    </div>
     </form>
 
     <!-- SIDEBAR -->
@@ -229,13 +223,15 @@
                 <span>5:00 AM</span>
             </div>
             <div class="sidebar-item">
-                <span>Travelers</span>
-                <span>2 Adults</span>
-            </div>
+    <span>Participants</span>
+    <input type="number" id="participants" name="participants" value="1" min="1" style="width:60px; text-align:center; border:1px solid #dee2e6; border-radius:6px; padding:4px;">
+</div>
+
             <div class="sidebar-item">
-                <span>Total</span>
-                <span>${{ number_format($package->price, 2) }}</span>
-            </div>
+    <span>Total</span>
+    <span id="totalPrice">${{ number_format($package->price, 2) }}</span>
+</div>
+
             <div class="free-cancel" style="margin-top: 20px;">
                 <svg fill="#28a745" width="16" height="16"><use href="#clock"/></svg>
                 Free cancellation before 5:00 AM on October 5
@@ -309,6 +305,23 @@ function submitBooking() {
     document.getElementById('bookingForm').submit();
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    const participantsInput = document.getElementById('participants');
+    const totalPriceElem = document.getElementById('totalPrice');
+    const basePrice = parseFloat("{{ $package->price }}");
+
+    function updateTotalPrice() {
+        let count = parseInt(participantsInput.value);
+        if (isNaN(count) || count < 1) count = 1;
+        const total = (basePrice * count).toFixed(2);
+        totalPriceElem.textContent = `$${total}`;
+    }
+
+    participantsInput.addEventListener('input', updateTotalPrice);
+
+    // Initialize on load
+    updateTotalPrice();
+});
 
 </script>
 
