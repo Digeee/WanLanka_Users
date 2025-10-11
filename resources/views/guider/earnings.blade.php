@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guider Dashboard - WanLanka</title>
+    <title>Earnings - Guider Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -177,7 +177,7 @@
             font-size: 14px;
         }
         
-        .submenu-item:hover {
+        .submenu-item:hover, .submenu-item.active {
             background: #e9f0ff;
             color: var(--primary);
         }
@@ -339,7 +339,7 @@
             margin-bottom: 0;
         }
         
-        /* Dashboard Cards */
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -381,127 +381,53 @@
             font-size: 14px;
         }
         
-        /* Activity Section */
-        .activity-card {
+        /* Earnings Chart */
+        .chart-container {
             background: white;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            overflow: hidden;
+            padding: 20px;
             margin-bottom: 30px;
         }
         
-        .card-header {
-            padding: 20px 25px;
-            border-bottom: 1px solid var(--border);
+        .chart-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 20px;
         }
         
-        .card-title {
+        .chart-title {
             font-size: 18px;
             font-weight: 600;
             margin: 0;
         }
         
-        .card-body {
-            padding: 25px;
-        }
-        
-        /* Activity List */
-        .activity-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .activity-item {
-            display: flex;
-            padding: 15px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        .activity-item:last-child {
-            border-bottom: none;
-        }
-        
-        .activity-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #f0f7ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            color: var(--primary);
-        }
-        
-        .activity-content {
-            flex: 1;
-        }
-        
-        .activity-title {
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
-        
-        .activity-time {
-            font-size: 12px;
-            color: var(--text-light);
-        }
-        
-        /* Upcoming Tours */
-        .tour-card {
+        /* Earnings Table */
+        .earnings-table {
             background: white;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             overflow: hidden;
-            margin-bottom: 20px;
         }
         
-        .tour-header {
+        .table-header {
             padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
         }
         
-        .tour-title {
-            font-size: 16px;
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        .table th {
             font-weight: 600;
-            margin: 0;
         }
         
-        .tour-body {
-            padding: 20px;
-        }
-        
-        .tour-details {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        
-        .tour-info {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .tour-info i {
-            margin-right: 8px;
-            color: var(--primary);
-        }
-        
-        .tour-actions {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 13px;
-            border-radius: 6px;
+        .table td, .table th {
+            vertical-align: middle;
         }
         
         /* Custom Utilities */
@@ -623,7 +549,7 @@
         </div>
         
         <div class="sidebar-menu">
-            <a href="{{ route('guider.dashboard') }}" class="menu-item active">
+            <a href="{{ route('guider.dashboard') }}" class="menu-item">
                 <i class="fas fa-tachometer-alt"></i>
                 <span class="menu-label">Dashboard</span>
             </a>
@@ -694,7 +620,7 @@
                 <i class="fas fa-star"></i>
                 <span class="menu-label">Reviews</span>
             </a>
-            <a href="{{ route('guider.earnings') }}" class="menu-item">
+            <a href="{{ route('guider.earnings') }}" class="menu-item active">
                 <i class="fas fa-chart-line"></i>
                 <span class="menu-label">Earnings</span>
             </a>
@@ -728,18 +654,13 @@
         <!-- Page Header -->
         <div class="page-header">
             <div>
-                <h1 class="page-title">Dashboard</h1>
+                <h1 class="page-title">Earnings</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                        <li class="breadcrumb-item"><a href="{{ route('guider.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Earnings</li>
                     </ol>
                 </nav>
-            </div>
-            <div class="page-actions">
-                <button class="btn btn-primary">
-                    <i class="fas fa-plus me-2"></i>New Tour
-                </button>
             </div>
         </div>
         
@@ -747,234 +668,100 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon bg-primary-light text-primary">
-                    <i class="fas fa-calendar-check"></i>
-                </div>
-                <div class="stat-value">12</div>
-                <div class="stat-label">Upcoming Tours</div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon bg-primary-light text-primary">
-                    <i class="fas fa-user-check"></i>
-                </div>
-                <div class="stat-value">47</div>
-                <div class="stat-label">Tourists This Month</div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon bg-primary-light text-primary">
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="stat-value">4.8</div>
-                <div class="stat-label">Average Rating</div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon bg-primary-light text-primary">
                     <i class="fas fa-wallet"></i>
                 </div>
-                <div class="stat-value">$2,450</div>
-                <div class="stat-label">Earnings This Month</div>
+                <div class="stat-value">LKR 24,500</div>
+                <div class="stat-label">This Month</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon bg-primary-light text-primary">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-value">LKR 12,800</div>
+                <div class="stat-label">Last Month</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon bg-primary-light text-primary">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <div class="stat-value">LKR 8,500</div>
+                <div class="stat-label">Pending</div>
             </div>
         </div>
         
-        <div class="row">
-            <div class="col-lg-8">
-                <!-- Recent Activity -->
-                <div class="activity-card">
-                    <div class="card-header">
-                        <h3 class="card-title">Recent Activity</h3>
-                        <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
-                    </div>
-                    <div class="card-body">
-                        <ul class="activity-list">
-                            <li class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-calendar-plus"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-title">New tour booking received</div>
-                                    <div class="activity-desc">Colombo City Tour for 4 people on June 15</div>
-                                    <div class="activity-time">2 hours ago</div>
-                                </div>
-                            </li>
-                            <li class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-title">New review received</div>
-                                    <div class="activity-desc">"Excellent guide with deep knowledge of history" - Sarah Johnson</div>
-                                    <div class="activity-time">5 hours ago</div>
-                                </div>
-                            </li>
-                            <li class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-check-circle"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-title">Tour completed successfully</div>
-                                    <div class="activity-desc">Sigiriya Rock Fortress Tour with 6 tourists</div>
-                                    <div class="activity-time">Yesterday, 4:30 PM</div>
-                                </div>
-                            </li>
-                            <li class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-comment"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <div class="activity-title">New message from tourist</div>
-                                    <div class="activity-desc">"Can we adjust the start time for the Kandy tour?"</div>
-                                    <div class="activity-time">June 10, 11:20 AM</div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+        <!-- Earnings Chart -->
+        <div class="chart-container">
+            <div class="chart-header">
+                <h3 class="chart-title">Earnings Overview</h3>
+                <div>
+                    <button class="btn btn-sm btn-outline-primary">Monthly</button>
+                    <button class="btn btn-sm btn-primary">Yearly</button>
                 </div>
             </div>
-            
-            <div class="col-lg-4">
-                <!-- Upcoming Packages (Dynamic) -->
-                <?php
-                    $today = \Carbon\Carbon::today()->toDateString();
-                    $gId = session('guider_id');
-                    $gEmail = null;
-                    $gUsername = null;
-                    if ($gId) {
-                        try {
-                            $g = \App\Models\Guider::find($gId);
-                            if ($g) { 
-                                $gEmail = $g->email ?? null; 
-                                $gUsername = $g->username ?? null; 
-                            }
-                        } catch (\Throwable $e) { /* ignore */ }
-                    }
-
-                    // Upcoming individual bookings assigned to this guider
-                    $upcomingBookings = collect();
-                    try {
-                        $query = \App\Models\Booking::query()
-                            ->whereDate('date', '>=', $today)
-                            ->where('guider_id', $gId)
-                            ->whereNotIn('status', ['cancelled', 'completed'])
-                            ->orderBy('date');
-                        
-                        $upcomingBookings = $query->limit(5)->get();
-                    } catch (\Throwable $e) { 
-                        $upcomingBookings = collect(); 
-                    }
-
-                    // Upcoming custom packages assigned to this guider
-                    $upcomingCustomPackages = collect();
-                    $customPackagesNote = null;
-                    try {
-                        if ($gId) {
-                            $upcomingCustomPackages = \App\Models\CustomPackage::query()
-                                ->where('guider_id', $gId)
-                                ->whereDate('travel_date', '>=', $today)
-                                ->whereIn('status', ['approved', 'active'])
-                                ->orderBy('travel_date')
-                                ->limit(5)
-                                ->get();
-                        } else {
-                            $customPackagesNote = 'Unable to load custom packages. Please log in again.';
-                        }
-                    } catch (\Throwable $e) { 
-                        $upcomingCustomPackages = collect();
-                        $customPackagesNote = 'Error loading custom packages.';
-                    }
-                ?>
-
-                <div class="activity-card">
-                    <div class="card-header">
-                        <h3 class="card-title">Upcoming Bookings</h3>
-                    </div>
-                    <div class="card-body">
-                        @forelse($upcomingBookings as $bk)
-                            <div class="tour-card">
-                                <div class="tour-header">
-                                    <h4 class="tour-title">Booking #{{ $bk->id }}</h4>
-                                </div>
-                                <div class="tour-body">
-                                    <div class="tour-details">
-                                        <span class="badge badge-success">{{ ucfirst($bk->status ?? 'pending') }}</span>
-                                        <span>{{ $bk->people_count ?? '-' }} people</span>
-                                    </div>
-                                    <div class="tour-info">
-                                        <i class="fas fa-calendar"></i>
-                                        <span>{{ \Carbon\Carbon::parse($bk->date)->format('M d, Y') }}</span>
-                                    </div>
-                                    @if(!empty($bk->time))
-                                    <div class="tour-info">
-                                        <i class="fas fa-clock"></i>
-                                        <span>{{ $bk->time }}</span>
-                                    </div>
-                                    @endif
-                                    @if(!empty($bk->pickup_location))
-                                    <div class="tour-info">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        <span>{{ $bk->pickup_location }}</span>
-                                    </div>
-                                    @endif
-                                    <div class="tour-actions">
-                                        <form method="POST" action="{{ route('bookings.complete', $bk->id) }}" style="display: inline;">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Are you sure you want to mark this tour as completed?')">Complete Tour</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        @empty
-                            <p class="text-muted mb-0">No upcoming bookings.</p>
-                        @endforelse
-                    </div>
+            <div class="chart-placeholder" style="height: 300px; display: flex; align-items: center; justify-content: center; background: #f8f9fa; border-radius: 8px;">
+                <div class="text-center">
+                    <i class="fas fa-chart-bar fa-3x text-primary mb-3"></i>
+                    <p class="mb-0">Earnings chart visualization would appear here</p>
                 </div>
-
-                <div class="activity-card">
-                    <div class="card-header">
-                        <h3 class="card-title">Upcoming Custom Packages</h3>
-                    </div>
-                    <div class="card-body">
-                        @if($customPackagesNote)
-                            <div class="alert alert-info py-2">{{ $customPackagesNote }}</div>
-                        @endif
-                        @forelse($upcomingCustomPackages as $cp)
-                            <div class="tour-card">
-                                <div class="tour-header">
-                                    <h4 class="tour-title">{{ $cp->title }}</h4>
-                                </div>
-                                <div class="tour-body">
-                                    <div class="tour-details">
-                                        <span class="badge badge-success">{{ ucfirst($cp->status ?? 'pending') }}</span>
-                                        <span>{{ $cp->num_people ?? '-' }} people</span>
-                                    </div>
-                                    @if(!empty($cp->travel_date))
-                                    <div class="tour-info">
-                                        <i class="fas fa-calendar"></i>
-                                        <span>{{ \Carbon\Carbon::parse($cp->travel_date)->format('M d, Y') }}</span>
-                                    </div>
-                                    @endif
-                                    @if(!empty($cp->start_location))
-                                    <div class="tour-info">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        <span>{{ $cp->start_location }}</span>
-                                    </div>
-                                    @endif
-                                    <div class="tour-actions">
-                                        <form method="POST" action="{{ route('custom-packages.complete', $cp->id) }}" style="display: inline;">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Are you sure you want to mark this tour as completed?')">Complete Tour</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        @empty
-                            <p class="text-muted mb-0">No upcoming custom packages.</p>
-                        @endforelse
-                    </div>
-                </div>
+            </div>
+        </div>
+        
+        <!-- Earnings Breakdown -->
+        <div class="earnings-table">
+            <div class="table-header">
+                <h3 class="mb-0">Earnings Breakdown</h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Tour</th>
+                            <th>Tourist</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Oct 15, 2025</td>
+                            <td>Colombo City Tour</td>
+                            <td>John Smith</td>
+                            <td>LKR 2,500</td>
+                            <td><span class="badge bg-success">Paid</span></td>
+                        </tr>
+                        <tr>
+                            <td>Oct 12, 2025</td>
+                            <td>Kandy Heritage Walk</td>
+                            <td>Sarah Johnson</td>
+                            <td>LKR 3,200</td>
+                            <td><span class="badge bg-success">Paid</span></td>
+                        </tr>
+                        <tr>
+                            <td>Oct 10, 2025</td>
+                            <td>Galle Fort Exploration</td>
+                            <td>Michael Brown</td>
+                            <td>LKR 2,800</td>
+                            <td><span class="badge bg-warning">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td>Oct 8, 2025</td>
+                            <td>Colombo City Tour</td>
+                            <td>Emma Wilson</td>
+                            <td>LKR 2,500</td>
+                            <td><span class="badge bg-success">Paid</span></td>
+                        </tr>
+                        <tr>
+                            <td>Oct 5, 2025</td>
+                            <td>Kandy Heritage Walk</td>
+                            <td>David Lee</td>
+                            <td>LKR 3,200</td>
+                            <td><span class="badge bg-success">Paid</span></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

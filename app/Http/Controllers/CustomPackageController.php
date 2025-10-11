@@ -232,6 +232,29 @@ class CustomPackageController extends Controller
             ->with('success', 'Package deleted successfully!');
     }
 
+    public function complete($id)
+    {
+        $package = CustomPackage::where('id', $id);
+        
+        // If guider is logged in, check if they are assigned to this package
+        if (session('guider_id')) {
+            $package = $package->where('guider_id', session('guider_id'));
+        }
+        
+        $package = $package->firstOrFail();
+        
+        // Check if the package is already completed
+        if (strtolower($package->status) === 'completed') {
+            return redirect()->back()->with('error', 'This package is already completed.');
+        }
+        
+        // Update the status to completed
+        $package->status = 'completed';
+        $package->save();
+        
+        return redirect()->back()->with('success', 'Package marked as completed successfully.');
+    }
+
     /**
      * Calculate total price of the package.
      */
