@@ -332,19 +332,19 @@
     .about-section {
         padding: 80px 0;
     }
-
+    
     .section-title {
         font-size: 2.5rem;
     }
-
+    
     .section-subtitle {
         font-size: 1.1rem;
     }
-
+    
     .glass-card {
         padding: 30px;
     }
-
+    
     .stat-number {
         font-size: 2.5rem;
     }
@@ -354,12 +354,12 @@
     .section-title {
         font-size: 2.2rem;
     }
-
+    
     .stats-container {
         flex-direction: column;
         gap: 30px;
     }
-
+    
     .service-icon {
         width: 60px;
         height: 60px;
@@ -371,24 +371,24 @@
     .about-section {
         padding: 60px 0;
     }
-
+    
     .section-title {
         font-size: 2rem;
     }
-
+    
     .section-divider {
         width: 80px;
         height: 3px;
     }
-
+    
     .about-text p {
         font-size: 1rem;
     }
-
+    
     .stat-number {
         font-size: 2rem;
     }
-
+    
     .services-container h3 {
         font-size: 1.7rem;
     }

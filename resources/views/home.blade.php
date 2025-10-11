@@ -29,4 +29,5 @@
 
   {{-- Contact teaser / newsletter --}}
   @includeIf('components.home-contact')
+
 @endsection

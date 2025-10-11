@@ -44,9 +44,9 @@ class UserBookingController extends Controller
         ));
     }
 
+    
 
-
-
+   
     public function show($id)
    {
     $user = Auth::user();
