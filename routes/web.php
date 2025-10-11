@@ -13,6 +13,7 @@ use App\Http\Controllers\User\ProvinceController;
 use App\Http\Controllers\GuiderAuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FixedBookingController;
+use App\Http\Controllers\TravelLockerController;
 
 /* -------------------- Public pages (no login required) -------------------- */
 Route::view('/', 'home')->name('home');
@@ -101,4 +102,28 @@ Route::delete('/bookings/{id}/delete', [UserBookingController::class, 'forceDele
     Route::middleware(['auth'])->group(function () {
     Route::get('/fixedbooking/{packageId}/reserve', [FixedBookingController::class, 'reserve'])->name('fixedbooking.reserve');
     Route::post('/fixedbooking/store', [FixedBookingController::class, 'store'])->name('fixedbooking.store');
+});
+
+// Travel Locker Debug Route (temporary)
+Route::get('/debug-travel-locker', function () {
+    return view('debug-travel-locker');
+})->name('debug-travel-locker');
+
+// Upload Test Route (temporary)
+Route::get('/test-upload', function () {
+    return view('test-upload');
+})->name('test-upload');
+
+// Travel Locker Routes - Protected by authentication
+Route::middleware(['auth'])->group(function () {
+    Route::get('/travel-locker', [TravelLockerController::class, 'index'])->name('travel-locker.index');
+    Route::get('/travel-locker/create', [TravelLockerController::class, 'create'])->name('travel-locker.create');
+    Route::post('/travel-locker', [TravelLockerController::class, 'store'])->name('travel-locker.store');
+    Route::get('/travel-locker/{travelDocument}', [TravelLockerController::class, 'show'])->name('travel-locker.show');
+    Route::get('/travel-locker/{travelDocument}/edit', [TravelLockerController::class, 'edit'])->name('travel-locker.edit');
+    Route::put('/travel-locker/{travelDocument}', [TravelLockerController::class, 'update'])->name('travel-locker.update');
+    Route::delete('/travel-locker/{travelDocument}', [TravelLockerController::class, 'destroy'])->name('travel-locker.destroy');
+    Route::get('/travel-locker/{travelDocument}/download', [TravelLockerController::class, 'download'])->name('travel-locker.download');
+    Route::get('/travel-locker-filter', [TravelLockerController::class, 'filter'])->name('travel-locker.filter');
+    Route::post('/travel-locker/bulk-delete', [TravelLockerController::class, 'bulkDelete'])->name('travel-locker.bulk-delete');
 });

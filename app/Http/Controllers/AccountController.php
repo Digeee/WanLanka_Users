@@ -12,9 +12,14 @@ class AccountController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $bookings = $user->fixedBookings()->latest()->get(); // fetch all fixed bookings
 
-        return view('account', compact('user', 'bookings')); // pass to view
+        // ✅ Fetch all user bookings (past + current)
+        $bookings = $user->bookings()->latest()->get();
+
+        // ✅ If you have a separate table for custom packages, fetch it too
+        $customPackages = $user->customPackages()->latest()->get();
+
+        return view('account', compact('user', 'bookings', 'customPackages'));
     }
 
     public function update(Request $request)
@@ -37,6 +42,7 @@ class AccountController extends Controller
             'marketing_opt_in' => ['nullable', 'boolean'],
         ]);
 
+        // ✅ Handle profile photo upload
         if ($request->hasFile('profile_photo')) {
             $new = $request->file('profile_photo')->store('profiles', 'public');
             if ($user->profile_photo && Storage::disk('public')->exists($user->profile_photo)) {
@@ -45,6 +51,7 @@ class AccountController extends Controller
             $validated['profile_photo'] = $new;
         }
 
+        // ✅ Handle ID image upload
         if ($request->hasFile('id_image')) {
             $new = $request->file('id_image')->store('id_images', 'public');
             if ($user->id_image && Storage::disk('public')->exists($user->id_image)) {
@@ -55,6 +62,7 @@ class AccountController extends Controller
 
         $validated['marketing_opt_in'] = (bool) $request->boolean('marketing_opt_in');
 
+        // ✅ Update user info
         $user->fill($validated)->save();
 
         return back()->with('success', 'Your account has been updated.');

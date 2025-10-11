@@ -16,10 +16,10 @@ class User extends Authenticatable
         // Basic
         'name', 'email', 'phone', 'password',
 
-        // ✅ New minimal sign-up fields
+        // Address fields
         'province', 'district', 'address',
 
-        // (Optional) Keep old fields if you’ll edit them later in Account page
+        // Optional profile fields
         'city', 'country', 'dob', 'preferred_language',
         'id_type', 'id_number', 'id_image',
         'profile_photo', 'emergency_name', 'emergency_phone',
@@ -48,18 +48,33 @@ class User extends Authenticatable
         'otp_attempts'      => 'integer',
     ];
 
-    // Convenient URL for profile photo (uses storage/public)
+    // ✅ Profile Photo Accessor
     public function getProfilePhotoUrlAttribute(): string
     {
         $path = $this->profile_photo;
         return ($path && Storage::disk('public')->exists($path))
             ? Storage::url($path)
-            : asset('images/avatar-default.png'); // make sure this file exists
+            : asset('images/avatar-default.png');
     }
 
-    public function fixedBookings()
+    // ✅ Relation: User has many bookings
+    public function bookings()
+    {
+        // Your bookings table uses email (not user_id)
+        return $this->hasMany(Booking::class, 'email', 'email');
+    }
+
+    // ✅ Relation: User has many custom packages
+    public function customPackages()
+    {
+        // Same logic — using email as foreign key
+        return $this->hasMany(CustomPackage::class, 'email', 'email');
+    }
+
+    // Relationship with Travel Documents
+public function travelDocuments()
 {
-    return $this->hasMany(FixedBooking::class);
+    return $this->hasMany(\App\Models\TravelDocument::class);
+}
 }
 
-}

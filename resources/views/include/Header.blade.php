@@ -110,6 +110,11 @@
               </a>
             </li>
             <li>
+              <li>
+    <a class="wl-dropdown-item" href="{{ route('travel-locker.index') }}">
+        <i class="fas fa-lock me-2"></i>Travel Locker
+    </a>
+</li>
               <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="wl-dropdown-item wl-danger">Logout</button>
