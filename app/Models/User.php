@@ -59,7 +59,7 @@ class User extends Authenticatable
 
     public function fixedBookings()
 {
-    return $this->hasMany(FixedBooking::class);
+    return $this->hasMany(\App\Models\FixedBooking::class, 'user_id');
 }
 
 }

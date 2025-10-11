@@ -14,15 +14,13 @@ class AccountController extends Controller
      * Display user account details and bookings.
      */
     public function index()
-    {
-        /** @var \App\Models\User $user */
-        $user = auth()->user();
+{
+    $user = auth()->user();
+    $bookings = $user->fixedBookings()->with('package')->latest()->get();
 
-        // Fetch all fixed bookings related to the user
-        $bookings = $user->fixedBookings()->latest()->get();
+    return view('account', compact('user', 'bookings'));
+}
 
-        return view('account', compact('user', 'bookings'));
-    }
 
     /**
      * Update user account details.
