@@ -1,5 +1,3 @@
-
-<link href="{{ asset('css/home-slider.css') }}" rel="stylesheet">
 <div class="c">
     <input type="radio" name="a" id="cr-1" checked>
     <label for="cr-1"></label>

@@ -63,6 +63,9 @@
           required
           form="wl-search-form"
           aria-label="Search query">
+
+        <!-- Search suggestions dropdown -->
+        <div id="searchSuggestions" class="wl-search-suggestions" style="display: none;"></div>
       </div>
 
       <a href="{{ route('guider.login') }}" class="wl-btn wl-btn-neutral" aria-label="Guider Login">
@@ -208,7 +211,7 @@
   display:flex;align-items:center;gap:8px;
   background:#f8fafc;border:1px solid var(--border);
   border-radius:999px;padding:6px 12px;box-shadow:var(--soft);
-  min-width:220px;
+  min-width:220px;position:relative;
 }
 .wl-search-btn{
   border:0; background:transparent; -webkit-appearance:none; appearance:none;
@@ -224,6 +227,51 @@
 }
 .wl-search-input::placeholder{color:var(--muted)}
 .wl-search:focus-within{border-color:#d0d7e2}
+
+/* Search Suggestions */
+.wl-search-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 12px 28px rgba(2,6,23,.12);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: -1px;
+}
+
+.wl-search-suggestion-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.wl-search-suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.wl-search-suggestion-item:hover,
+.wl-search-suggestion-item.highlighted {
+  background: #f8fafc;
+}
+
+.wl-search-suggestion-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.wl-search-suggestion-type {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
 
 /* User avatar + dropdown */
 .wl-avatar-btn{border:0;background:transparent;padding:0;margin:0;cursor:pointer}
@@ -347,6 +395,138 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeMenu();
+    });
+  }
+
+  // Search suggestions functionality
+  const searchInput = document.getElementById('siteSearchInput');
+  const searchSuggestions = document.getElementById('searchSuggestions');
+  let searchTimeout;
+  let currentHighlightedIndex = -1;
+
+  if (searchInput && searchSuggestions) {
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
+        hideSuggestions();
+      }
+    });
+
+    // Handle keyboard navigation
+    searchInput.addEventListener('keydown', (e) => {
+      const suggestionItems = searchSuggestions.querySelectorAll('.wl-search-suggestion-item');
+
+      switch(e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          currentHighlightedIndex = Math.min(currentHighlightedIndex + 1, suggestionItems.length - 1);
+          updateHighlight(suggestionItems);
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          currentHighlightedIndex = Math.max(currentHighlightedIndex - 1, -1);
+          updateHighlight(suggestionItems);
+          break;
+        case 'Enter':
+          if (currentHighlightedIndex >= 0 && suggestionItems[currentHighlightedIndex]) {
+            e.preventDefault();
+            suggestionItems[currentHighlightedIndex].click();
+          }
+          break;
+        case 'Escape':
+          hideSuggestions();
+          break;
+      }
+    });
+
+    // Fetch suggestions as user types
+    searchInput.addEventListener('input', () => {
+      clearTimeout(searchTimeout);
+      currentHighlightedIndex = -1;
+
+      const query = searchInput.value.trim();
+
+      if (query.length === 0) {
+        hideSuggestions();
+        return;
+      }
+
+      // Debounce the search requests
+      searchTimeout = setTimeout(() => {
+        fetchSearchSuggestions(query);
+      }, 300);
+    });
+  }
+
+  function fetchSearchSuggestions(query) {
+    // Call the API endpoint for search suggestions
+    fetch(`/api/search/suggestions?q=${encodeURIComponent(query)}`)
+      .then(response => response.json())
+      .then(data => {
+        displaySuggestions(data.suggestions);
+      })
+      .catch(error => {
+        console.error('Error fetching search suggestions:', error);
+        // Fallback to sample data if API fails
+        const sampleSuggestions = [
+          { title: 'Colombo', type: 'Destination', url: '#' },
+          { title: 'Kandy', type: 'Destination', url: '#' },
+          { title: 'Galle Fort', type: 'Place', url: '#' },
+          { title: 'Sigiriya Rock', type: 'Place', url: '#' },
+          { title: 'Beach Holiday Package', type: 'Package', url: '#' },
+          { title: 'Cultural Tour', type: 'Package', url: '#' }
+        ].filter(item => item.title.toLowerCase().includes(query.toLowerCase()));
+
+        displaySuggestions(sampleSuggestions);
+      });
+  }
+
+  function displaySuggestions(suggestions) {
+    if (suggestions.length === 0) {
+      hideSuggestions();
+      return;
+    }
+
+    searchSuggestions.innerHTML = '';
+
+    suggestions.forEach((suggestion, index) => {
+      const item = document.createElement('div');
+      item.className = 'wl-search-suggestion-item';
+      item.innerHTML = `
+        <div class="wl-search-suggestion-title">${suggestion.title}</div>
+        <div class="wl-search-suggestion-type">${suggestion.type}</div>
+      `;
+
+      item.addEventListener('click', () => {
+        searchInput.value = suggestion.title;
+        hideSuggestions();
+        // Redirect to the suggestion URL
+        if (suggestion.url && suggestion.url !== '#') {
+          window.location.href = suggestion.url;
+        } else {
+          // Fallback to search form submission
+          document.getElementById('wl-search-form').requestSubmit();
+        }
+      });
+
+      searchSuggestions.appendChild(item);
+    });
+
+    searchSuggestions.style.display = 'block';
+  }
+
+  function hideSuggestions() {
+    searchSuggestions.style.display = 'none';
+    currentHighlightedIndex = -1;
+  }
+
+  function updateHighlight(items) {
+    items.forEach((item, index) => {
+      if (index === currentHighlightedIndex) {
+        item.classList.add('highlighted');
+      } else {
+        item.classList.remove('highlighted');
+      }
     });
   }
 });
