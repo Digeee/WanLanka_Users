@@ -21,8 +21,9 @@ class CustomPackage extends Model
         'destinations',
         'vehicles',
         'accommodations',
-        'image'
-        // Removed 'status' and 'price' as they should be null initially
+        'image',
+        'status',
+        'price'
     ];
 
     protected $casts = [
@@ -33,6 +34,11 @@ class CustomPackage extends Model
         'duration' => 'integer',
         'num_people' => 'integer',
         'travel_date' => 'date'
+    ];
+
+    // Default attribute values
+    protected $attributes = [
+        'status' => 'pending',
     ];
 
     public function user(): BelongsTo
