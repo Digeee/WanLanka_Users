@@ -746,6 +746,64 @@
                         } else {
                             document.getElementById('pickupLocation').value = displayName;
                         }
+
+                        // Try to auto-select the district based on the address
+                        if (address) {
+                            // List of districts in Sri Lanka with variations
+                            const districtMappings = {
+                                'colombo': 'Colombo',
+                                'gampaha': 'Gampaha',
+                                'kalutara': 'Kalutara',
+                                'kandy': 'Kandy',
+                                'matale': 'Matale',
+                                'nuwara eliya': 'Nuwara Eliya',
+                                'galle': 'Galle',
+                                'matara': 'Matara',
+                                'hambantota': 'Hambantota',
+                                'jaffna': 'Jaffna',
+                                'mannar': 'Mannar',
+                                'vavuniya': 'Vavuniya',
+                                'mullaitivu': 'Mullaitivu',
+                                'kilinochchi': 'Kilinochchi',
+                                'batticaloa': 'Batticaloa',
+                                'ampara': 'Ampara',
+                                'trincomalee': 'Trincomalee',
+                                'kurunegala': 'Kurunegala',
+                                'puttalam': 'Puttalam',
+                                'anuradhapura': 'Anuradhapura',
+                                'polonnaruwa': 'Polonnaruwa',
+                                'badulla': 'Badulla',
+                                'monaragala': 'Monaragala',
+                                'ratnapura': 'Ratnapura',
+                                'kegalle': 'Kegalle'
+                            };
+
+                            // Check each address component for a matching district
+                            let foundDistrict = null;
+                            for (const key in address) {
+                                if (address.hasOwnProperty(key)) {
+                                    const value = (address[key] || '').toLowerCase();
+                                    for (const [matchKey, districtName] of Object.entries(districtMappings)) {
+                                        if (value.includes(matchKey)) {
+                                            foundDistrict = districtName;
+                                            break;
+                                        }
+                                    }
+                                    if (foundDistrict) break;
+                                }
+                            }
+
+                            // If we found a matching district, select it
+                            if (foundDistrict) {
+                                const districtSelect = document.getElementById('pickupDistrict');
+                                if (districtSelect) {
+                                    districtSelect.value = foundDistrict;
+                                    // Trigger change event to update the map
+                                    districtSelect.dispatchEvent(new Event('change'));
+                                }
+                            }
+                        }
+
                         document.getElementById('latitude').value = lat;
                         document.getElementById('longitude').value = lon;
                     })
@@ -877,7 +935,7 @@
                 pickupDistrictEl.addEventListener('change', function() {
                     const district = this.value;
                     if (district && map) {
-                        // Approximate centers for districts (you can expand this map)
+                        // More precise centers for districts in Sri Lanka
                         const districtCenters = {
                             'Colombo': [6.9271, 79.8612],
                             'Gampaha': [7.0906, 79.9947],
@@ -903,7 +961,7 @@
                             'Badulla': [6.9944, 81.0542],
                             'Monaragala': [6.8736, 81.35],
                             'Ratnapura': [6.6894, 80.3936],
-                            'Kegalle': [6.9, 80.35]
+                            'Kegalle': [7.0628, 80.2376]
                         };
                         if (districtCenters[district]) {
                             const [lat, lon] = districtCenters[district];
@@ -938,9 +996,22 @@
                 vehicles.forEach(vehicle => {
                     const option = document.createElement('option');
                     option.value = vehicle.id;
-                    option.textContent = `${vehicle.type} (${vehicle.seat_count} seats) - Base RS ${vehicle.base_price}`;
+                    // Updated vehicle pricing for Sri Lanka (in LKR)
+                    const vehiclePrices = {
+                        'bike': 1500,
+                        'three_wheeler': 2500,
+                        'car': 4000,
+                        'van': 6000,
+                        'bus': 10000
+                    };
+
+                    const vehicleType = vehicle.type.toLowerCase();
+                    const basePrice = vehiclePrices[vehicleType] || 3000;
+
+                    option.textContent = `${vehicle.type} (${vehicle.seat_count} seats) - Base RS ${basePrice}`;
                     option.dataset.type = vehicle.type.toLowerCase();
                     option.dataset.seats = vehicle.seat_count;
+                    option.dataset.price = basePrice;
                     vehicleSelect.appendChild(option);
                 });
             }
@@ -999,10 +1070,16 @@
 
             const placeDistrict = '{{ $place['district'] ?? 'Jaffna' }}';
             const distance = Math.abs(districtMatrix[district] - districtMatrix[placeDistrict]);
-            const basePrice = 50;
-            const extraPrice = distance * 10;
-            const guiderPrice = guider === 'yes' ? 20 : 0;
-            const totalPrice = (basePrice + extraPrice + guiderPrice) * people;
+
+            // Get selected vehicle option to get its price
+            const selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
+            const vehicleBasePrice = parseInt(selectedOption.dataset.price) || 3000;
+
+            // Updated pricing for Sri Lanka (in Sri Lankan Rupees)
+            const basePrice = 1500; // Base price per person in LKR
+            const distanceRate = 200; // Rate per district distance in LKR
+            const guiderPrice = guider === 'yes' ? 2500 : 0; // Guider cost in LKR per booking
+            const totalPrice = (basePrice + (distance * distanceRate) + vehicleBasePrice + guiderPrice) * people;
             totalPriceSpan.textContent = totalPrice.toFixed(2);
         }
 
@@ -1011,7 +1088,9 @@
             e.preventDefault();
             const formData = new FormData(form);
             formData.append('place_id', '{{ $place['id'] ?? '' }}');
-            formData.append('total_price', totalPriceSpan.textContent);
+            // Convert the total price to a float value
+            const totalPriceValue = parseFloat(totalPriceSpan.textContent) || 0;
+            formData.append('total_price', totalPriceValue);
 
             console.log('Form data:', Object.fromEntries(formData));
 
