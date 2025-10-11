@@ -1,5 +1,3 @@
-<link href="{{ asset('css/home-feedback.css') }}" rel="stylesheet">
-
 <div class="feedback-container" aria-label="Feedback Carousel">
     <div class="feedback-wrapper">
         <div class="feedback-item active" role="group" aria-roledescription="slide" aria-label="Feedback 1 of 3">
