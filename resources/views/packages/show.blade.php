@@ -1,8 +1,3 @@
-
-
-
-
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
@@ -145,17 +140,6 @@ h1, h2, h3, h4, h5, h6 {
 .stars svg:not(:last-child) {
     margin-right: 3px;
 }
-WanLanka Logo
-Home
-About
-Destinations
-Offers
-Packages
-Contact
-
-Search...
-Travel Agent
-Sign in
 
 .sticky-inner .text-muted {
     font-size: 0.9rem;
@@ -168,6 +152,11 @@ Sign in
     font-weight: 700;
     color: var(--primary);
     white-space: nowrap;
+}
+
+.price-tag .currency {
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .btn-ritz {
@@ -308,27 +297,91 @@ Sign in
     margin-right: 4px;
 }
 
-/* ---------- GALLERY GRID ---------- */
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 14px;
-    margin-top: 15px;
+/* ---------- GALLERY SLIDER ---------- */
+.gallery-slider {
+    position: relative;
+    margin: 20px 0;
 }
 
-.gallery-grid img {
+.gallery-slider-container {
+    position: relative;
+    overflow: hidden;
     border-radius: var(--radius);
-    cursor: pointer;
-    transition: var(--transition);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    height: 400px;
+}
+
+.gallery-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100px;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.gallery-slide.active {
+    opacity: 1;
+}
+
+.gallery-slide img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
-.gallery-grid img:hover {
-    transform: scale(1.07);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+.gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--dark);
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 10;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-nav:hover {
+    background: white;
+    color: var(--primary);
+}
+
+.gallery-prev {
+    left: 15px;
+}
+
+.gallery-next {
+    right: 15px;
+}
+
+.gallery-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.gallery-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ccc;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.gallery-dot.active {
+    background: var(--primary);
+    transform: scale(1.2);
 }
 
 /* ---------- MODAL ---------- */
@@ -406,8 +459,8 @@ Sign in
         margin-bottom: 30px;
     }
 
-    .gallery-grid img {
-        height: 90px;
+    .gallery-slider-container {
+        height: 300px;
     }
 }
 
@@ -425,6 +478,10 @@ Sign in
 
     .day-content h5 {
         font-size: 1.1rem;
+    }
+
+    .gallery-slider-container {
+        height: 250px;
     }
 }
 
@@ -450,7 +507,7 @@ Sign in
     <div class="container">
         <div class="sticky-inner">
             <div>
-                <h4 style="margin:0">{{ $package['package_name'] }}</h4>
+                <h4 style="margin:0">{{ $package['package_name'] ?? 'Package Name' }}</h4>
                 <div class="stars">
                     @for ($i=0;$i<5;$i++)
                         <svg fill="{{ $i < ($package['rating'] ?? 0) ? '#ffc107' : '#e4e5e9' }}"><use href="#star"/></svg>
@@ -459,8 +516,9 @@ Sign in
                 </div>
             </div>
             <div class="d-flex align-items-center gap-3">
-                <div class="price-tag">${{ number_format( (float) str_replace(',','',$package['price'] ?? 0) ) }}</div>
-                <a href="#" id="bookNowBtn" data-package-id="{{ $package['id'] }}" class="btn-ritz">Book Now</a>
+                <div class="price-tag"><span class="currency">Rs</span> {{ number_format( (float) str_replace(',','',$package['price'] ?? 0) ) }}</div>
+                <a href="#" id="bookNowBtn" data-package-id="{{ $package['id'] ?? '' }}" class="btn-ritz">Book Now</a>
+            </div>
         </div>
     </div>
 </div>
@@ -469,7 +527,7 @@ Sign in
 <div id="confirmBookModal" class="modal" style="display:none;">
   <div class="modal-content" style="max-width:500px; margin:50px auto; padding:20px; background:white; border-radius:8px;">
     <h4>Confirm Booking</h4>
-    <p>Do you want to book <strong>{{ $package['package_name'] }}</strong> now?</p>
+    <p>Do you want to book <strong>{{ $package['package_name'] ?? 'this package' }}</strong> now?</p>
     <div class="d-flex justify-content-end gap-2">
       <button id="cancelBook" class="btn btn-secondary">Cancel</button>
       <button id="confirmBook" class="btn btn-primary">Yes, Continue</button>
@@ -493,58 +551,80 @@ Sign in
     <!-- ITINERARY -->
     <section class="section-block fade-up">
         <h2 class="section-title">Itinerary</h2>
-        @forelse ($package['day_plans'] as $plan)
-            <div class="itinerary-day">
-                <div class="day-number">{{ $plan['day_number'] }}</div>
-                <div class="day-content">
-                    <h5>{{ $plan['plan'] ?? 'Day '.$plan['day_number'] }}</h5>
-                    <p>{{ $plan['description'] ?? '' }}</p>
-                    @if (!empty($plan['photos']))
-                        <div class="gallery-grid mt-2">
-                            @foreach ($plan['photos'] as $p)
-                                <img onclick="openModal('{{ $p }}')" src="{{ $p }}" alt="day">
-                            @endforeach
-                        </div>
-                    @endif
+        @if(isset($package['day_plans']) && is_array($package['day_plans']) && count($package['day_plans']) > 0)
+            @foreach ($package['day_plans'] as $plan)
+                <div class="itinerary-day">
+                    <div class="day-number">{{ $plan['day_number'] ?? $loop->iteration }}</div>
+                    <div class="day-content">
+                        <h5>{{ $plan['plan'] ?? 'Day '.$loop->iteration }}</h5>
+                        <p>{{ $plan['description'] ?? 'No description available for this day.' }}</p>
+                        @if (!empty($plan['photos']) && is_array($plan['photos']))
+                            <div class="gallery-slider">
+                                <div class="gallery-slider-container">
+                                    @foreach ($plan['photos'] as $index => $photo)
+                                        <div class="gallery-slide {{ $index == 0 ? 'active' : '' }}">
+                                            <img src="{{ $photo }}" alt="Day {{ $plan['day_number'] ?? $loop->parent->iteration }} Photo {{ $index + 1 }}" onclick="openModal('{{ $photo }}')">
+                                        </div>
+                                    @endforeach
+                                </div>
+                                @if(count($plan['photos']) > 1)
+                                    <button class="gallery-nav gallery-prev" onclick="changeSlide(this.parentElement, -1)">&#10094;</button>
+                                    <button class="gallery-nav gallery-next" onclick="changeSlide(this.parentElement, 1)">&#10095;</button>
+
+                                    <div class="gallery-dots">
+                                        @foreach ($plan['photos'] as $index => $photo)
+                                            <div class="gallery-dot {{ $index == 0 ? 'active' : '' }}" onclick="currentSlide(this.parentElement.parentElement, {{ $index }})"></div>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
+                        @endif
+                    </div>
                 </div>
-            </div>
-        @empty
-            <p>No day plans available.</p>
-        @endforelse
+            @endforeach
+        @else
+            <p>No day plans available for this package.</p>
+        @endif
     </section>
 
     <!-- ACCOMMODATIONS -->
     <section class="section-block fade-up">
         <h2 class="section-title">Accommodations</h2>
         <div class="acc-list">
-            @forelse ($package['accommodations'] as $acc)
-                <span class="acc-tag">{{ $acc['name'] }}</span>
-            @empty
-                <span class="text-muted">Not specified</span>
-            @endforelse
+            @if(isset($package['accommodations']) && is_array($package['accommodations']) && count($package['accommodations']) > 0)
+                @foreach ($package['accommodations'] as $acc)
+                    <span class="acc-tag">{{ $acc['name'] ?? 'Accommodation' }}</span>
+                @endforeach
+            @else
+                <span class="text-muted">No accommodations specified for this package.</span>
+            @endif
         </div>
     </section>
 
     <!-- INCLUSIONS -->
     <section class="section-block fade-up">
         <h2 class="section-title">Inclusions</h2>
-        <p>{{ $package['inclusions'] ?? 'No inclusions listed.' }}</p>
+        <p>{{ $package['inclusions'] ?? 'No inclusions listed for this package.' }}</p>
     </section>
 
     <!-- REVIEWS -->
     <section class="section-block fade-up">
         <h2 class="section-title">Guest Reviews</h2>
-        @forelse (range(1,3) as $dummy) {{-- replace with real reviews when available --}}
-            <div class="review-card">
-                <div class="stars mb-2">
-                    @for($i=0;$i<5;$i++)<svg><use href="#star"/></svg>@endfor
+        @if(isset($package['reviews_data']) && is_array($package['reviews_data']) && count($package['reviews_data']) > 0)
+            @foreach ($package['reviews_data'] as $review)
+                <div class="review-card">
+                    <div class="stars mb-2">
+                        @for($i=0;$i<5;$i++)
+                            <svg fill="{{ $i < ($review['rating'] ?? 0) ? '#ffc107' : '#e4e5e9' }}"><use href="#star"/></svg>
+                        @endfor
+                    </div>
+                    <p>"{{ $review['comment'] ?? 'No comment provided.' }}"</p>
+                    <small class="text-muted">— {{ $review['author'] ?? 'Anonymous' }}, {{ $review['date'] ?? 'Date not specified' }}</small>
                 </div>
-                <p>“Amazing experience, well organised and great value for money.”</p>
-                <small class="text-muted">— Guest {{ $dummy }}</small>
-            </div>
-        @empty
-            <p class="text-muted">No reviews yet.</p>
-        @endforelse
+            @endforeach
+        @else
+            <p class="text-muted">No reviews yet. Be the first to review this package!</p>
+        @endif
     </section>
 </div>
 
@@ -555,7 +635,7 @@ Sign in
 <div id="imgModal" class="modal fade" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <button class="close-modal" onclick="closeModal()">&times;</button>
-        <img id="modalImg" class="modal-img" src="" alt=" enlarged">
+        <img id="modalImg" class="modal-img" src="" alt="Enlarged view">
     </div>
 </div>
 
@@ -610,44 +690,117 @@ document.addEventListener('DOMContentLoaded', function () {
     const cancelBtn = document.getElementById('cancelBook');
     const confirmBtn = document.getElementById('confirmBook');
 
-    if (!bookBtn) return;
-
-    bookBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        // ✅ Check Laravel login status from backend
-        const isLoggedIn = @json(auth()->check());
-
-        if (!isLoggedIn) {
-            // Show alert and redirect to login
-            if (confirm('⚠️ Before booking, please log in to your account. Do you want to go to the login page?')) {
-                window.location.href = "{{ route('login') }}";
+    // Initialize fade-up animations
+    const fadeElements = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in');
             }
-            return;
-        }
+        });
+    }, { threshold: 0.1 });
 
-        // ✅ Show confirmation modal
-        modal.style.display = 'flex';
-    });
+    fadeElements.forEach(el => observer.observe(el));
 
-    // Close modal
-    cancelBtn.addEventListener('click', function () {
-        modal.style.display = 'none';
-    });
+    if (bookBtn) {
+        bookBtn.addEventListener('click', function (e) {
+            e.preventDefault();
 
-    // ✅ On confirm booking
-    confirmBtn.addEventListener('click', function () {
-        const packageId = bookBtn.getAttribute('data-package-id');
-        window.location.href = `/fixedbooking/${packageId}/reserve`;
+            // ✅ Check Laravel login status from backend
+            const isLoggedIn = @json(auth()->check());
 
-    });
+            if (!isLoggedIn) {
+                // Show alert and redirect to login
+                if (confirm('⚠️ Before booking, please log in to your account. Do you want to go to the login page?')) {
+                    window.location.href = "{{ route('login') }}";
+                }
+                return;
+            }
 
-    // Optional: close modal when clicking outside
-    window.addEventListener('click', function (e) {
-        if (e.target === modal) {
+            // ✅ Show confirmation modal
+            modal.style.display = 'flex';
+        });
+
+        // Close modal
+        cancelBtn.addEventListener('click', function () {
             modal.style.display = 'none';
-        }
-    });
+        });
+
+        // ✅ On confirm booking
+        confirmBtn.addEventListener('click', function () {
+            const packageId = bookBtn.getAttribute('data-package-id');
+            if (packageId) {
+                window.location.href = `/fixedbooking/${packageId}/reserve`;
+            } else {
+                alert('Package ID not found.');
+            }
+        });
+
+        // Optional: close modal when clicking outside
+        window.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
+});
+
+// Hero gallery functions
+function changeHero(src, el) {
+    document.getElementById('heroMain').src = src;
+    document.querySelectorAll('.hero-thumbs img').forEach(img => img.classList.remove('active'));
+    el.classList.add('active');
+}
+
+// Gallery slider functions
+function changeSlide(sliderContainer, direction) {
+    const slides = sliderContainer.querySelectorAll('.gallery-slide');
+    const dots = sliderContainer.querySelectorAll('.gallery-dot');
+    let currentIndex = Array.from(slides).findIndex(slide => slide.classList.contains('active'));
+
+    // Remove active class from current slide and dot
+    slides[currentIndex].classList.remove('active');
+    if (dots.length > 0) dots[currentIndex].classList.remove('active');
+
+    // Calculate new index
+    currentIndex += direction;
+    if (currentIndex >= slides.length) currentIndex = 0;
+    if (currentIndex < 0) currentIndex = slides.length - 1;
+
+    // Add active class to new slide and dot
+    slides[currentIndex].classList.add('active');
+    if (dots.length > 0) dots[currentIndex].classList.add('active');
+}
+
+function currentSlide(sliderContainer, index) {
+    const slides = sliderContainer.querySelectorAll('.gallery-slide');
+    const dots = sliderContainer.querySelectorAll('.gallery-dot');
+
+    // Remove active class from all slides and dots
+    slides.forEach(slide => slide.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
+
+    // Add active class to selected slide and dot
+    slides[index].classList.add('active');
+    dots[index].classList.add('active');
+}
+
+// Modal functions
+function openModal(src) {
+    document.getElementById('modalImg').src = src;
+    document.getElementById('imgModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('imgModal').style.display = 'none';
+}
+
+// Close modal when clicking outside the image
+window.addEventListener('click', function(e) {
+    const modal = document.getElementById('imgModal');
+    if (e.target === modal) {
+        closeModal();
+    }
 });
 </script>
 

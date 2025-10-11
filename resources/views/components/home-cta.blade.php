@@ -140,16 +140,16 @@
         flex-direction: column;
         text-align: center;
     }
-
+    
     .cta-content {
         padding-right: 0;
         margin-bottom: 50px;
     }
-
+    
     .cta-title {
         font-size: 2.3rem;
     }
-
+    
     .cta-description {
         font-size: 1.1rem;
     }
@@ -159,11 +159,11 @@
     .cta-section {
         padding: 70px 0;
     }
-
+    
     .cta-title {
         font-size: 2rem;
     }
-
+    
     .cta-button {
         padding: 14px 30px;
         font-size: 1rem;

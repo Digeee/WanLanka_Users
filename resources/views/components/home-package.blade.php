@@ -437,11 +437,11 @@
         min-width: 320px;
         height: 430px;
     }
-
+    
     .offer-title {
         font-size: 1.8rem;
     }
-
+    
     .offer-price {
         font-size: 1.6rem;
     }
@@ -451,40 +451,40 @@
     .packages-section {
         padding: 80px 0;
     }
-
+    
     .section-title {
         font-size: 2.5rem;
     }
-
+    
     .section-subtitle {
         font-size: 1.1rem;
     }
-
+    
     .offer-card {
         min-width: 300px;
         height: 400px;
     }
-
+    
     .offer-badge {
         padding: 8px 16px;
         font-size: 0.9rem;
         top: 20px;
         right: 20px;
     }
-
+    
     .offer-title {
         font-size: 1.7rem;
     }
-
+    
     .offer-price {
         font-size: 1.5rem;
     }
-
+    
     .view-tour-btn {
         padding: 12px 25px;
         font-size: 1rem;
     }
-
+    
     .offer-discount {
         font-size: 2.5rem;
     }
@@ -494,24 +494,24 @@
     .packages-section {
         padding: 60px 0;
     }
-
+    
     .section-title {
         font-size: 2.2rem;
     }
-
+    
     .offer-card {
         min-width: 280px;
         height: 380px;
     }
-
+    
     .offer-title {
         font-size: 1.6rem;
     }
-
+    
     .offer-price {
         font-size: 1.4rem;
     }
-
+    
     .carousel-btn {
         width: 50px;
         height: 50px;
@@ -523,36 +523,36 @@
     .packages-section {
         padding: 50px 0;
     }
-
+    
     .section-title {
         font-size: 2rem;
     }
-
+    
     .section-subtitle {
         font-size: 1rem;
     }
-
+    
     .offer-card {
         min-width: 260px;
         height: 360px;
     }
-
+    
     .offer-title {
         font-size: 1.5rem;
     }
-
+    
     .offer-price {
         font-size: 1.3rem;
     }
-
+    
     .offer-discount {
         font-size: 2rem;
     }
-
+    
     .offer-description {
         font-size: 1rem;
     }
-
+    
     .offer-includes li {
         font-size: 0.9rem;
     }

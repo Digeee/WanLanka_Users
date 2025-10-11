@@ -330,7 +330,7 @@
                             <h2 class="package-title">{{ $package['package_name'] }}</h2>
                             <p class="package-description">{{ $package['description'] ?? 'No description available' }}</p>
                             <div class="package-footer">
-                                <div class="package-price">${{ $package['price'] ?? 'N/A' }}</div>
+                                <div class="package-price">RS{{ $package['price'] ?? 'N/A' }}</div>
                                 <a href="/packages/{{ $package['id'] }}" class="btn-read-more">Read More</a>
                             </div>
                         </div>

@@ -339,17 +339,17 @@
     .feedback-text p strong {
         font-size: 22px;
     }
-
+    
     .nav-button {
         width: 60px;
         height: 60px;
         font-size: 24px;
     }
-
+    
     .nav-button.prev {
         left: 30px;
     }
-
+    
     .nav-button.next {
         right: 30px;
     }
@@ -395,11 +395,11 @@
     .feedback-text p strong {
         font-size: 20px;
     }
-
+    
     .indicators {
         bottom: 40px;
     }
-
+    
     .indicator {
         width: 15px;
         height: 15px;
@@ -516,7 +516,7 @@
         width: 12px;
         height: 12px;
     }
-
+    
     .feedback-container {
         height: 80vh;
     }
