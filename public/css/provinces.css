@@ -1,0 +1,185 @@
+/* Enhanced Heading Section */
+.provinces-header-section {
+    background: linear-gradient(135deg, #1a6706 0%, #cdbd30 100%);
+    padding: 60px 40px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.provinces-header-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+    background-size: cover;
+}
+
+.provinces-header-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.section-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    letter-spacing: 1px;
+    background: linear-gradient(45deg, #ffffff, #e3f2fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.section-subtitle {
+    font-size: 1.3rem;
+    max-width: 700px;
+    margin: 0 auto;
+    font-weight: 300;
+    line-height: 1.6;
+    opacity: 0.9;
+    animation: fadeInUp 1s ease-out;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments for heading */
+@media (max-width: 768px) {
+    .provinces-header-section {
+        padding: 60px 15px;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1.1rem;
+    }
+}
+.provinces-section {
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+
+/* Grid Layout */
+.provinces-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+/* Province Card Styling */
+.province-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.province-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px 0 rgba(31, 38, 135, 0.25);
+    background: rgba(255, 255, 255, 0.85);
+}
+
+/* Image Styling */
+.province-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.province-card:hover .province-image {
+    transform: scale(1.05);
+}
+
+/* Content Styling */
+.province-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0cab0f;
+    margin: 20px 20px 10px;
+    text-align: center;
+}
+
+.province-description {
+    color: #555;
+    margin: 0 20px 20px;
+    text-align: center;
+    line-height: 1.5;
+    flex-grow: 1;
+}
+
+/* Button Styling */
+.read-more-btn {
+    display: block;
+    width: max-content;
+    margin: 0 auto 25px;
+    padding: 10px 25px;
+    background: linear-gradient(45deg, #32d95e, #e9af33);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+}
+
+.read-more-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(13, 110, 253, 0.4);
+    background: linear-gradient(45deg, #0b5ed7, #0baccc);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .provinces-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+    
+    .provinces-header-section .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .provinces-header-section .section-subtitle {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .provinces-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .provinces-section {
+        padding: 20px 15px;
+    }
+}
