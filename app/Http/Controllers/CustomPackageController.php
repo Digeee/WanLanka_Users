@@ -155,6 +155,7 @@ class CustomPackageController extends Controller
             'start_location' => 'required|string|max:255',
             'duration' => 'required|integer|min:1',
             'num_people' => 'required|integer|min:1',
+            'travel_date' => 'nullable|date|after:today',
             'destinations' => 'required|string', // JSON string
             'vehicles' => 'required|string', // JSON string
             'accommodations' => 'required|string', // JSON string
@@ -162,7 +163,7 @@ class CustomPackageController extends Controller
         ]);
 
         $data = $request->only([
-            'title', 'start_location', 'duration', 'num_people'
+            'title', 'start_location', 'duration', 'num_people', 'travel_date'
         ]);
 
         // Explicitly set description to null
@@ -172,8 +173,9 @@ class CustomPackageController extends Controller
         $data['destinations'] = $request->destinations;
         $data['vehicles'] = $request->vehicles;
         $data['accommodations'] = $request->accommodations;
-        $data['status'] = 'active';
-        $data['price'] = $this->calculatePackagePrice($request);
+        // Set status as pending - will be updated by admin later
+        $data['status'] = 'pending';
+        $data['price'] = null;
 
         // Handle image (will be null if not provided)
         if ($request->hasFile('image')) {

@@ -553,6 +553,13 @@
                             <input type="number" name="num_people" id="num_people" class="form-control" min="1" value="2" required>
                         </div>
                         <div class="col-md-4">
+                            <label class="form-label"><i class="fas fa-calendar-day"></i> Travel Date</label>
+                            <input type="date" name="travel_date" id="travel_date" class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-3">
+                        <div class="col-md-4">
                             <label class="form-label"><i class="fas fa-car"></i> Vehicle Type</label>
                             <select name="vehicle" id="vehicleSelect" class="form-select" required>
                                 <option value="">-- Select Vehicle --</option>
