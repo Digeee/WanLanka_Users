@@ -1,7 +1,5 @@
 <!-- resources/views/include/header.blade.php -->
 
-<link href="{{ asset('css/header.css') }}" rel="stylesheet">
-
 <header class="wl-topbar wl-sticky wl-compact" role="banner">
   <div class="wl-container wl-container-fluid">
     <!-- LEFT: Brand -->

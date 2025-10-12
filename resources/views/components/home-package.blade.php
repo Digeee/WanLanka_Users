@@ -29,8 +29,10 @@
                                 <span class="feature">🏨 4-Star Hotels</span>
                             </div>
                             <div class="view-tour-btn">
-                                <span>Explore Package</span>
-                                <i class="fas fa-arrow-right"></i>
+                                <a href="{{ route('packages.fix') }}" style="color: white; text-decoration: none; display: flex; align-items: center; justify-content: space-between; gap: 15px;">
+                                    <span>Explore Package</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -47,11 +49,15 @@
                         </ul>
                         <div class="card-actions">
                             <div class="view-tour-btn primary">
-                                <span>Book Now</span>
-                                <i class="fas fa-arrow-right"></i>
+                                <a href="{{ route('packages.fix') }}" style="color: white; text-decoration: none; display: flex; align-items: center; justify-content: space-between; gap: 15px;">
+                                    <span>Book Now</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
                             <div class="view-tour-btn secondary">
-                                <span>Details</span>
+                                <a href="{{ route('packages.fix') }}" style="color: white; text-decoration: none;">
+                                    <span>Details</span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -81,8 +87,10 @@
                                 <span class="feature">🏛️ Cultural Sites</span>
                             </div>
                             <div class="view-tour-btn">
-                                <span>Explore Package</span>
-                                <i class="fas fa-arrow-right"></i>
+                                <a href="{{ route('packages.fix') }}" style="color: white; text-decoration: none; display: flex; align-items: center; justify-content: space-between; gap: 15px;">
+                                    <span>Explore Package</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -99,11 +107,15 @@
                         </ul>
                         <div class="card-actions">
                             <div class="view-tour-btn primary">
-                                <span>Book Now</span>
-                                <i class="fas fa-arrow-right"></i>
+                                <a href="{{ route('packages.fix') }}" style="color: white; text-decoration: none; display: flex; align-items: center; justify-content: space-between; gap: 15px;">
+                                    <span>Book Now</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
                             <div class="view-tour-btn secondary">
-                                <span>Details</span>
+                                <a href="{{ route('packages.fix') }}" style="color: white; text-decoration: none;">
+                                    <span>Details</span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -133,8 +145,10 @@
                                 <span class="feature">🏔️ Hill Country</span>
                             </div>
                             <div class="view-tour-btn">
-                                <span>Explore Package</span>
-                                <i class="fas fa-arrow-right"></i>
+                                <a href="{{ route('packages.fix') }}" style="color: white; text-decoration: none; display: flex; align-items: center; justify-content: space-between; gap: 15px;">
+                                    <span>Explore Package</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -151,11 +165,15 @@
                         </ul>
                         <div class="card-actions">
                             <div class="view-tour-btn primary">
-                                <span>Book Now</span>
-                                <i class="fas fa-arrow-right"></i>
+                                <a href="{{ route('packages.fix') }}" style="color: white; text-decoration: none; display: flex; align-items: center; justify-content: space-between; gap: 15px;">
+                                    <span>Book Now</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
                             <div class="view-tour-btn secondary">
-                                <span>Details</span>
+                                <a href="{{ route('packages.fix') }}" style="color: white; text-decoration: none;">
+                                    <span>Details</span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -185,8 +203,10 @@
                                 <span class="feature">🏖️ Beachfront</span>
                             </div>
                             <div class="view-tour-btn">
-                                <span>Explore Package</span>
-                                <i class="fas fa-arrow-right"></i>
+                                <a href="{{ route('packages.fix') }}" style="color: white; text-decoration: none; display: flex; align-items: center; justify-content: space-between; gap: 15px;">
+                                    <span>Explore Package</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -203,11 +223,15 @@
                         </ul>
                         <div class="card-actions">
                             <div class="view-tour-btn primary">
-                                <span>Book Now</span>
-                                <i class="fas fa-arrow-right"></i>
+                                <a href="{{ route('packages.fix') }}" style="color: white; text-decoration: none; display: flex; align-items: center; justify-content: space-between; gap: 15px;">
+                                    <span>Book Now</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
                             <div class="view-tour-btn secondary">
-                                <span>Details</span>
+                                <a href="{{ route('packages.fix') }}" style="color: white; text-decoration: none;">
+                                    <span>Details</span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -237,8 +261,10 @@
                                 <span class="feature">🚌 Luxury Coach</span>
                             </div>
                             <div class="view-tour-btn">
-                                <span>Explore Package</span>
-                                <i class="fas fa-arrow-right"></i>
+                                <a href="{{ route('packages.fix') }}" style="color: white; text-decoration: none; display: flex; align-items: center; justify-content: space-between; gap: 15px;">
+                                    <span>Explore Package</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -255,11 +281,15 @@
                         </ul>
                         <div class="card-actions">
                             <div class="view-tour-btn primary">
-                                <span>Book Now</span>
-                                <i class="fas fa-arrow-right"></i>
+                                <a href="{{ route('packages.fix') }}" style="color: white; text-decoration: none; display: flex; align-items: center; justify-content: space-between; gap: 15px;">
+                                    <span>Book Now</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
                             <div class="view-tour-btn secondary">
-                                <span>Details</span>
+                                <a href="{{ route('packages.fix') }}" style="color: white; text-decoration: none;">
+                                    <span>Details</span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -745,11 +775,11 @@
         min-width: 350px;
         height: 480px;
     }
-    
+
     .offer-title {
         font-size: 2rem;
     }
-    
+
     .current-price {
         font-size: 2.2rem;
     }
@@ -759,44 +789,44 @@
     .packages-section {
         padding: 100px 0;
     }
-    
+
     .section-title {
         font-size: 3rem;
     }
-    
+
     .section-subtitle {
         font-size: 1.2rem;
     }
-    
+
     .offer-card {
         min-width: 320px;
         height: 450px;
     }
-    
+
     .offer-content, .card-back {
         padding: 30px;
     }
-    
+
     .offer-badge {
         padding: 10px 20px;
         font-size: 0.9rem;
         top: 25px;
         right: 25px;
     }
-    
+
     .offer-title {
         font-size: 1.8rem;
     }
-    
+
     .current-price {
         font-size: 2rem;
     }
-    
+
     .view-tour-btn {
         padding: 16px 30px;
         font-size: 1rem;
     }
-    
+
     .offer-discount span {
         font-size: 3rem;
     }
@@ -806,38 +836,38 @@
     .packages-section {
         padding: 80px 0;
     }
-    
+
     .section-title {
         font-size: 2.5rem;
     }
-    
+
     .section-subtitle {
         font-size: 1.1rem;
     }
-    
+
     .offer-card {
         min-width: 300px;
         height: 420px;
     }
-    
+
     .offer-title {
         font-size: 1.7rem;
     }
-    
+
     .current-price {
         font-size: 1.8rem;
     }
-    
+
     .carousel-btn {
         width: 60px;
         height: 60px;
         font-size: 1.4rem;
     }
-    
+
     .carousel-indicator {
         font-size: 1.2rem;
     }
-    
+
     .current-slide {
         font-size: 1.8rem;
     }
@@ -847,44 +877,44 @@
     .packages-section {
         padding: 60px 0;
     }
-    
+
     .section-title {
         font-size: 2.2rem;
     }
-    
+
     .section-subtitle {
         font-size: 1rem;
     }
-    
+
     .offer-card {
         min-width: 280px;
         height: 400px;
     }
-    
+
     .offer-content, .card-back {
         padding: 25px;
     }
-    
+
     .offer-title {
         font-size: 1.6rem;
     }
-    
+
     .current-price {
         font-size: 1.7rem;
     }
-    
+
     .offer-discount span {
         font-size: 2.5rem;
     }
-    
+
     .offer-description {
         font-size: 1.1rem;
     }
-    
+
     .offer-includes li {
         font-size: 1rem;
     }
-    
+
     .card-actions {
         flex-direction: column;
     }
