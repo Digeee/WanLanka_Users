@@ -7,19 +7,19 @@
             <div class="floating-element element-3"></div>
         </div>
     </div>
-    
+
     <div class="cta-container">
         <div class="cta-content">
             <div class="content-wrapper">
                 <div class="section-badge">
                     <span>Discover Paradise</span>
                 </div>
-                
+
                 <h2 class="cta-title">
                     <span class="title-line">Find Your Dream</span>
                     <span class="title-line highlight">Vacation in Sri Lanka</span>
                 </h2>
-                
+
                 <p class="cta-description">
                     Discover the breathtaking beauty and diverse experiences that await you across
                     Sri Lanka's beautiful provinces. From pristine beaches to ancient cultural sites,
@@ -60,15 +60,15 @@
                             <i class="fas fa-arrow-right"></i>
                         </div>
                     </a>
-                    
-                    <a href="#" class="cta-button secondary">
+
+                    <a href="{{ route('custom-packages.index') }}" class="cta-button secondary">
                         <span>View Packages</span>
                         <div class="button-icon">
                             <i class="fas fa-gem"></i>
                         </div>
                     </a>
                 </div>
-                
+
                 <div class="trust-indicators">
                     <div class="trust-item">
                         <div class="trust-number">500+</div>
@@ -90,12 +90,12 @@
             <div class="image-container">
                 <img src="{{ asset('images/sample.png') }}" alt="Sri Lanka Landscape" class="main-image">
                 <div class="image-overlay"></div>
-                
+
                 <div class="floating-card card-1">
                     <i class="fas fa-award"></i>
                     <span>Best Tourism Award 2024</span>
                 </div>
-                
+
                 <div class="floating-card card-2">
                     <i class="fas fa-star"></i>
                     <span>5-Star Rated Service</span>
@@ -131,7 +131,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: 
+    background-image:
         radial-gradient(circle at 10% 20%, rgba(74, 105, 189, 0.03) 0%, transparent 50%),
         radial-gradient(circle at 90% 80%, rgba(42, 157, 143, 0.03) 0%, transparent 50%),
         radial-gradient(circle at 50% 50%, rgba(233, 196, 106, 0.02) 0%, transparent 50%);
@@ -457,11 +457,11 @@
     .cta-container {
         gap: 60px;
     }
-    
+
     .cta-title {
         font-size: 3rem;
     }
-    
+
     .trust-indicators {
         gap: 30px;
     }
@@ -473,36 +473,36 @@
         gap: 50px;
         text-align: center;
     }
-    
+
     .content-wrapper {
         max-width: 100%;
     }
-    
+
     .cta-title {
         font-size: 2.8rem;
     }
-    
+
     .features-grid {
         grid-template-columns: repeat(2, 1fr);
         max-width: 500px;
         margin-left: auto;
         margin-right: auto;
     }
-    
+
     .cta-actions {
         justify-content: center;
     }
-    
+
     .trust-indicators {
         justify-content: center;
     }
-    
+
     .image-container {
         transform: none;
         max-width: 600px;
         margin: 0 auto;
     }
-    
+
     .image-container:hover {
         transform: scale(1.02);
     }
@@ -513,43 +513,43 @@
         padding: 80px 0;
         min-height: auto;
     }
-    
+
     .cta-container {
         padding: 0 25px;
     }
-    
+
     .cta-title {
         font-size: 2.3rem;
     }
-    
+
     .cta-description {
         font-size: 1.1rem;
     }
-    
+
     .features-grid {
         grid-template-columns: 1fr;
         max-width: 300px;
     }
-    
+
     .cta-actions {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .cta-button {
         width: 100%;
         max-width: 280px;
         justify-content: center;
     }
-    
+
     .trust-indicators {
         gap: 25px;
     }
-    
+
     .trust-number {
         font-size: 1.7rem;
     }
-    
+
     .main-image {
         height: 400px;
     }
@@ -559,30 +559,30 @@
     .cta-section {
         padding: 60px 0;
     }
-    
+
     .cta-container {
         padding: 0 20px;
     }
-    
+
     .cta-title {
         font-size: 2rem;
     }
-    
+
     .section-badge {
         font-size: 0.8rem;
         padding: 8px 20px;
     }
-    
+
     .trust-indicators {
         flex-direction: column;
         gap: 20px;
     }
-    
+
     .floating-card {
         padding: 12px 16px;
         font-size: 0.9rem;
     }
-    
+
     .card-1, .card-2 {
         position: relative;
         top: auto;

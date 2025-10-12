@@ -11,6 +11,15 @@
   <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+  <!-- Header CSS -->
+  <link href="{{ asset('css/header.css') }}" rel="stylesheet">
+
+  <!-- Provinces CSS -->
+  <link href="{{ asset('css/provinces.css') }}" rel="stylesheet">
+
+  <!-- Footer CSS -->
+  <link href="{{ asset('css/footer.css') }}" rel="stylesheet">
+
   {{-- Component styles - only load on pages that need them --}}
   @yield('component-styles')
 
