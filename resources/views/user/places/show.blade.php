@@ -430,6 +430,64 @@
             display: block;
             color: #ced4da;
         }
+
+        /* Booking Confirmation Modal Styles */
+        .booking-details-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .detail-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-item strong {
+            color: var(--dark);
+            display: inline-block;
+            min-width: 140px;
+        }
+
+        .success-icon {
+            animation: bounce 1s ease;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        /* Modal Custom Styles */
+        .modal-content {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border-radius: 15px 15px 0 0;
+            border: none;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .btn-close {
+            background: white !important;
+            opacity: 1;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>
@@ -634,10 +692,155 @@
                         <div class="mb-3">
                             <p class="fs-5"><strong>Total Price: RS <span id="totalPrice">0.00</span></strong></p>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 py-3 fw-bold">
+                        <button type="submit" class="btn btn-primary w-100 py-3 fw-bold" id="orderNowBtn">
                             <i class="fas fa-check-circle me-2"></i>Order Now
                         </button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Confirmation Modal -->
+    <div class="modal fade" id="bookingConfirmationModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-clipboard-list me-2"></i>Booking Confirmation
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>Please review your booking details before confirming.
+                    </div>
+
+                    <div class="booking-details-container">
+                        <h5 class="mb-4 text-center">Booking Details</h5>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <strong><i class="fas fa-map-marker-alt me-2"></i>Destination:</strong>
+                                    <span id="confirmPlaceName">{{ $place['name'] ?? 'N/A' }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <strong><i class="fas fa-user me-2"></i>Full Name:</strong>
+                                    <span id="confirmFullName">-</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <strong><i class="fas fa-envelope me-2"></i>Email:</strong>
+                                    <span id="confirmEmail">-</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <strong><i class="fas fa-users me-2"></i>People:</strong>
+                                    <span id="confirmPeopleCount">-</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <strong><i class="fas fa-calendar me-2"></i>Date:</strong>
+                                    <span id="confirmDate">-</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <strong><i class="fas fa-clock me-2"></i>Time:</strong>
+                                    <span id="confirmTime">-</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <strong><i class="fas fa-car me-2"></i>Vehicle:</strong>
+                                    <span id="confirmVehicle">-</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <strong><i class="fas fa-user-tie me-2"></i>Guider:</strong>
+                                    <span id="confirmGuider">-</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <strong><i class="fas fa-location-dot me-2"></i>Pickup District:</strong>
+                                    <span id="confirmPickupDistrict">-</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <strong><i class="fas fa-map-pin me-2"></i>Pickup Location:</strong>
+                                    <span id="confirmPickupLocation">-</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="detail-item">
+                                    <strong><i class="fas fa-money-bill-wave me-2"></i>Total Price:</strong>
+                                    <span id="confirmTotalPrice" class="fw-bold text-success">RS 0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" id="confirmBookingBtn">
+                        <i class="fas fa-check me-2"></i>Confirm Booking
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Success Modal -->
+    <div class="modal fade" id="bookingSuccessModal" tabindex="-1">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-check-circle me-2 text-success"></i>Booking Successful!
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="success-icon mb-4">
+                        <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                    </div>
+                    <h4 class="mb-3">Thank You for Your Booking!</h4>
+                    <p>Your booking has been successfully created.</p>
+                    <p class="fw-bold">Booking ID: <span id="bookingIdDisplay">-</span></p>
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-info-circle me-2"></i>You will be redirected to other activities shortly.
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-primary" id="viewActivitiesBtn">
+                        <i class="fas fa-arrow-right me-2"></i>View Activities Now
+                    </button>
                 </div>
             </div>
         </div>
@@ -698,6 +901,15 @@
         const totalPriceSpan = document.getElementById('totalPrice');
         const pickupDistrict = document.getElementById('pickupDistrict');
         const peopleCount = document.getElementById('peopleCount');
+        const orderNowBtn = document.getElementById('orderNowBtn');
+
+        // Confirmation Modal
+        const confirmationModal = new bootstrap.Modal(document.getElementById('bookingConfirmationModal'));
+        const confirmBookingBtn = document.getElementById('confirmBookingBtn');
+
+        // Success Modal
+        const successModal = new bootstrap.Modal(document.getElementById('bookingSuccessModal'));
+        const viewActivitiesBtn = document.getElementById('viewActivitiesBtn');
 
         console.log('Script loaded, visitNowBtn:', visitNowBtn);
 
@@ -710,6 +922,124 @@
                 document.getElementById('date').min = today;
                 // Re-init map if needed
                 initMap();
+            });
+        }
+
+        // Handle form submission - show confirmation modal instead of direct submit
+        if (form && orderNowBtn) {
+            orderNowBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Validate form
+                if (!form.checkValidity()) {
+                    form.classList.add('was-validated');
+                    return;
+                }
+
+                // Get form values
+                const fullName = document.getElementById('fullName').value;
+                const email = document.getElementById('email').value;
+                const people = document.getElementById('peopleCount').value;
+                const date = document.getElementById('date').value;
+                const time = document.getElementById('time').value;
+                const vehicleId = vehicleSelect.value;
+                const guider = guiderSelect.value;
+                const district = pickupDistrict.value;
+                const location = document.getElementById('pickupLocation').value;
+                const totalPrice = totalPriceSpan.textContent;
+
+                // Get vehicle text
+                let vehicleText = 'Not selected';
+                const selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
+                if (selectedOption && selectedOption.textContent) {
+                    vehicleText = selectedOption.textContent;
+                }
+
+                // Populate confirmation modal
+                document.getElementById('confirmFullName').textContent = fullName;
+                document.getElementById('confirmEmail').textContent = email;
+                document.getElementById('confirmPeopleCount').textContent = people;
+                document.getElementById('confirmDate').textContent = date;
+                document.getElementById('confirmTime').textContent = time;
+                document.getElementById('confirmVehicle').textContent = vehicleText;
+                document.getElementById('confirmGuider').textContent = guider === 'yes' ? 'Yes' : 'No';
+                document.getElementById('confirmPickupDistrict').textContent = district;
+                document.getElementById('confirmPickupLocation').textContent = location;
+                document.getElementById('confirmTotalPrice').textContent = 'RS ' + totalPrice;
+
+                // Hide booking modal and show confirmation modal
+                modal.hide();
+                confirmationModal.show();
+            });
+        }
+
+        // Handle confirmation button click
+        if (confirmBookingBtn) {
+            confirmBookingBtn.addEventListener('click', function() {
+                // Show loading state
+                const originalText = confirmBookingBtn.innerHTML;
+                confirmBookingBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
+                confirmBookingBtn.disabled = true;
+
+                // Submit the form
+                submitBookingForm()
+                    .then(data => {
+                        // Show success modal
+                        document.getElementById('bookingIdDisplay').textContent = data.booking_id;
+                        confirmationModal.hide();
+                        successModal.show();
+                    })
+                    .catch(error => {
+                        console.error('Booking error:', error);
+                        alert('Failed to create booking. Please try again.');
+                        confirmBookingBtn.innerHTML = originalText;
+                        confirmBookingBtn.disabled = false;
+                    });
+            });
+        }
+
+        // Handle view activities button
+        if (viewActivitiesBtn) {
+            viewActivitiesBtn.addEventListener('click', function() {
+                // Redirect to activities page (replace with actual route)
+                window.location.href = '{{ route("packages.fix") }}'; // Redirect to fixed packages page
+            });
+        }
+
+        // Function to submit booking form
+        function submitBookingForm() {
+            return new Promise((resolve, reject) => {
+                const formData = new FormData(form);
+                formData.append('place_id', '{{ $place['id'] ?? '' }}');
+                // Convert the total price to a float value
+                const totalPriceValue = parseFloat(totalPriceSpan.textContent) || 0;
+                formData.append('total_price', totalPriceValue);
+
+                console.log('Form data:', Object.fromEntries(formData));
+
+                fetch('http://127.0.0.1:8000/api/bookings', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer 1|8OImmqdUzzCwAOzoksoHFeOjpz1iSWSLTbTL3geC43aa48db',
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                .then(response => {
+                    console.log('Booking API response status:', response.status);
+                    if (!response.ok) {
+                        return response.json().then(err => { throw new Error(JSON.stringify(err)) });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Booking response:', data);
+                    resolve(data);
+                })
+                .catch(error => {
+                    console.error('Booking error:', error);
+                    reject(error);
+                });
             });
         }
 
@@ -1079,80 +1409,15 @@
             totalPriceSpan.textContent = totalPrice.toFixed(2);
         }
 
-        // Submit booking
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const formData = new FormData(form);
-            formData.append('place_id', '{{ $place['id'] ?? '' }}');
-            // Convert the total price to a float value
-            const totalPriceValue = parseFloat(totalPriceSpan.textContent) || 0;
-            formData.append('total_price', totalPriceValue);
+        // We're handling form submission through the confirmation modal now
+        // Remove or comment out the old form submit handler
 
-            console.log('Form data:', Object.fromEntries(formData));
-
-            // Show loading state
-            const submitBtn = form.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<span class="loading me-2"></span> Processing...';
-            submitBtn.disabled = true;
-
-            fetch('http://127.0.0.1:8000/api/bookings', {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer 1|8OImmqdUzzCwAOzoksoHFeOjpz1iSWSLTbTL3geC43aa48db',
-                    'Accept': 'application/json'
-                },
-                body: formData
-            })
-            .then(response => {
-                console.log('Booking API response status:', response.status);
-                if (!response.ok) {
-                    return response.json().then(err => { throw new Error(JSON.stringify(err)) });
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Booking response:', data);
-
-                // Show success message with animation
-                const successAlert = document.createElement('div');
-                successAlert.className = 'alert alert-success alert-dismissible fade show mt-3';
-                successAlert.innerHTML = `
-                    <i class="fas fa-check-circle me-2"></i>
-                    <strong>Success!</strong> Your booking has been created. ID: ${data.booking_id}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                `;
-                form.prepend(successAlert);
-
-                // Reset form after delay
-                setTimeout(() => {
-                    modal.hide();
-                    form.reset();
-                    totalPriceSpan.textContent = '0.00';
-                    vehicleSelect.innerHTML = '<option value="">Select Vehicle</option>';
-                    if (marker) map.removeLayer(marker);
-                    marker = null;
-                    successAlert.remove();
-                }, 3000);
-            })
-            .catch(error => {
-                console.error('Booking error:', error);
-
-                // Show error message
-                const errorAlert = document.createElement('div');
-                errorAlert.className = 'alert alert-danger alert-dismissible fade show mt-3';
-                errorAlert.innerHTML = `
-                    <i class="fas fa-exclamation-triangle me-2"></i>
-                    <strong>Error!</strong> Failed to create booking: ${error.message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                `;
-                form.prepend(errorAlert);
-            })
-            .finally(() => {
-                // Restore button state
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            });
+        // Auto-redirect after success modal is shown
+        document.getElementById('bookingSuccessModal').addEventListener('shown.bs.modal', function () {
+            setTimeout(function() {
+                // Redirect to activities page (replace with actual route)
+                window.location.href = '/activities'; // You can change this to the actual activities route
+            }, 5000); // Redirect after 5 seconds
         });
     });
     </script>
