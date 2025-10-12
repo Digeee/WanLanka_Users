@@ -173,3 +173,6 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/fixedbooking/{packageId}/reserve', [FixedBookingController::class, 'reserve'])->name('fixedbooking.reserve');
 Route::post('/fixedbooking/store', [FixedBookingController::class, 'store'])->name('fixedbooking.store');
 });
+
+
+

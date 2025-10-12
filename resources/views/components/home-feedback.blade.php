@@ -1,234 +1,375 @@
-<div class="feedback-container" aria-label="Feedback Carousel">
-    <div class="feedback-wrapper">
-        <div class="feedback-item active" role="group" aria-roledescription="slide" aria-label="Feedback 1 of 3">
-            <div class="avatar" aria-hidden="true">
-                <i class="fas fa-user"></i>
-            </div>
-            <div class="rating" aria-label="5 star rating">
-                <span class="star">&#9733;</span>
-                <span class="star">&#9733;</span>
-                <span class="star">&#9733;</span>
-                <span class="star">&#9733;</span>
-                <span class="star">&#9733;</span>
-            </div>
-            <div class="feedback-text">
-                <p><strong>Superb client delivery</strong></p>
-                <p>Very tentative. Lots of resources; Great communications as follow-up efforts...</p>
-                <span class="author">Abishanan, January 28</span>
-            </div>
-        </div>
-
-        <div class="feedback-item" role="group" aria-roledescription="slide" aria-label="Feedback 2 of 3">
-            <div class="avatar" aria-hidden="true">
-                <i class="fas fa-user"></i>
-            </div>
-            <div class="rating" aria-label="5 star rating">
-                <span class="star">&#9733;</span>
-                <span class="star">&#9733;</span>
-                <span class="star">&#9733;</span>
-                <span class="star">&#9733;</span>
-                <span class="star">&#9733;</span>
-            </div>
-            <div class="feedback-text">
-                <p><strong>My first tour with WanLanka to Nallur</strong></p>
-                <p>My first tour with WanLanka to Nallur and it won't be my last! Loved it! Very...</p>
-                <span class="author">Archaga, December 18</span>
-            </div>
-        </div>
-
-        <div class="feedback-item" role="group" aria-roledescription="slide" aria-label="Feedback 3 of 3">
-            <div class="avatar" aria-hidden="true">
-                <i class="fas fa-user"></i>
-            </div>
-            <div class="rating" aria-label="5 star rating">
-                <span class="star">&#9733;</span>
-                <span class="star">&#9733;</span>
-                <span class="star">&#9733;</span>
-                <span class="star">&#9733;</span>
-                <span class="star">&#9733;</span>
-            </div>
-            <div class="feedback-text">
-                <p><strong>Great trip, low price, excellent hotel and...</strong></p>
-                <p>We took the 3-day Eastern tour in Nov 24. Stayed at all 5-star hotels. St Reg...</p>
-                <span class="author">Dorathy, November 28</span>
-            </div>
+<div class="feedback-carousel" aria-label="Customer Testimonials">
+    <div class="carousel-background">
+        <div class="bg-pattern"></div>
+        <div class="floating-elements">
+            <div class="floating-element element-1"></div>
+            <div class="floating-element element-2"></div>
+            <div class="floating-element element-3"></div>
         </div>
     </div>
+    
+    <div class="section-header">
+        <h2 class="section-title">What Our Travelers Say</h2>
+        <p class="section-subtitle">Real experiences from our valued customers</p>
+    </div>
 
-    <button class="nav-button prev" aria-label="Previous feedback">
-        <i class="fas fa-chevron-left"></i>
-    </button>
-    <button class="nav-button next" aria-label="Next feedback">
-        <i class="fas fa-chevron-right"></i>
-    </button>
+    <div class="carousel-container">
+        <div class="testimonial-wrapper">
+            <!-- Testimonial 1 -->
+            <div class="testimonial-card active" role="group" aria-roledescription="slide" aria-label="Testimonial 1 of 3">
+                <div class="card-header">
+                    <div class="client-avatar">
+                        <div class="avatar-image">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="client-info">
+                            <h3 class="client-name">Abishanan</h3>
+                            <span class="tour-date">January 28</span>
+                        </div>
+                    </div>
+                    <div class="rating-stars" aria-label="5 star rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                </div>
+                <div class="testimonial-content">
+                    <h4 class="testimonial-title">Superb client delivery</h4>
+                    <p class="testimonial-text">"Very tentative. Lots of resources; Great communications as follow-up efforts. The entire experience was seamless from booking to the actual tour. Highly recommended for anyone looking for a professional travel service."</p>
+                </div>
+                <div class="tour-badge">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Jaffna Cultural Tour</span>
+                </div>
+            </div>
 
-    <div class="indicators" role="tablist" aria-label="Feedback indicators">
-        <div class="indicator active" role="tab" tabindex="0" aria-selected="true" aria-controls="slide1"></div>
-        <div class="indicator" role="tab" tabindex="-1" aria-selected="false" aria-controls="slide2"></div>
-        <div class="indicator" role="tab" tabindex="-1" aria-selected="false" aria-controls="slide3"></div>
+            <!-- Testimonial 2 -->
+            <div class="testimonial-card" role="group" aria-roledescription="slide" aria-label="Testimonial 2 of 3">
+                <div class="card-header">
+                    <div class="client-avatar">
+                        <div class="avatar-image">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="client-info">
+                            <h3 class="client-name">Archaga</h3>
+                            <span class="tour-date">December 18</span>
+                        </div>
+                    </div>
+                    <div class="rating-stars" aria-label="5 star rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                </div>
+                <div class="testimonial-content">
+                    <h4 class="testimonial-title">My first tour with WanLanka to Nallur</h4>
+                    <p class="testimonial-text">"My first tour with WanLanka to Nallur and it won't be my last! Loved it! Very professional guides, comfortable transportation, and well-planned itinerary. The cultural insights were exceptional."</p>
+                </div>
+                <div class="tour-badge">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Nallur Temple Experience</span>
+                </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="testimonial-card" role="group" aria-roledescription="slide" aria-label="Testimonial 3 of 3">
+                <div class="card-header">
+                    <div class="client-avatar">
+                        <div class="avatar-image">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="client-info">
+                            <h3 class="client-name">Dorathy</h3>
+                            <span class="tour-date">November 28</span>
+                        </div>
+                    </div>
+                    <div class="rating-stars" aria-label="5 star rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                </div>
+                <div class="testimonial-content">
+                    <h4 class="testimonial-title">Great trip, low price, excellent hotel</h4>
+                    <p class="testimonial-text">"We took the 3-day Eastern tour in Nov 24. Stayed at all 5-star hotels. St Regis was particularly amazing. The value for money was incredible, and the attention to detail made our vacation truly memorable."</p>
+                </div>
+                <div class="tour-badge">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Eastern Province Explorer</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="carousel-nav prev" aria-label="Previous testimonial">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="carousel-nav next" aria-label="Next testimonial">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <div class="carousel-indicators" role="tablist" aria-label="Testimonial navigation">
+            <button class="indicator active" role="tab" aria-selected="true" aria-controls="slide1"></button>
+            <button class="indicator" role="tab" aria-selected="false" aria-controls="slide2"></button>
+            <button class="indicator" role="tab" aria-selected="false" aria-controls="slide3"></button>
+        </div>
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const feedbackItems = document.querySelectorAll('.feedback-item');
-        const prevBtn = document.querySelector('.nav-button.prev');
-        const nextBtn = document.querySelector('.nav-button.next');
-        const indicators = document.querySelectorAll('.indicator');
-
-        let currentIndex = 0;
-
-        function showFeedback(index) {
-            feedbackItems.forEach((item, i) => {
-                item.classList.toggle('active', i === index);
-                indicators[i].classList.toggle('active', i === index);
-                if (i === index) {
-                    item.setAttribute('tabindex', '0');
-                } else {
-                    item.setAttribute('tabindex', '-1');
-                }
-            });
-            currentIndex = index;
-        }
-
-        function showNext() {
-            let nextIndex = (currentIndex + 1) % feedbackItems.length;
-            showFeedback(nextIndex);
-        }
-
-        function showPrev() {
-            let prevIndex = (currentIndex - 1 + feedbackItems.length) % feedbackItems.length;
-            showFeedback(prevIndex);
-        }
-
-        // Navigation buttons
-        nextBtn.addEventListener('click', showNext);
-        prevBtn.addEventListener('click', showPrev);
-
-        // Indicators click
-        indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => {
-                showFeedback(index);
-            });
-        });
-
-        // Automatically cycle carousel every 8 seconds
-        setInterval(showNext, 8000);
-
-        // Initialize first feedback
-        showFeedback(currentIndex);
-    });
-</script>
-
 <style>
-/* Enhanced Full-Width Feedback Carousel Styles */
-.feedback-container {
+.feedback-carousel {
     position: relative;
     width: 100%;
-    height: 100vh;
-    margin: 0;
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-    padding: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f1f3f4 100%);
+    padding: 100px 0;
     overflow: hidden;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-family: 'Poppins', sans-serif;
 }
 
-.feedback-wrapper {
-    position: relative;
+.carousel-background {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    z-index: 1;
+}
+
+.bg-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(74, 105, 189, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(42, 157, 143, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(233, 196, 106, 0.02) 0%, transparent 50%);
+}
+
+.floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.floating-element {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(74, 105, 189, 0.05), rgba(42, 157, 143, 0.03));
+    animation: float 6s ease-in-out infinite;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.element-1 {
+    width: 100px;
+    height: 100px;
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.element-2 {
+    width: 150px;
+    height: 150px;
+    top: 60%;
+    right: 10%;
+    animation-delay: 2s;
+}
+
+.element-3 {
+    width: 80px;
+    height: 80px;
+    bottom: 20%;
+    left: 20%;
+    animation-delay: 4s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 80px;
+    position: relative;
+    z-index: 2;
+}
+
+.section-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #2c3e50 0%, #4a69bd 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.section-subtitle {
+    font-size: 1.3rem;
+    color: #7f8c8d;
+    font-weight: 400;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.carousel-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    z-index: 2;
+}
+
+.testimonial-wrapper {
+    position: relative;
+    height: 500px;
     overflow: hidden;
 }
 
-.feedback-item {
+.testimonial-card {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.9);
-    width: 80%;
-    max-width: 900px;
+    width: 90%;
+    max-width: 800px;
+    background: white;
+    border-radius: 25px;
+    padding: 50px;
+    box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.08),
+        0 10px 30px rgba(0, 0, 0, 0.03),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
     opacity: 0;
     transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 50px;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
-.feedback-item.active {
+.testimonial-card.active {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
     z-index: 10;
+    box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.12),
+        0 15px 40px rgba(74, 105, 189, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
-.avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #2a9d8f 0%, #1d7874 100%);
+.card-header {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 25px;
-    box-shadow: 0 10px 30px rgba(42, 157, 143, 0.3);
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
 }
 
-.avatar i {
-    font-size: 45px;
+.client-avatar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.avatar-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4a69bd, #2a9d8f);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(74, 105, 189, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.avatar-image:hover {
+    transform: scale(1.05);
+}
+
+.avatar-image i {
+    font-size: 32px;
     color: white;
 }
 
-.rating {
-    margin-bottom: 25px;
+.client-info h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.tour-date {
+    color: #7f8c8d;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.rating-stars {
+    display: flex;
+    gap: 5px;
 }
 
 .star {
     color: #FFD700;
-    font-size: 28px;
-    margin: 0 5px;
-    text-shadow: 0 3px 10px rgba(255, 215, 0, 0.4);
-}
-
-.feedback-text {
-    text-align: center;
-    max-width: 800px;
-    margin-bottom: 25px;
-}
-
-.feedback-text p {
-    margin-bottom: 20px;
-    line-height: 1.8;
-    color: #34495e;
-    font-size: 20px;
-}
-
-.feedback-text p strong {
-    color: #264653;
     font-size: 24px;
-    display: block;
-    margin-bottom: 15px;
+    text-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.star:hover {
+    transform: scale(1.2);
+}
+
+.testimonial-content {
+    margin-bottom: 30px;
+}
+
+.testimonial-title {
+    font-size: 1.8rem;
     font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    line-height: 1.3;
 }
 
-.author {
-    font-style: italic;
-    color: #7f8c8d;
+.testimonial-text {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #5a6c7d;
+    font-weight: 400;
+    text-align: justify;
+}
+
+.tour-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #4a69bd, #2a9d8f);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 50px;
     font-weight: 600;
-    font-size: 18px;
-    margin-top: 20px;
+    font-size: 1rem;
+    box-shadow: 0 5px 20px rgba(74, 105, 189, 0.2);
+    transition: all 0.3s ease;
 }
 
-.nav-button {
+.tour-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(74, 105, 189, 0.3);
+}
+
+.carousel-nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -237,288 +378,303 @@
     border-radius: 50%;
     background: white;
     border: none;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     z-index: 20;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #2a9d8f;
-    font-size: 26px;
-    transition: all 0.4s ease;
+    color: #4a69bd;
+    font-size: 24px;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.nav-button:hover {
-    background: #2a9d8f;
+.carousel-nav:hover {
+    background: #4a69bd;
     color: white;
-    transform: translateY(-50%) scale(1.2);
-    box-shadow: 0 12px 35px rgba(42, 157, 143, 0.3);
+    transform: translateY(-50%) scale(1.15);
+    box-shadow: 0 15px 40px rgba(74, 105, 189, 0.3);
 }
 
-.nav-button.prev {
-    left: 50px;
+.carousel-nav.prev {
+    left: -35px;
 }
 
-.nav-button.next {
-    right: 50px;
+.carousel-nav.next {
+    right: -35px;
 }
 
-.indicators {
+.carousel-indicators {
     position: absolute;
-    bottom: 50px;
+    bottom: -60px;
     left: 0;
     right: 0;
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
 }
 
 .indicator {
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: #dfe6e9;
+    background: rgba(74, 105, 189, 0.2);
+    border: none;
     cursor: pointer;
     transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.indicator::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #4a69bd, #2a9d8f);
+    transition: left 0.4s ease;
+}
+
+.indicator.active::before {
+    left: 0;
 }
 
 .indicator.active {
-    background: #2a9d8f;
-    transform: scale(1.5);
+    transform: scale(1.3);
+    box-shadow: 0 0 20px rgba(74, 105, 189, 0.3);
 }
 
-/* Add decorative elements */
-.feedback-container::before {
-    content: "";
-    position: absolute;
-    top: -100px;
-    right: -100px;
-    width: 400px;
-    height: 400px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, rgba(42, 157, 143, 0.1) 0%, rgba(38, 70, 83, 0.1) 100%);
-    z-index: 0;
-}
-
-.feedback-container::after {
-    content: "";
-    position: absolute;
-    bottom: -150px;
-    left: -150px;
-    width: 500px;
-    height: 500px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, rgba(233, 196, 106, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
-    z-index: 0;
-}
-
-/* Responsive adjustments */
+/* Responsive Design */
 @media (max-width: 1200px) {
-    .feedback-item {
-        width: 85%;
+    .testimonial-card {
         padding: 40px;
-    }
-
-    .avatar {
-        width: 90px;
-        height: 90px;
-    }
-
-    .avatar i {
-        font-size: 40px;
-    }
-
-    .star {
-        font-size: 26px;
-    }
-
-    .feedback-text p {
-        font-size: 19px;
-    }
-
-    .feedback-text p strong {
-        font-size: 22px;
+        width: 95%;
     }
     
-    .nav-button {
-        width: 60px;
-        height: 60px;
-        font-size: 24px;
+    .section-title {
+        font-size: 3rem;
     }
     
-    .nav-button.prev {
-        left: 30px;
+    .carousel-nav.prev {
+        left: -25px;
     }
     
-    .nav-button.next {
-        right: 30px;
+    .carousel-nav.next {
+        right: -25px;
     }
 }
 
 @media (max-width: 992px) {
-    .feedback-item {
-        width: 90%;
+    .feedback-carousel {
+        padding: 80px 0;
+    }
+    
+    .section-title {
+        font-size: 2.5rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .testimonial-card {
         padding: 35px;
     }
-
-    .nav-button {
-        width: 55px;
-        height: 55px;
+    
+    .avatar-image {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .avatar-image i {
+        font-size: 28px;
+    }
+    
+    .client-info h3 {
+        font-size: 1.3rem;
+    }
+    
+    .testimonial-title {
+        font-size: 1.6rem;
+    }
+    
+    .testimonial-text {
+        font-size: 1.1rem;
+    }
+    
+    .carousel-nav {
+        width: 60px;
+        height: 60px;
         font-size: 22px;
-    }
-
-    .nav-button.prev {
-        left: 25px;
-    }
-
-    .nav-button.next {
-        right: 25px;
-    }
-
-    .avatar {
-        width: 80px;
-        height: 80px;
-    }
-
-    .avatar i {
-        font-size: 36px;
-    }
-
-    .star {
-        font-size: 24px;
-    }
-
-    .feedback-text p {
-        font-size: 18px;
-    }
-
-    .feedback-text p strong {
-        font-size: 20px;
-    }
-    
-    .indicators {
-        bottom: 40px;
-    }
-    
-    .indicator {
-        width: 15px;
-        height: 15px;
     }
 }
 
 @media (max-width: 768px) {
-    .feedback-item {
-        width: 95%;
-        padding: 30px 25px;
+    .feedback-carousel {
+        padding: 60px 0;
+        min-height: 80vh;
     }
-
-    .nav-button {
+    
+    .section-title {
+        font-size: 2.2rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .testimonial-wrapper {
+        height: 450px;
+    }
+    
+    .testimonial-card {
+        padding: 30px 25px;
+        width: 98%;
+    }
+    
+    .card-header {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+    }
+    
+    .client-avatar {
+        gap: 15px;
+    }
+    
+    .avatar-image {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .avatar-image i {
+        font-size: 24px;
+    }
+    
+    .client-info h3 {
+        font-size: 1.2rem;
+    }
+    
+    .testimonial-title {
+        font-size: 1.4rem;
+    }
+    
+    .testimonial-text {
+        font-size: 1rem;
+    }
+    
+    .carousel-nav {
         width: 50px;
         height: 50px;
         font-size: 20px;
     }
-
-    .nav-button.prev {
-        left: 20px;
+    
+    .carousel-nav.prev {
+        left: -15px;
     }
-
-    .nav-button.next {
-        right: 20px;
-    }
-
-    .avatar {
-        width: 70px;
-        height: 70px;
-    }
-
-    .avatar i {
-        font-size: 32px;
-    }
-
-    .star {
-        font-size: 22px;
-    }
-
-    .feedback-text p {
-        font-size: 17px;
-    }
-
-    .feedback-text p strong {
-        font-size: 19px;
-    }
-
-    .author {
-        font-size: 16px;
-    }
-
-    .indicators {
-        bottom: 30px;
-    }
-
-    .indicator {
-        width: 13px;
-        height: 13px;
+    
+    .carousel-nav.next {
+        right: -15px;
     }
 }
 
 @media (max-width: 480px) {
-    .feedback-item {
-        width: 95%;
-        padding: 25px 20px;
-        height: auto;
-        min-height: 500px;
+    .section-title {
+        font-size: 1.8rem;
     }
-
-    .nav-button {
+    
+    .section-subtitle {
+        font-size: 1rem;
+    }
+    
+    .testimonial-wrapper {
+        height: 500px;
+    }
+    
+    .testimonial-card {
+        padding: 25px 20px;
+    }
+    
+    .client-avatar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .avatar-image {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .avatar-image i {
+        font-size: 20px;
+    }
+    
+    .testimonial-title {
+        font-size: 1.3rem;
+    }
+    
+    .testimonial-text {
+        font-size: 0.95rem;
+    }
+    
+    .carousel-nav {
         width: 45px;
         height: 45px;
         font-size: 18px;
     }
-
-    .nav-button.prev {
-        left: 15px;
-    }
-
-    .nav-button.next {
-        right: 15px;
-    }
-
-    .avatar {
-        width: 60px;
-        height: 60px;
-    }
-
-    .avatar i {
-        font-size: 28px;
-    }
-
-    .star {
-        font-size: 20px;
-    }
-
-    .feedback-text p {
-        font-size: 16px;
-    }
-
-    .feedback-text p strong {
-        font-size: 18px;
-    }
-
-    .author {
-        font-size: 15px;
-    }
-
-    .indicators {
-        bottom: 25px;
-    }
-
-    .indicator {
-        width: 12px;
-        height: 12px;
-    }
     
-    .feedback-container {
-        height: 80vh;
+    .carousel-indicators {
+        bottom: -50px;
     }
 }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const testimonialCards = document.querySelectorAll('.testimonial-card');
+    const prevBtn = document.querySelector('.carousel-nav.prev');
+    const nextBtn = document.querySelector('.carousel-nav.next');
+    const indicators = document.querySelectorAll('.indicator');
+
+    let currentIndex = 0;
+
+    function showTestimonial(index) {
+        testimonialCards.forEach((card, i) => {
+            card.classList.toggle('active', i === index);
+            indicators[i].classList.toggle('active', i === index);
+            indicators[i].setAttribute('aria-selected', i === index);
+        });
+        currentIndex = index;
+    }
+
+    function showNext() {
+        let nextIndex = (currentIndex + 1) % testimonialCards.length;
+        showTestimonial(nextIndex);
+    }
+
+    function showPrev() {
+        let prevIndex = (currentIndex - 1 + testimonialCards.length) % testimonialCards.length;
+        showTestimonial(prevIndex);
+    }
+
+    // Navigation buttons
+    nextBtn.addEventListener('click', showNext);
+    prevBtn.addEventListener('click', showPrev);
+
+    // Indicators click
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            showTestimonial(index);
+        });
+    });
+
+    // Automatically cycle carousel every 8 seconds
+    setInterval(showNext, 8000);
+
+    // Initialize first testimonial
+    showTestimonial(currentIndex);
+});
+</script>
