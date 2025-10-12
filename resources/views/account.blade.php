@@ -15,7 +15,7 @@
         try { $dobValue = \Illuminate\Support\Carbon::parse($user->dob)->format('Y-m-d'); }
         catch (\Throwable $e) { $dobValue = $user->dob; }
     }
-    
+
     $oldProvince = old('province', $user->province);
     $oldDistrict = old('district', $user->district);
 @endphp
@@ -29,6 +29,7 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     :root{
@@ -37,6 +38,9 @@
       --shadow:0 18px 48px rgba(2,6,23,.10);
       --soft:0 10px 28px rgba(2,6,23,.08);
       --radius:22px;
+      --glass-bg: rgba(255, 255, 255, 0.25);
+      --glass-border: rgba(255, 255, 255, 0.18);
+      --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
     }
     *{font-family:'Poppins',sans-serif}
 
@@ -46,47 +50,331 @@
         radial-gradient(900px 600px at -10% -10%, rgba(0,114,255,.18), transparent 60%),
         radial-gradient(900px 600px at 110% 0%, rgba(0,204,136,.14), transparent 65%),
         var(--bg);
+      padding-bottom: 40px;
     }
 
-    .wrap{max-width:1100px;margin:28px auto 70px;padding:0 16px}
-    .card-profile{display:grid;grid-template-columns:320px 1fr;background:var(--card);border:1px solid var(--border);
-      border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .wrap{max-width:1200px;margin:28px auto 70px;padding:0 16px}
+    .card-profile{
+      display:grid;
+      grid-template-columns:320px 1fr;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius:var(--radius);
+      box-shadow: var(--glass-shadow);
+      overflow:hidden;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-profile::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.1);
+      z-index: -1;
+    }
 
     .panel{
-      background:linear-gradient(135deg,var(--brand1),var(--brand2));
-      padding:36px 26px; color:#fff; position:relative;
+      background:linear-gradient(135deg, var(--brand1), var(--brand2));
+      padding:36px 26px;
+      color:#fff;
+      position:relative;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
     .avatar{
-      width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.85);
-      box-shadow:var(--soft)
+      width:110px;
+      height:110px;
+      border-radius:50%;
+      object-fit:cover;
+      border:3px solid rgba(255,255,255,.85);
+      box-shadow:var(--soft);
+      transition: transform 0.3s ease;
     }
-    .name{font-weight:800;font-size:1.35rem;margin-top:14px}
-    .email{opacity:.95;word-break:break-all}
+    .avatar:hover {
+      transform: scale(1.05);
+    }
+    .name{
+      font-weight:800;
+      font-size:1.35rem;
+      margin-top:14px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .email{
+      opacity:.95;
+      word-break:break-all;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
     .badge-state{
-      position:absolute;left:26px;bottom:26px;background:rgba(255,255,255,.16);
-      border:1px solid rgba(255,255,255,.35);padding:.45rem .8rem;border-radius:999px;font-weight:700
+      position:absolute;
+      left:26px;
+      bottom:26px;
+      background:rgba(255,255,255,.25);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border:1px solid rgba(255,255,255,.35);
+      padding:.45rem .8rem;
+      border-radius:999px;
+      font-weight:700;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    .content{padding:28px}
-    .content h6{font-weight:800;color:#2b3343;margin:10px 0 12px}
-    .row-line{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-    .item{background:#f8fafc;border:1px solid var(--border);border-radius:14px;padding:14px 16px}
-    .label{font-size:.85rem;color:var(--muted);font-weight:600}
-    .value{color:var(--text);font-weight:700}
+    .content{
+      padding:28px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .content h6{
+      font-weight:800;
+      color:#2b3343;
+      margin:10px 0 12px;
+      position: relative;
+      padding-bottom: 8px;
+    }
+    .content h6::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--brand1), var(--brand2));
+      border-radius: 3px;
+    }
+    .row-line{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-bottom: 18px;
+    }
+    .item{
+      background: rgba(255, 255, 255, 0.6);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:14px 16px;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    }
+    .item:hover {
+      background: rgba(255, 255, 255, 0.8);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+    }
+    .label{
+      font-size:.85rem;
+      color:var(--muted);
+      font-weight:600;
+      margin-bottom: 4px;
+    }
+    .value{
+      color:var(--text);
+      font-weight:700;
+    }
 
-    .actions{display:flex;gap:10px;margin-top:18px}
-    .btn-pill{border-radius:999px;padding:.7rem 1.1rem;font-weight:700}
-    .btn-primary{background:linear-gradient(135deg,var(--brand1),var(--brand2));border:0;color:#062a3f}
-    .btn-ghost{background:#fff;border:1px solid var(--border);color:var(--text)}
+    .actions{
+      display:flex;
+      gap:10px;
+      margin-top:18px;
+      flex-wrap: wrap;
+    }
+    .btn-pill{
+      border-radius:999px;
+      padding:.7rem 1.1rem;
+      font-weight:700;
+      border: none;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .btn-pill:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+    .btn-pill:active {
+      transform: translateY(0);
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,var(--brand1),var(--brand2));
+      color:#062a3f;
+    }
+    .btn-ghost{
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border:1px solid var(--border);
+      color:var(--text);
+    }
 
-    .form-control,.form-select{border-radius:12px;padding:.75rem;border:1px solid #d8dfea}
+    .form-control,.form-select{
+      border-radius:12px;
+      padding:.75rem;
+      border:1px solid #d8dfea;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--brand1);
+      box-shadow: 0 0 0 0.25rem rgba(0, 114, 255, 0.25);
+      background: rgba(255, 255, 255, 0.9);
+    }
     .hidden{display:none!important}
 
+    /* Booking table styles with glass morphism */
+    .bookings-section {
+      margin-top: 30px;
+      padding: 25px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      box-shadow: var(--glass-shadow);
+    }
+
+    .bookings-section h6 {
+      margin-top: 0;
+      font-size: 1.25rem;
+      color: #2b3343;
+    }
+
+    .table-responsive {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .table {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      margin-bottom: 0;
+    }
+
+    .table thead th {
+      background: rgba(0, 114, 255, 0.1);
+      border-bottom: 2px solid var(--brand1);
+      font-weight: 700;
+      color: #2b3343;
+    }
+
+    .table tbody tr:hover {
+      background: rgba(0, 114, 255, 0.05);
+    }
+
+    .btn-outline-primary {
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    /* Status badges */
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+
+    .status-pending {
+      background: rgba(255, 193, 7, 0.2);
+      color: #856404;
+      border: 1px solid rgba(255, 193, 7, 0.3);
+    }
+
+    .status-confirmed {
+      background: rgba(40, 167, 69, 0.2);
+      color: #155724;
+      border: 1px solid rgba(40, 167, 69, 0.3);
+    }
+
+    .status-completed {
+      background: rgba(0, 123, 255, 0.2);
+      color: #004085;
+      border: 1px solid rgba(0, 123, 255, 0.3);
+    }
+
+    .status-cancelled {
+      background: rgba(220, 53, 69, 0.2);
+      color: #721c24;
+      border: 1px solid rgba(220, 53, 69, 0.3);
+    }
+
+    /* Add place button */
+    .add-place-btn {
+      margin-top: 25px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--brand1), var(--brand2));
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 999px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 114, 255, 0.3);
+    }
+
+    .add-place-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 114, 255, 0.4);
+    }
+
+    .add-place-btn .icon {
+      font-size: 1.2rem;
+    }
+
     @media (max-width: 960px){
-      .card-profile{grid-template-columns:1fr}
-      .panel{display:flex;align-items:center;gap:16px}
-      .name{margin-top:0}
-      .badge-state{position:static;margin-top:8px}
+      .card-profile{
+        grid-template-columns:1fr;
+      }
+      .panel{
+        display:flex;
+        align-items:center;
+        gap:16px;
+      }
+      .name{
+        margin-top:0;
+      }
+      .badge-state{
+        position:static;
+        margin-top:8px;
+      }
+      .content {
+        border-radius: 0 0 var(--radius) var(--radius);
+      }
+      .row-line{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .actions {
+        flex-direction: column;
+      }
+
+      .btn-pill {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -207,11 +495,11 @@
         </div>
 
         <div class="actions">
-          <button class="btn btn-primary btn-pill" id="btnEdit">Edit</button>
+          <button class="btn btn-primary btn-pill" id="btnEdit">Edit Profile</button>
         </div>
       </div>
 
-      <a href="{{ url('/add-place') }}" class="btn btn-primary btn-pill">
+      <a href="{{ url('/add-place') }}" class="add-place-btn">
         <span class="icon">➕</span> Found New Tourist Place?
       </a>
 
@@ -305,57 +593,70 @@
         </div>
 
         <div class="actions">
-          <button type="submit" class="btn btn-primary btn-pill">Save</button>
+          <button type="submit" class="btn btn-primary btn-pill">Save Changes</button>
           <button type="button" class="btn btn-ghost btn-pill" id="btnCancel">Cancel</button>
         </div>
       </form>
-      <h6 class="mt-4">My Fixed Bookings</h6>
 
-@if($bookings->count() > 0)
-  <div class="table-responsive">
-    <table class="table table-bordered align-middle">
-      <thead>
-<tr>
-  <th>Package</th>
-  <th>Status</th>
-  <th>Participants</th>
-  <th>Total Amount</th>
-  <th>Pickup Location</th>
-  <th>Payment Method</th>
-  <th>Receipt</th>
-  <th>Booked On</th>
-</tr>
-</thead>
-<tbody>
-@foreach ($bookings as $booking)
-<tr>
-  <td>{{ $booking->package_name ?? ($booking->package->package_name ?? 'N/A') }}</td>
-  <td>{{ ucfirst($booking->status) }}</td>
-  <td>{{ $booking->participants }}</td> <!-- new -->
-  <td>${{ number_format($booking->total_price, 2) }}</td> <!-- new -->
-  <td>{{ $booking->pickup_location }}</td>
-  <td>{{ $booking->payment_method }}</td>
-  <td>
-    @if($booking->receipt)
-      <a href="{{ Storage::url($booking->receipt) }}" target="_blank" class="btn btn-sm btn-outline-primary">
-        View/Download
+      {{-- Bookings Section with Glass Morphism --}}
+      <div class="bookings-section">
+        <h6>My Fixed Bookings</h6>
+
+        @if($bookings->count() > 0)
+          <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+              <thead>
+                <tr>
+                  <th>Package</th>
+                  <th>Status</th>
+                  <th>Participants</th>
+                  <th>Total Amount</th>
+                  <th>Pickup Location</th>
+                  <th>Payment Method</th>
+                  <th>Receipt</th>
+                  <th>Booked On</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach ($bookings as $booking)
+                <tr>
+                  <td>{{ $booking->package_name ?? ($booking->package->package_name ?? 'N/A') }}</td>
+                  <td>
+                    <span class="status-badge status-{{ strtolower($booking->status) }}">
+                      {{ ucfirst($booking->status) }}
+                    </span>
+                  </td>
+                  <td>{{ $booking->participants }}</td>
+                  <td>Rs {{ number_format($booking->total_price, 2) }}</td>
+                  <td>{{ $booking->pickup_location }}</td>
+                  <td>{{ ucfirst($booking->payment_method) }}</td>
+                  <td>
+                    @if($booking->receipt)
+                      <a href="{{ Storage::url($booking->receipt) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                        View/Download
+                      </a>
+                    @else
+                      <span class="text-muted">—</span>
+                    @endif
+                  </td>
+                  <td>{{ $booking->created_at->format('d M Y, H:i') }}</td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+        @else
+          <div class="text-center py-4">
+            <div class="text-muted mb-2">No bookings found</div>
+            <a href="{{ route('packages.fix') }}" class="btn btn-primary btn-pill">Browse Packages</a>
+          </div>
+        @endif
+      </div>
+
+      <!-- My Bookings & Packages Button -->
+      <a href="{{ route('user.bookings') }}" class="btn btn-primary mt-4 w-100 btn-pill">
+        <i class="fas fa-calendar-alt me-2"></i>My Bookings & Packages
       </a>
-    @else
-      —
-    @endif
-  </td>
-  <td>{{ $booking->created_at->format('d M Y, H:i') }}</td>
-</tr>
-@endforeach
-</tbody>
-
-    </table>
-  </div>
-@else
-  <p>No bookings found.</p>
-@endif
-
-
     </section>
   </div>
 </div>
@@ -437,8 +738,5 @@
   if (oldProvince && oldProvince !== 'null') fillDistricts(oldProvince);
   if (provinceEl) provinceEl.addEventListener('change', e => fillDistricts(e.target.value));
 </script>
-<a href="{{ route('user.bookings') }}" class="btn btn-primary mt-3">
-    My Bookings & Packages
-</a>
 </body>
 </html>
