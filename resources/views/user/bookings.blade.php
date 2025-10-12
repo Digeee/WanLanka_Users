@@ -142,6 +142,65 @@
     footer a:hover {
         color: #cfe2ff;
     }
+
+    /* Fixed Booking Table Styles */
+    .booking-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+    .booking-table th,
+    .booking-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .booking-table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+    }
+
+    .booking-table tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    .receipt-link {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .receipt-link:hover {
+        text-decoration: underline;
+    }
+
+    .status-badge {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .status-pending {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .status-confirmed {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .status-completed {
+        background-color: #d1ecf1;
+        color: #0c5460;
+    }
+
+    .status-cancelled {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
 </style>
 
 <main>
@@ -158,6 +217,8 @@
             <li class="nav-item"><a class="nav-link" id="pastBooking-tab" data-bs-toggle="tab" href="#pastBooking">📅 Past Bookings</a></li>
             <li class="nav-item"><a class="nav-link" id="currentPackage-tab" data-bs-toggle="tab" href="#currentPackage">💼 Current Packages</a></li>
             <li class="nav-item"><a class="nav-link" id="pastPackage-tab" data-bs-toggle="tab" href="#pastPackage">📦 Past Packages</a></li>
+            <li class="nav-item"><a class="nav-link" id="currentFixed-tab" data-bs-toggle="tab" href="#currentFixed">🎟️ Current Fixed Bookings</a></li>
+            <li class="nav-item"><a class="nav-link" id="pastFixed-tab" data-bs-toggle="tab" href="#pastFixed">📋 Past Fixed Bookings</a></li>
         </ul>
 
         <!-- 🌟 Tab Content -->
@@ -191,7 +252,7 @@
     </form>
 @endif
 
-                            
+
                             </div>
                             </div>
                         </div>
@@ -280,6 +341,106 @@
                 @empty
                     <p class="text-muted">No past packages found.</p>
                 @endforelse
+            </div>
+
+            {{-- 🎟️ Current Fixed Bookings --}}
+            <div class="tab-pane fade" id="currentFixed">
+                @if(isset($currentFixedBookings) && $currentFixedBookings->count() > 0)
+                    <div class="table-responsive">
+                        <table class="booking-table">
+                            <thead>
+                                <tr>
+                                    <th>Package</th>
+                                    <th>Status</th>
+                                    <th>Participants</th>
+                                    <th>Total Amount</th>
+                                    <th>Pickup Location</th>
+                                    <th>Payment Method</th>
+                                    <th>Receipt</th>
+                                    <th>Booked On</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($currentFixedBookings as $booking)
+                                <tr>
+                                    <td>{{ $booking->package_name ?? ($booking->package->package_name ?? 'N/A') }}</td>
+                                    <td>
+                                        <span class="status-badge status-{{ strtolower($booking->status) }}">
+                                            {{ ucfirst($booking->status) }}
+                                        </span>
+                                    </td>
+                                    <td>{{ $booking->participants }}</td>
+                                    <td>Rs {{ number_format($booking->total_price, 2) }}</td>
+                                    <td>{{ $booking->pickup_location }}</td>
+                                    <td>{{ ucfirst($booking->payment_method) }}</td>
+                                    <td>
+                                        @if($booking->receipt)
+                                            <a href="{{ Storage::url($booking->receipt) }}" target="_blank" class="receipt-link">
+                                                View/Download
+                                            </a>
+                                        @else
+                                            —
+                                        @endif
+                                    </td>
+                                    <td>{{ $booking->created_at->format('d M Y, H:i') }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                    <p class="text-muted">No current fixed bookings available.</p>
+                @endif
+            </div>
+
+            {{-- 📋 Past Fixed Bookings --}}
+            <div class="tab-pane fade" id="pastFixed">
+                @if(isset($pastFixedBookings) && $pastFixedBookings->count() > 0)
+                    <div class="table-responsive">
+                        <table class="booking-table">
+                            <thead>
+                                <tr>
+                                    <th>Package</th>
+                                    <th>Status</th>
+                                    <th>Participants</th>
+                                    <th>Total Amount</th>
+                                    <th>Pickup Location</th>
+                                    <th>Payment Method</th>
+                                    <th>Receipt</th>
+                                    <th>Booked On</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($pastFixedBookings as $booking)
+                                <tr>
+                                    <td>{{ $booking->package_name ?? ($booking->package->package_name ?? 'N/A') }}</td>
+                                    <td>
+                                        <span class="status-badge status-{{ strtolower($booking->status) }}">
+                                            {{ ucfirst($booking->status) }}
+                                        </span>
+                                    </td>
+                                    <td>{{ $booking->participants }}</td>
+                                    <td>Rs {{ number_format($booking->total_price, 2) }}</td>
+                                    <td>{{ $booking->pickup_location }}</td>
+                                    <td>{{ ucfirst($booking->payment_method) }}</td>
+                                    <td>
+                                        @if($booking->receipt)
+                                            <a href="{{ Storage::url($booking->receipt) }}" target="_blank" class="receipt-link">
+                                                View/Download
+                                            </a>
+                                        @else
+                                            —
+                                        @endif
+                                    </td>
+                                    <td>{{ $booking->created_at->format('d M Y, H:i') }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                    <p class="text-muted">No past fixed bookings found.</p>
+                @endif
             </div>
         </div>
     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\CustomPackage;
+use App\Models\FixedBooking;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -36,17 +37,31 @@ class UserBookingController extends Controller
             ->where('status', 'inactive')
             ->get();
 
+        // Current Fixed Bookings
+        $currentFixedBookings = FixedBooking::where('user_id', $user->id)
+            ->where('status', '!=', 'cancelled')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Past Fixed Bookings
+        $pastFixedBookings = FixedBooking::where('user_id', $user->id)
+            ->where('status', 'cancelled')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('user.bookings', compact(
             'currentBookings',
             'pastBookings',
             'currentPackages',
-            'pastPackages'
+            'pastPackages',
+            'currentFixedBookings',
+            'pastFixedBookings'
         ));
     }
 
-    
 
-   
+
+
     public function show($id)
    {
     $user = Auth::user();
