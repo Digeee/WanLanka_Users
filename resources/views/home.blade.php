@@ -1,3 +1,4 @@
+@extends('layouts.master')
 @extends('layouts.app')
 
 @section('title', 'Home | WanLanka')

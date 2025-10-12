@@ -1,0 +1,20 @@
+{
+  "name": "db-connector",
+  "version": "1.0.0",
+  "description": "Database connector for Botpress to access Laravel database",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "node test-db-connection.js",
+    "test-connection": "node test-connection.js"
+  },
+  "dependencies": {
+    "mysql2": "^3.9.7",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "@types/node": "^20.12.12"
+  }
+}
