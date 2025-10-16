@@ -24,11 +24,15 @@
   {{-- Packages / Featured Trips --}}
   @includeIf('components.home-package')
 
+   @includeIf('components.trending-places-slider')
+
   {{-- Testimonials / Feedback --}}
   @includeIf('components.home-feedback')
 
   {{-- Contact teaser / newsletter --}}
   @includeIf('components.home-contact')
+
+  
 
 @endsection
 
