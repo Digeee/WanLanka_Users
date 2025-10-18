@@ -14,6 +14,7 @@ use App\Http\Controllers\GuiderAuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FixedBookingController;
 use App\Http\Controllers\UserBookingController;
+use App\Http\Controllers\CustomerReviewController; // Import the CustomerReviewController
 
 /* -------------------- Public pages (no login required) -------------------- */
 Route::view('/', 'home')->name('home');
@@ -173,6 +174,10 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/fixedbooking/{packageId}/reserve', [FixedBookingController::class, 'reserve'])->name('fixedbooking.reserve');
 Route::post('/fixedbooking/store', [FixedBookingController::class, 'store'])->name('fixedbooking.store');
 });
+
+// Customer Reviews - Public routes
+Route::get('/customer-reviews', [CustomerReviewController::class, 'index']);
+Route::post('/customer-reviews', [CustomerReviewController::class, 'store']);
 
 
 
