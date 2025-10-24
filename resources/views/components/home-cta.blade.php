@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="cta-actions">
-                    <a href="{{ route('province.index') }}" class="cta-button primary">
+
                         <span>Explore Provinces</span>
                         <div class="button-icon">
                             <i class="fas fa-arrow-right"></i>

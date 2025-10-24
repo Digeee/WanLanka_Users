@@ -18,7 +18,7 @@ First, you need to update the database configuration with your actual credential
    DB_USERNAME=your_username  # Your database username
    DB_PASSWORD=your_password  # Your database password
    DB_DATABASE=wanlanka       # Your Laravel database name
-   ```
+   
 
 ### 2. Test Database Connection
 

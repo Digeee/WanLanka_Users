@@ -110,15 +110,15 @@ Route::post('/guider/settings', function() {
     $guider = \App\Models\Guider::find(session('guider_id'));
     if ($guider) {
         $guider->update(request()->only([
-            'first_name', 
-            'last_name', 
-            'phone', 
-            'address', 
-            'languages', 
-            'specializations', 
-            'experience_years', 
-            'hourly_rate', 
-            'city', 
+            'first_name',
+            'last_name',
+            'phone',
+            'address',
+            'languages',
+            'specializations',
+            'experience_years',
+            'hourly_rate',
+            'city',
             'vehicle_types'
         ]));
     }
@@ -145,7 +145,7 @@ Route::get('/guider/messages', function() {
 Route::get('/packages/fix', [PackageController::class, 'fix'])->name('packages.fix');
 Route::get('/packages/{id}', [PackageController::class, 'show'])->name('packages.show');
 
-Route::get('/provinces', [ProvinceController::class, 'index'])->name('province.index');
+
 Route::get('/province/{slug}', [ProvinceController::class, 'show'])->name('province.show');
 Route::get('/place/{slug}', [PlaceController::class, 'show'])->name('places.show');
 
