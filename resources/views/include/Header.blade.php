@@ -12,7 +12,7 @@
       <ul class="wl-menu">
         <li class="{{ request()->is('/') ? 'active' : '' }}"><a href="{{ url('/') }}">Home</a></li>
         <li class="{{ request()->is('about') ? 'active' : '' }}"><a href="{{ url('/about') }}">About</a></li>
-        <li class="{{ request()->is('provinces') ? 'active' : '' }}"><a href="{{ route('province.index') }}">Destinations</a></li>
+        <li class="{{ request()->is('provinces') ? 'active' : '' }}"><a href="{{ route('provinces') }}">Destinations</a></li>
 
 
         <!-- Packages Dropdown -->
