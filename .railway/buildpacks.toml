@@ -1,3 +1,6 @@
+[[buildpacks]]
+  uri = "docker://railwayapp/nixpacks:latest"
+
 [phases.setup]
   nixPkgs = ["php82", "php82Extensions.pdo_mysql", "php82Extensions.mysqli", "nodejs", "composer"]
 
