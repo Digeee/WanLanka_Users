@@ -2,6 +2,7 @@
 
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SearchController;
@@ -174,5 +175,19 @@ Route::get('/fixedbooking/{packageId}/reserve', [FixedBookingController::class, 
 Route::post('/fixedbooking/store', [FixedBookingController::class, 'store'])->name('fixedbooking.store');
 });
 
+// Health check route
+Route::get('/health', function () {
+    return response()->json(['status' => 'ok', 'timestamp' => now()]);
+})->name('health');
+
+// Database connection test route
+Route::get('/db-test', function () {
+    try {
+        DB::connection()->getPdo();
+        return response()->json(['status' => 'connected', 'database' => DB::connection()->getDatabaseName()]);
+    } catch (Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+    }
+})->name('db-test');
 
 
