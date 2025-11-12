@@ -15,6 +15,7 @@ use App\Http\Controllers\GuiderAuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FixedBookingController;
 use App\Http\Controllers\UserBookingController;
+use App\Http\Controllers\CustomerReviewController; // Import the CustomerReviewController
 
 /* -------------------- Public pages (no login required) -------------------- */
 Route::view('/', 'home')->name('home');
@@ -175,19 +176,9 @@ Route::get('/fixedbooking/{packageId}/reserve', [FixedBookingController::class, 
 Route::post('/fixedbooking/store', [FixedBookingController::class, 'store'])->name('fixedbooking.store');
 });
 
-// Health check route
-Route::get('/health', function () {
-    return response()->json(['status' => 'ok', 'timestamp' => now()]);
-})->name('health');
+// Customer Reviews - Public routes
+Route::get('/customer-reviews', [CustomerReviewController::class, 'index']);
+Route::post('/customer-reviews', [CustomerReviewController::class, 'store']);
 
-// Database connection test route
-Route::get('/db-test', function () {
-    try {
-        DB::connection()->getPdo();
-        return response()->json(['status' => 'connected', 'database' => DB::connection()->getDatabaseName()]);
-    } catch (Exception $e) {
-        return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
-    }
-})->name('db-test');
 
 
