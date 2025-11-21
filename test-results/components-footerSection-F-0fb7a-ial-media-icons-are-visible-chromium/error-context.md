@@ -1,0 +1,184 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "WanLanka Home" [ref=e4] [cursor=pointer]:
+        - /url: http://127.0.0.1:8080
+        - img "WanLanka Logo" [ref=e5]
+      - navigation "Main" [ref=e6]:
+        - list [ref=e7]:
+          - listitem [ref=e8]:
+            - link "Home" [ref=e9] [cursor=pointer]:
+              - /url: http://127.0.0.1:8080
+          - listitem [ref=e10]:
+            - link "About" [ref=e11] [cursor=pointer]:
+              - /url: http://127.0.0.1:8080/about
+          - listitem [ref=e12]:
+            - link "Destinations" [ref=e13] [cursor=pointer]:
+              - /url: http://127.0.0.1:8080/provinces
+          - listitem [ref=e14]:
+            - link "Packages" [ref=e15] [cursor=pointer]:
+              - /url: "#"
+              - text: Packages
+              - img [ref=e16]
+          - listitem [ref=e18]:
+            - link "Contact" [ref=e19] [cursor=pointer]:
+              - /url: http://127.0.0.1:8080/contact
+      - generic [ref=e20]:
+        - search "Site search" [ref=e21]:
+          - button "Search" [ref=e22] [cursor=pointer]:
+            - img [ref=e23]
+          - searchbox "Search query" [ref=e25]
+        - link "Guider Login" [ref=e26] [cursor=pointer]:
+          - /url: http://127.0.0.1:8080/guider/login
+          - img [ref=e27]
+          - text: Travel Agent
+        - link "Sign in" [ref=e29] [cursor=pointer]:
+          - /url: http://127.0.0.1:8080/login
+          - img [ref=e30]
+          - text: Sign in
+  - generic [ref=e33]:
+    - generic [ref=e34]:
+      - heading "Fixed Packages" [level=1] [ref=e35]
+      - paragraph [ref=e36]: Discover our exclusive collection of curated experiences
+    - generic [ref=e37]:
+      - complementary [ref=e40]:
+        - heading "Filter Packages" [level=3] [ref=e42]
+        - generic [ref=e43]:
+          - generic [ref=e44]:
+            - heading "Budget" [level=5] [ref=e45]
+            - generic [ref=e46]:
+              - generic [ref=e47]: Min Price
+              - spinbutton "Min Price" [ref=e48]
+            - generic [ref=e49]:
+              - generic [ref=e50]: Max Price
+              - spinbutton "Max Price" [ref=e51]
+          - generic [ref=e52]:
+            - heading "Rating" [level=5] [ref=e53]
+            - generic [ref=e54]:
+              - generic [ref=e55] [cursor=pointer]: Any
+              - generic [ref=e56] [cursor=pointer]: ★
+              - generic [ref=e57] [cursor=pointer]: ★★
+              - generic [ref=e58] [cursor=pointer]: ★★★
+              - generic [ref=e59] [cursor=pointer]: ★★★★
+              - generic [ref=e60] [cursor=pointer]: ★★★★★
+          - generic [ref=e61]:
+            - heading "Trip Duration" [level=5] [ref=e62]
+            - combobox [ref=e63]:
+              - option "Any duration" [selected]
+              - option "1 day"
+              - option "2 days"
+              - option "3 days"
+              - option "4 days"
+              - option "5 – 15 days"
+              - option "16+ days"
+          - generic [ref=e64]:
+            - button "Apply Filters" [ref=e65] [cursor=pointer]
+            - button "Reset" [ref=e66] [cursor=pointer]
+      - generic [ref=e68]:
+        - generic [ref=e69]:
+          - generic [ref=e70]:
+            - img "Classic Colombo Image" [ref=e71]
+            - generic [ref=e72]: HOT
+            - generic [ref=e74]:
+              - generic [ref=e75]: ✨
+              - paragraph [ref=e76]: View Details
+          - generic [ref=e77]:
+            - heading "Classic Colombo" [level=2] [ref=e78]
+            - paragraph [ref=e79]: Most Famous package in current time and new places included
+            - generic [ref=e80]:
+              - generic [ref=e81]: RS22,500.00
+              - link "Read More" [ref=e82] [cursor=pointer]:
+                - /url: /packages/16
+        - generic [ref=e83]:
+          - generic [ref=e84]:
+            - img "Best Of Jaffna Image" [ref=e85]
+            - generic [ref=e86]: HOT
+            - generic [ref=e88]:
+              - generic [ref=e89]: ✨
+              - paragraph [ref=e90]: View Details
+          - generic [ref=e91]:
+            - heading "Best Of Jaffna" [level=2] [ref=e92]
+            - paragraph [ref=e93]: Traditional and most famous and tourism places are included in jaffna
+            - generic [ref=e94]:
+              - generic [ref=e95]: RS14,500.00
+              - link "Read More" [ref=e96] [cursor=pointer]:
+                - /url: /packages/17
+        - generic [ref=e97]:
+          - generic [ref=e98]:
+            - img "All ceylon Image" [ref=e99]
+            - generic [ref=e100]: HOT
+            - generic [ref=e102]:
+              - generic [ref=e103]: ✨
+              - paragraph [ref=e104]: View Details
+          - generic [ref=e105]:
+            - heading "All ceylon" [level=2] [ref=e106]
+            - paragraph [ref=e107]: A full guide to all cetlon tour this include hidden treasures in mpost places
+            - generic [ref=e108]:
+              - generic [ref=e109]: RS65,000.00
+              - link "Read More" [ref=e110] [cursor=pointer]:
+                - /url: /packages/18
+        - generic [ref=e111]:
+          - generic [ref=e112]:
+            - img "Kandy/NuwaraEliya 2025 Image" [ref=e113]
+            - generic [ref=e114]: HOT
+            - generic [ref=e116]:
+              - generic [ref=e117]: ✨
+              - paragraph [ref=e118]: View Details
+          - generic [ref=e119]:
+            - heading "Kandy/NuwaraEliya 2025" [level=2] [ref=e120]
+            - paragraph [ref=e121]: Explore Kandy and Nuwa in cold season
+            - generic [ref=e122]:
+              - generic [ref=e123]: RS13,100.00
+              - link "Read More" [ref=e124] [cursor=pointer]:
+                - /url: /packages/19
+  - contentinfo [ref=e125]:
+    - generic [ref=e126]:
+      - generic [ref=e127]:
+        - img "Wan Lanka Logo" [ref=e128]
+        - paragraph [ref=e129]: Your Trusted Travel Partner WanLanka.
+        - generic:
+          - link:
+            - /url: "#"
+          - link:
+            - /url: "#"
+          - link:
+            - /url: "#"
+          - link:
+            - /url: "#"
+        - paragraph [ref=e130]: © @2025 WanLanka. All Rights Reserved
+      - generic [ref=e131]:
+        - heading "Discover" [level=3] [ref=e132]
+        - list [ref=e133]:
+          - listitem [ref=e134]:
+            - link "Home" [ref=e135] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e136]:
+            - link "About" [ref=e137] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e138]:
+            - link "Tours" [ref=e139] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e140]:
+        - heading "Quick Links" [level=3] [ref=e141]
+        - list [ref=e142]:
+          - listitem [ref=e143]:
+            - link "Gallery" [ref=e144] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e145]:
+            - link "Login" [ref=e146] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e147]:
+            - link "Register" [ref=e148] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e149]:
+        - heading "Contact" [level=3] [ref=e150]
+        - list [ref=e151]:
+          - listitem [ref=e152]: "Address: NorthernUni, Kantharmadam"
+          - listitem [ref=e153]: "Email: WanLanka@mail.com"
+          - listitem [ref=e154]: "Phone: 077-345-7489"
+  - iframe [ref=e156]:
+    - button [ref=f1e3]
+```

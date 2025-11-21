@@ -12,7 +12,9 @@
 <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-  <style>
+
+
+<style>
     :root{
       --bg:#e6f0fa; --card:#ffffff; --text:#0f172a; --muted:#667085; --border:#e6eaf2;
       --brand1:#0072ff; --brand2:#00cc88; --primary:#00aaff; --primary-2:#00cc88;
